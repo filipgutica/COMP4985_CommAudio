@@ -13,6 +13,7 @@ Application::~Application()
     delete ui;
 }
 
+//btn click listener
 void Application::on_pushButton_clicked()
 {
     ui->pushButton->setText("Clicked!");
