@@ -116,7 +116,7 @@ public:
     void retranslateUi(QMainWindow *Application)
     {
         Application->setWindowTitle(QApplication::translate("Application", "Server", 0));
-        actionConfigure->setText(QApplication::translate("Application", "Configure Server", 0));
+        actionConfigure->setText(QApplication::translate("Application", "Start Server", 0));
         label->setText(QApplication::translate("Application", "Log", 0));
         label_2->setText(QApplication::translate("Application", "Playlist", 0));
         pushButton->setText(QApplication::translate("Application", "Add Song", 0));

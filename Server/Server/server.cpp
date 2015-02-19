@@ -1,32 +1,13 @@
-// Module Name: callback.cpp
-//
-// Description:
-//
-//    This sample illustrates how to develop a simple echo server Winsock
-//    application using the Overlapped I/O model with callback routines. 
-//    This sample is implemented as a console-style application and simply prints
-//    messages when connections are established and removed from the server.
-//    The application listens for TCP connections on port 5150 and accepts them
-//    as they arrive. When this application receives data from a client, it
-//    simply echos (this is why we call it an echo server) the data back in
-//    it's original form until the client closes the connection.
-//
-// Compile:
-//
-//    cl -o callback callback.cpp ws2_32.lib
-//
-// Command Line Options:
-//
-//    callback.exe 
-//
-//    Note: There are no command line options for this sample.
+
 #include "server.h"
 
 SOCKET AcceptSocket;
 SOCKET ListenSocket;
+QTextBrowser *Log;
 WSAEVENT AcceptEvent;
+CRITICAL_SECTION CriticalSection;
 
-void StartServer(int port)
+void StartServer(int port, QTextBrowser *log)
 {
    WSADATA wsaData;
    SOCKADDR_IN InternetAddr;
@@ -35,11 +16,15 @@ void StartServer(int port)
    HANDLE ThreadListenHandle;
    DWORD ThreadId;
    DWORD ThreadIdListen;
+   QString strInfo;
 
+   Log = log;
+
+   InitializeCriticalSection(&CriticalSection);
 
    if ((Ret = WSAStartup(0x0202,&wsaData)) != 0)
    {
-      printf("WSAStartup failed with error %d\n", Ret);
+     qDebug() << "WSAStartup failed with error " << Ret << endl;
       WSACleanup();
       return;
    }
@@ -47,7 +32,7 @@ void StartServer(int port)
    if ((ListenSocket = WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, 
       WSA_FLAG_OVERLAPPED)) == INVALID_SOCKET) 
    {
-      printf("Failed to get a socket %d\n", WSAGetLastError());
+      qDebug() << "Failed to get a socket " << WSAGetLastError() << endl;
       return;
    }
 
@@ -58,27 +43,31 @@ void StartServer(int port)
    if (bind(ListenSocket, (PSOCKADDR) &InternetAddr,
       sizeof(InternetAddr)) == SOCKET_ERROR)
    {
-      printf("bind() failed with error %d\n", WSAGetLastError());
+      qDebug() << "bind() failed with error " << WSAGetLastError() << endl;
       return;
    }
 
    if (listen(ListenSocket, 5))
    {
-      printf("listen() failed with error %d\n", WSAGetLastError());
+      qDebug() << "listen() failed with error " << WSAGetLastError() << endl;
       return;
    }
 
    if ((AcceptEvent = WSACreateEvent()) == WSA_INVALID_EVENT)
    {
-      printf("WSACreateEvent() failed with error %d\n", WSAGetLastError());
+      qDebug() << "WSACreateEvent() failed with error " << WSAGetLastError() << endl;
       return;
    }
+
+   /*** Displaying results to the log ***/
+   strInfo = QString("Server listening on port: %1").arg(port);
+   Log->append(strInfo);
 
    // Create a worker thread to service completed I/O requests. 
 
    if ((ThreadHandle = CreateThread(NULL, 0, WorkerThread, (LPVOID) AcceptEvent, 0, &ThreadId)) == NULL)
    {
-      printf("CreateThread failed with error %d\n", GetLastError());
+      qDebug() << "CreateThread failed with error " << GetLastError() << endl;
       return;
    }
 
@@ -86,15 +75,15 @@ void StartServer(int port)
 
    if ((ThreadListenHandle = CreateThread(NULL, 0, ListenThread, (LPVOID) AcceptEvent, 0, &ThreadIdListen)) == NULL)
    {
-      printf("CreateThread failed with error %d\n", GetLastError());
+      qDebug() << "CreateThread failed with error " << GetLastError() << endl;
       return;
    }
 
 }
 
 /**********************************************************************
- * Listen for new connections
  *
+ * Listen for new connections
  *
  * *******************************************************************/
 DWORD WINAPI ListenThread(LPVOID lpParameter)
@@ -105,7 +94,7 @@ DWORD WINAPI ListenThread(LPVOID lpParameter)
 
        if (WSASetEvent(AcceptEvent) == FALSE)
        {
-          printf("WSASetEvent failed with error %d\n", WSAGetLastError());
+          qDebug() << "WSASetEvent failed with error " << WSAGetLastError() << endl;
           return 0;
        }
     }
@@ -118,6 +107,7 @@ DWORD WINAPI WorkerThread(LPVOID lpParameter)
    WSAEVENT EventArray[1];
    DWORD Index;
    DWORD RecvBytes;
+   QString strInfo;
 
    // Save the accept event in the event array.
 
@@ -133,7 +123,7 @@ DWORD WINAPI WorkerThread(LPVOID lpParameter)
 
          if (Index == WSA_WAIT_FAILED)
          {
-            printf("WSAWaitForMultipleEvents failed with error %d\n", WSAGetLastError());
+            qDebug() << "WSAWaitForMultipleEvents failed with error " << WSAGetLastError() << endl;
             return FALSE;
          }
 
@@ -151,7 +141,7 @@ DWORD WINAPI WorkerThread(LPVOID lpParameter)
       if ((SocketInfo = (LPSOCKET_INFORMATION) GlobalAlloc(GPTR,
          sizeof(SOCKET_INFORMATION))) == NULL)
       {
-         printf("GlobalAlloc() failed with error %d\n", GetLastError());
+         qDebug() << "GlobalAlloc() failed with error " << GetLastError() << endl;
          return FALSE;
       } 
 
@@ -165,53 +155,70 @@ DWORD WINAPI WorkerThread(LPVOID lpParameter)
       SocketInfo->DataBuf.buf = SocketInfo->Buffer;
 
       Flags = 0;
+
+      /***
+       * Post initial WSARecv on the socket to begin receiving data on it.
+       * In order to get any data though, we need to post another WSARecv later on
+       ***/
       if (WSARecv(SocketInfo->Socket, &(SocketInfo->DataBuf), 1, &RecvBytes, &Flags,
          &(SocketInfo->Overlapped), WorkerRoutine) == SOCKET_ERROR)
       {
          if (WSAGetLastError() != WSA_IO_PENDING)
          {
-            printf("WSARecv() failed with error %d\n", WSAGetLastError());
+            qDebug() << "WSARecv() failed with error " << WSAGetLastError() << endl;
             return FALSE;
          }
       }
 
-      printf("Socket %d connected\n", AcceptSocket);
+      qDebug() << "Socket  " << AcceptSocket << "connected" << endl;
+
+      strInfo = QString("Accepted connection: %1").arg(AcceptSocket);
+
    }
 
    return TRUE;
 }
 
+/*******************************************************************
+ *
+ * Copletion routine
+ *
+ *
+ *
+ * *****************************************************************/
 void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred,
    LPWSAOVERLAPPED Overlapped, DWORD InFlags)
 {
    DWORD SendBytes, RecvBytes;
    DWORD Flags;
+   QString strInfo;
 
    // Reference the WSAOVERLAPPED structure as a SOCKET_INFORMATION structure
    LPSOCKET_INFORMATION SI = (LPSOCKET_INFORMATION) Overlapped;
 
    if (Error != 0)
    {
-     printf("I/O operation failed with error %d\n", Error);
+     qDebug() << "I/O operation failed with error " << Error << endl;
    }
 
-   if (BytesTransferred == 0)
-   {
-      printf("Closing socket %d\n", SI->Socket);
-   }
+    if (Error != 0 || BytesTransferred == 0)
+    {
+        qDebug() << "Closing socket " << SI->Socket << endl;
+        strInfo = QString("Closing socket: %1").arg(SI->Socket);
 
-   if (Error != 0 || BytesTransferred == 0)
-   {
-      closesocket(SI->Socket);
-      GlobalFree(SI);
-      return;
-   }
+        closesocket(SI->Socket);
+        GlobalFree(SI);
+        return;
+    }
 
    // Check to see if the BytesRECV field equals zero. If this is so, then
    // this means a WSARecv call just completed so update the BytesRECV field
    // with the BytesTransferred value from the completed WSARecv() call.
 
-   /*** We will process client requests here ***/
+   /***
+    * We will process client requests here
+    * Check for requested songs, start UDP thread etc...
+    ***/
    if (SI->BytesRECV == 0)
    {
       SI->BytesRECV = BytesTransferred;
@@ -222,7 +229,10 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred,
       SI->BytesSEND += BytesTransferred;
    }
 
-   /*** we can get rid of this since were not an echo-server ***/
+   /***
+    * we can get rid of this since were not an echo-server
+    * Perhaps we can use this part for sending a file
+    ***/
    if (SI->BytesRECV > SI->BytesSEND)
    {
 
@@ -240,7 +250,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred,
       {
          if (WSAGetLastError() != WSA_IO_PENDING)
          {
-            printf("WSASend() failed with error %d\n", WSAGetLastError());
+            qDebug() << "WSASend() failed with error " << WSAGetLastError() << endl;
             return;
          }
       }
@@ -249,7 +259,10 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred,
    {
       SI->BytesRECV = 0;
 
-      // Now that there are no more bytes to send post another WSARecv() request.
+      /***
+       * Now that there are no more bytes to send post another WSARecv() request.
+       * This is where we receive the data on the socket.
+       ***/
 
       Flags = 0;
       ZeroMemory(&(SI->Overlapped), sizeof(WSAOVERLAPPED));
@@ -262,7 +275,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred,
       {
          if (WSAGetLastError() != WSA_IO_PENDING )
          {
-            printf("WSARecv() failed with error %d\n", WSAGetLastError());
+            qDebug() << "WSARecv() failed with error " << WSAGetLastError() << endl;
             return;
          }
       }

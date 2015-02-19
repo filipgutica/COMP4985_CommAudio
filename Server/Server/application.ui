@@ -81,7 +81,7 @@
   </widget>
   <action name="actionConfigure">
    <property name="text">
-    <string>Configure Server</string>
+    <string>Start Server</string>
    </property>
   </action>
  </widget>

@@ -23,17 +23,19 @@ void Application::on_pushButton_clicked()
 
 void Application::on_actionConfigure_triggered()
 {
-    QString port;
-    int portnum;
+    QString port;   // Port number from the edittext
+    int portnum;    // integer to put the port number
     Configure conf;
-    conf.setModal(true);
+
+    conf.setModal(true); // Open the configure dialog
+
     if (conf.exec() == QDialog::Accepted)
     {
         port = conf.getPort();
 
         portnum = atoi(port.toUtf8().constData());
 
-        StartServer(portnum);
+        StartServer(portnum, ui->serverLog);
 
     }
 

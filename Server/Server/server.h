@@ -1,8 +1,10 @@
 #ifndef SERVER
 #define SERVER
 
+#include <QDebug>
 #include <stdio.h>
 #include <WinSock2.h>
+#include "ui_application.h"
 #pragma comment(lib,"WS2_32")
 
 #define PORT 5150
@@ -17,11 +19,8 @@ typedef struct _SOCKET_INFORMATION {
    DWORD BytesRECV;
 } SOCKET_INFORMATION, * LPSOCKET_INFORMATION;
 
-void StartServer(int port);
-
-void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred,
-   LPWSAOVERLAPPED Overlapped, DWORD InFlags);
-
+void StartServer(int port, QTextBrowser *log);
+void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred,LPWSAOVERLAPPED Overlapped, DWORD InFlags);
 DWORD WINAPI ListenThread(LPVOID lpParameter);
 DWORD WINAPI WorkerThread(LPVOID lpParameter);
 

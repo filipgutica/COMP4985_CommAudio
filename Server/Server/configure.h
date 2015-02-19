@@ -2,11 +2,6 @@
 #define CONFIGURE_H
 
 #include <QDialog>
-#include <QDebug>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string>
-#include <string.h>
 
 
 using namespace std;
