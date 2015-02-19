@@ -2,3 +2,11 @@
 2. Pseudocode for the states in the state diagram
 3. UI understanding the use of SIGNALS and SLOTS in QT to 
    communicate between other threads with the main trhead
+4. The TCP control line is done for the server side. For next week, whoever wants to take up the
+   client side of things should do the same thing for the client. Set up the GUI and get the TCP
+   control line connecting to the server.
+
+   The main bulk of our design work should be regarding the multicasting, unicasting and peer to peer
+   audio streeming functionality. Things like setting up TCP control channels, and getting the GUI working
+   are simple, time-consuming things that are good to get out of the way asap so we can have a nice clean
+   interface to show Aman at the end and have the bulk of our time working on the communications.
