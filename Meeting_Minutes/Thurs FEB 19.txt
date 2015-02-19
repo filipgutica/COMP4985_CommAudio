@@ -1,0 +1,4 @@
+1. High level list of functions we will need for both client and server
+2. Pseudocode for the states in the state diagram
+3. UI understanding the use of SIGNALS and SLOTS in QT to 
+   communicate between other threads with the main trhead
