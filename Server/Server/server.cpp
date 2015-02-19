@@ -223,6 +223,8 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred,
    {
       SI->BytesRECV = BytesTransferred;
       SI->BytesSEND = 0;
+
+      qDebug () << "Received: " << SI->Buffer << endl;
    }
    else
    {
