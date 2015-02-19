@@ -35,8 +35,13 @@ void Application::on_actionConfigure_triggered()
 
         portnum = atoi(port.toUtf8().constData());
 
-        StartServer(portnum);
+        StartServer(portnum, (LPVOID)this);  // VOID pointers hallelujah
 
     }
 
+}
+
+void Application::appendToLog(QString str)
+{
+    emit valueChanged(str);
 }

@@ -109,6 +109,7 @@ public:
         mainToolBar->addAction(actionConfigure);
 
         retranslateUi(Application);
+        QObject::connect(Application, SIGNAL(valueChanged(QString)), serverLog, SLOT(append(QString)));
 
         QMetaObject::connectSlotsByName(Application);
     } // setupUi

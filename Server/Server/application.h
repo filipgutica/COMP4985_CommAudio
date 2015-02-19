@@ -17,6 +17,7 @@ class Application : public QMainWindow
 public:
     explicit Application(QWidget *parent = 0);
     ~Application();
+    void appendToLog(QString str);
 
 private slots:
     void on_pushButton_clicked();
@@ -24,6 +25,9 @@ private slots:
 
 private:
     Ui::Application *ui;
+
+signals:
+    void valueChanged(QString);
 };
 
 #endif // APPLICATION_H

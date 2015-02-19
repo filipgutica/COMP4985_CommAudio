@@ -6,8 +6,9 @@ SOCKET ListenSocket;
 QTextBrowser *Log;
 WSAEVENT AcceptEvent;
 CRITICAL_SECTION CriticalSection;
+Application *mainWindow;
 
-void StartServer(int port)
+void StartServer(int port, LPVOID app)
 {
    WSADATA wsaData;
    SOCKADDR_IN InternetAddr;
@@ -17,6 +18,8 @@ void StartServer(int port)
    DWORD ThreadId;
    DWORD ThreadIdListen;
    QString strInfo;
+
+   mainWindow = (Application*) app;
 
    InitializeCriticalSection(&CriticalSection);
 
@@ -57,6 +60,8 @@ void StartServer(int port)
 
    /*** Displaying results to the log ***/
    strInfo = QString("Server listening on port: %1").arg(port);
+   mainWindow->appendToLog(strInfo);
+   //mainWindow->show();
 
    // Create a worker thread to service completed I/O requests. 
 
@@ -166,6 +171,7 @@ DWORD WINAPI WorkerThread(LPVOID lpParameter)
       qDebug() << "Socket  " << AcceptSocket << "connected" << endl;
 
       strInfo = QString("Accepted connection: %1").arg(AcceptSocket);
+      mainWindow->appendToLog(strInfo);
 
    }
 
@@ -195,6 +201,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
     {
         qDebug() << "Closing socket " << SI->Socket << endl;
         strInfo = QString("Closing socket: %1").arg(SI->Socket);
+        mainWindow->appendToLog(strInfo);
 
         closesocket(SI->Socket);
         GlobalFree(SI);
