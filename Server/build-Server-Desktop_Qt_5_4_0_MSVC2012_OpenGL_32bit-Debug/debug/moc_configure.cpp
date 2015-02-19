@@ -1,16 +1,16 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'application.h'
+** Meta object code from reading C++ file 'configure.h'
 **
 ** Created by: The Qt Meta Object Compiler version 67 (Qt 5.4.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../Server/application.h"
+#include "../../Server/configure.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'application.h' doesn't include <QObject>."
+#error "The header file 'configure.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
 #error "This file was generated using the moc from 5.4.0. It"
 #error "cannot be used with the include files from this version of Qt."
@@ -18,29 +18,29 @@
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
-struct qt_meta_stringdata_Application_t {
+struct qt_meta_stringdata_Configure_t {
     QByteArrayData data[4];
-    char stringdata[64];
+    char stringdata[55];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Application_t, stringdata) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Configure_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
-static const qt_meta_stringdata_Application_t qt_meta_stringdata_Application = {
+static const qt_meta_stringdata_Configure_t qt_meta_stringdata_Configure = {
     {
-QT_MOC_LITERAL(0, 0, 11), // "Application"
-QT_MOC_LITERAL(1, 12, 21), // "on_pushButton_clicked"
-QT_MOC_LITERAL(2, 34, 0), // ""
-QT_MOC_LITERAL(3, 35, 28) // "on_actionConfigure_triggered"
+QT_MOC_LITERAL(0, 0, 9), // "Configure"
+QT_MOC_LITERAL(1, 10, 21), // "on_buttonBox_accepted"
+QT_MOC_LITERAL(2, 32, 0), // ""
+QT_MOC_LITERAL(3, 33, 21) // "on_buttonBox_rejected"
 
     },
-    "Application\0on_pushButton_clicked\0\0"
-    "on_actionConfigure_triggered"
+    "Configure\0on_buttonBox_accepted\0\0"
+    "on_buttonBox_rejected"
 };
 #undef QT_MOC_LITERAL
 
-static const uint qt_meta_data_Application[] = {
+static const uint qt_meta_data_Configure[] = {
 
  // content:
        7,       // revision
@@ -64,41 +64,41 @@ static const uint qt_meta_data_Application[] = {
        0        // eod
 };
 
-void Application::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void Configure::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        Application *_t = static_cast<Application *>(_o);
+        Configure *_t = static_cast<Configure *>(_o);
         switch (_id) {
-        case 0: _t->on_pushButton_clicked(); break;
-        case 1: _t->on_actionConfigure_triggered(); break;
+        case 0: _t->on_buttonBox_accepted(); break;
+        case 1: _t->on_buttonBox_rejected(); break;
         default: ;
         }
     }
     Q_UNUSED(_a);
 }
 
-const QMetaObject Application::staticMetaObject = {
-    { &QMainWindow::staticMetaObject, qt_meta_stringdata_Application.data,
-      qt_meta_data_Application,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
+const QMetaObject Configure::staticMetaObject = {
+    { &QDialog::staticMetaObject, qt_meta_stringdata_Configure.data,
+      qt_meta_data_Configure,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
 };
 
 
-const QMetaObject *Application::metaObject() const
+const QMetaObject *Configure::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *Application::qt_metacast(const char *_clname)
+void *Configure::qt_metacast(const char *_clname)
 {
     if (!_clname) return Q_NULLPTR;
-    if (!strcmp(_clname, qt_meta_stringdata_Application.stringdata))
-        return static_cast<void*>(const_cast< Application*>(this));
-    return QMainWindow::qt_metacast(_clname);
+    if (!strcmp(_clname, qt_meta_stringdata_Configure.stringdata))
+        return static_cast<void*>(const_cast< Configure*>(this));
+    return QDialog::qt_metacast(_clname);
 }
 
-int Application::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int Configure::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QMainWindow::qt_metacall(_c, _id, _a);
+    _id = QDialog::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {

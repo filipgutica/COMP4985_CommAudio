@@ -1,5 +1,7 @@
 #include "application.h"
 #include "ui_application.h"
+#include "configure.h"
+
 
 Application::Application(QWidget *parent) :
     QMainWindow(parent),
@@ -16,5 +18,13 @@ Application::~Application()
 //btn click listener
 void Application::on_pushButton_clicked()
 {
-    ui->pushButton->setText("Clicked!");
+
+}
+
+void Application::on_actionConfigure_triggered()
+{
+    Configure conf;
+    conf.setModal(true);
+    conf.exec();
+
 }

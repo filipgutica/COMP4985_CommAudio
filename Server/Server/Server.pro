@@ -13,8 +13,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        application.cpp
+        application.cpp \
+        configure.cpp \
+        server.cpp
 
-HEADERS  += application.h
+HEADERS  += application.h \
+        configure.h \
+        server.h
 
-FORMS    += application.ui
+FORMS    += application.ui \
+        configure.ui
