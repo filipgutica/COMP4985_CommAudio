@@ -7,7 +7,7 @@ QTextBrowser *Log;
 WSAEVENT AcceptEvent;
 CRITICAL_SECTION CriticalSection;
 
-void StartServer(int port, QTextBrowser *log)
+void StartServer(int port)
 {
    WSADATA wsaData;
    SOCKADDR_IN InternetAddr;
@@ -18,8 +18,6 @@ void StartServer(int port, QTextBrowser *log)
    DWORD ThreadIdListen;
    QString strInfo;
 
-   Log = log;
-
    InitializeCriticalSection(&CriticalSection);
 
    if ((Ret = WSAStartup(0x0202,&wsaData)) != 0)
@@ -29,8 +27,7 @@ void StartServer(int port, QTextBrowser *log)
       return;
    }
 
-   if ((ListenSocket = WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, 
-      WSA_FLAG_OVERLAPPED)) == INVALID_SOCKET) 
+   if ((ListenSocket = WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED)) == INVALID_SOCKET)
    {
       qDebug() << "Failed to get a socket " << WSAGetLastError() << endl;
       return;
@@ -40,8 +37,7 @@ void StartServer(int port, QTextBrowser *log)
    InternetAddr.sin_addr.s_addr = htonl(INADDR_ANY);
    InternetAddr.sin_port = htons(port);
 
-   if (bind(ListenSocket, (PSOCKADDR) &InternetAddr,
-      sizeof(InternetAddr)) == SOCKET_ERROR)
+   if (bind(ListenSocket, (PSOCKADDR) &InternetAddr, sizeof(InternetAddr)) == SOCKET_ERROR)
    {
       qDebug() << "bind() failed with error " << WSAGetLastError() << endl;
       return;
@@ -61,7 +57,6 @@ void StartServer(int port, QTextBrowser *log)
 
    /*** Displaying results to the log ***/
    strInfo = QString("Server listening on port: %1").arg(port);
-   Log->append(strInfo);
 
    // Create a worker thread to service completed I/O requests. 
 
@@ -138,8 +133,7 @@ DWORD WINAPI WorkerThread(LPVOID lpParameter)
    
       // Create a socket information structure to associate with the accepted socket.
 
-      if ((SocketInfo = (LPSOCKET_INFORMATION) GlobalAlloc(GPTR,
-         sizeof(SOCKET_INFORMATION))) == NULL)
+      if ((SocketInfo = (LPSOCKET_INFORMATION) GlobalAlloc(GPTR, sizeof(SOCKET_INFORMATION))) == NULL)
       {
          qDebug() << "GlobalAlloc() failed with error " << GetLastError() << endl;
          return FALSE;
@@ -160,8 +154,7 @@ DWORD WINAPI WorkerThread(LPVOID lpParameter)
        * Post initial WSARecv on the socket to begin receiving data on it.
        * In order to get any data though, we need to post another WSARecv later on
        ***/
-      if (WSARecv(SocketInfo->Socket, &(SocketInfo->DataBuf), 1, &RecvBytes, &Flags,
-         &(SocketInfo->Overlapped), WorkerRoutine) == SOCKET_ERROR)
+      if (WSARecv(SocketInfo->Socket, &(SocketInfo->DataBuf), 1, &RecvBytes, &Flags, &(SocketInfo->Overlapped), WorkerRoutine) == SOCKET_ERROR)
       {
          if (WSAGetLastError() != WSA_IO_PENDING)
          {
@@ -183,11 +176,8 @@ DWORD WINAPI WorkerThread(LPVOID lpParameter)
  *
  * Copletion routine
  *
- *
- *
- * *****************************************************************/
-void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred,
-   LPWSAOVERLAPPED Overlapped, DWORD InFlags)
+ ******************************************************************/
+void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED Overlapped, DWORD InFlags)
 {
    DWORD SendBytes, RecvBytes;
    DWORD Flags;
@@ -247,8 +237,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred,
       SI->DataBuf.buf = SI->Buffer + SI->BytesSEND;
       SI->DataBuf.len = SI->BytesRECV - SI->BytesSEND;
 
-      if (WSASend(SI->Socket, &(SI->DataBuf), 1, &SendBytes, 0,
-         &(SI->Overlapped), WorkerRoutine) == SOCKET_ERROR)
+      if (WSASend(SI->Socket, &(SI->DataBuf), 1, &SendBytes, 0, &(SI->Overlapped), WorkerRoutine) == SOCKET_ERROR)
       {
          if (WSAGetLastError() != WSA_IO_PENDING)
          {
@@ -272,8 +261,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred,
       SI->DataBuf.len = DATA_BUFSIZE;
       SI->DataBuf.buf = SI->Buffer;
 
-      if (WSARecv(SI->Socket, &(SI->DataBuf), 1, &RecvBytes, &Flags,
-         &(SI->Overlapped), WorkerRoutine) == SOCKET_ERROR)
+      if (WSARecv(SI->Socket, &(SI->DataBuf), 1, &RecvBytes, &Flags, &(SI->Overlapped), WorkerRoutine) == SOCKET_ERROR)
       {
          if (WSAGetLastError() != WSA_IO_PENDING )
          {
