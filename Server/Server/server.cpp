@@ -220,7 +220,8 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
    {
       SI->BytesRECV = BytesTransferred;
       SI->BytesSEND = 0;
-
+      strInfo = QString("Received: %1 on socket: %2").arg(SI->Buffer).arg(SI->Socket);
+      mainWindow->appendToLog(strInfo);
       qDebug () << "Received: " << SI->Buffer << endl;
    }
    else

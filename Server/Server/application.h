@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QDebug>
+#include <QFileDialog>
 #include "server.h"
 
 

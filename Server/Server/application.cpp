@@ -18,6 +18,16 @@ Application::~Application()
 //btn click listener
 void Application::on_pushButton_clicked()
 {
+    QString fName;
+
+    fName = QFileDialog::getOpenFileName(
+                this,
+                tr("Open File"),
+                "C://",
+                tr("All files (*.*);;mp3 File (*.mp3);;wav File (*.wav)")
+                );
+
+   ui->playList->addItem(fName);
 
 }
 

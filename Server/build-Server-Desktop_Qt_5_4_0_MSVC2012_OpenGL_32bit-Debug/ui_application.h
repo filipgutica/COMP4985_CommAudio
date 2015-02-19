@@ -16,7 +16,7 @@
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QListView>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -38,8 +38,8 @@ public:
     QLabel *label;
     QTextBrowser *serverLog;
     QLabel *label_2;
-    QListView *playList;
     QPushButton *pushButton;
+    QListWidget *playList;
     QMenuBar *menuBar;
     QMenu *menuSettings;
     QToolBar *mainToolBar;
@@ -76,15 +76,15 @@ public:
 
         gridLayout_2->addWidget(label_2, 0, 0, 1, 1);
 
-        playList = new QListView(centralWidget);
-        playList->setObjectName(QStringLiteral("playList"));
-
-        gridLayout_2->addWidget(playList, 1, 0, 1, 1);
-
         pushButton = new QPushButton(centralWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
 
         gridLayout_2->addWidget(pushButton, 2, 0, 1, 1);
+
+        playList = new QListWidget(centralWidget);
+        playList->setObjectName(QStringLiteral("playList"));
+
+        gridLayout_2->addWidget(playList, 1, 0, 1, 1);
 
 
         gridLayout_3->addLayout(gridLayout_2, 0, 0, 1, 1);
