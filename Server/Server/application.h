@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QDebug>
+#include "server.h"
 
 
 namespace Ui {

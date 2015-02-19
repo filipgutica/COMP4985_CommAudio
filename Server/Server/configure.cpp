@@ -16,16 +16,14 @@ Configure::~Configure()
 void Configure::on_buttonBox_accepted()
 {
     QString port = ui->lineEdit->text();
-
-    qDebug() <<  port.toUtf8().constData(); //Convert to regular cstr
-
-    int portnum = atoi(port.toUtf8().constData());
-
-    StartServer(portnum);
-
 }
 
 void Configure::on_buttonBox_rejected()
 {
     return;
+}
+
+QString Configure::getPort()
+{
+    return ui->lineEdit->text();
 }

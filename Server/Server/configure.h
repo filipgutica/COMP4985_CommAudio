@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <string>
 #include <string.h>
-#include "server.h"
+
 
 using namespace std;
 
@@ -22,6 +22,7 @@ class Configure : public QDialog
 public:
     explicit Configure(QWidget *parent = 0);
     ~Configure();
+    QString getPort();
 
 private slots:
     void on_buttonBox_accepted();

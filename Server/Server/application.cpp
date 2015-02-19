@@ -23,8 +23,18 @@ void Application::on_pushButton_clicked()
 
 void Application::on_actionConfigure_triggered()
 {
+    QString port;
+    int portnum;
     Configure conf;
     conf.setModal(true);
-    conf.exec();
+    if (conf.exec() == QDialog::Accepted)
+    {
+        port = conf.getPort();
+
+        portnum = atoi(port.toUtf8().constData());
+
+        StartServer(portnum);
+
+    }
 
 }
