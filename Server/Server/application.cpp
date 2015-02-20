@@ -38,6 +38,8 @@ Application::Application(QWidget *parent) : QMainWindow(parent),ui(new Ui::Appli
 {
     ui->setupUi(this);
 
+    ui->playList->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
     loadPlaylist();
     updatePlaylist();
 }
