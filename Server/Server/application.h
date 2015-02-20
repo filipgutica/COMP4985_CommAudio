@@ -1,3 +1,21 @@
+/*---------------------------------------------------------------------------------------
+--	SOURCE FILE:	application.h -		Header file for application.cpp ui class
+--                                      Contains function headers.
+--
+--	PROGRAM:		Server
+--
+--
+--	DATE:			February 9, 2015
+--
+--	REVISIONS:		(Date and Description)
+--
+--	DESIGNERS:		Filip Gutica & Auto-generated
+--
+--	PROGRAMMER:		Filip Gutica & Auto-generated
+--
+--	NOTES:
+--
+---------------------------------------------------------------------------------------*/
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
@@ -30,10 +48,11 @@ private slots:
 private:
     Ui::Application *ui;
     std::list<QString> fileList;
-    void loadPlayList();
+    void loadPlaylist();
     void updatePlaylist();
 
-signals:
+
+signals: // Custom signal for appending to the QTextBrowser widget
     void valueChanged(QString);
 };
 
