@@ -76,18 +76,16 @@ void Application::on_pushButton_clicked()
     QString fName;
 
     //Open the file dialog
-    fName = QFileDialog::getOpenFileName(
-                this,
-                tr("Open File"),                                            // Title
-                "C://",                                                     // Directory
-                tr("All files (*.*);;mp3 File (*.mp3);;wav File (*.wav)")   // File filters
-    );
+    if ((fName = QFileDialog::getOpenFileName(this, tr("Open File"), "C://",
+                tr("All files (*.*);;mp3 File (*.mp3);;wav File (*.wav)"))) != "")
+    {
 
-    //Add the file path to the list
-    fileList.push_back(fName);
+        //Add the file path to the list
+        fileList.push_back(fName);
 
-    //Update the playlist
-    updatePlaylist();
+        //Update the playlist
+        updatePlaylist();
+    }
 
     //Iterate through the list print out contents **debugging purposes**
     for (std::list<QString>::iterator iter = fileList.begin(); iter != fileList.end(); ++iter)
