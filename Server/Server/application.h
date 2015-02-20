@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include <QDebug>
 #include <QFileDialog>
+#include <QStringListModel>
+#include <QDirIterator>
+#include <list>
 #include "server.h"
 
 
@@ -26,6 +29,9 @@ private slots:
 
 private:
     Ui::Application *ui;
+    std::list<QString> fileList;
+    void loadPlayList();
+    void updatePlaylist();
 
 signals:
     void valueChanged(QString);
