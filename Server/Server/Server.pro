@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -15,11 +15,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
         application.cpp \
         configure.cpp \
-        server.cpp
+        server.cpp \
+    audioplayer.cpp
 
 HEADERS  += application.h \
         configure.h \
-        server.h
+        server.h \
+    audioplayer.h
 
 FORMS    += application.ui \
-        configure.ui
+        configure.ui \
+    audioplayer.ui

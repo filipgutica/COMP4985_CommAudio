@@ -25,6 +25,7 @@
 #include "configure.h"
 
 
+
 /*------------------------------------------------------------------------------
 --	FUNCTION: Application()
 --
@@ -198,4 +199,18 @@ void Application::updatePlaylist()
 {
     //Add to the list view
     ui->playList->setModel(new QStringListModel(QList<QString>::fromStdList(fileList)));
+}
+
+
+void Application::on_playList_doubleClicked(const QModelIndex &index)
+{
+    QString song = index.data().toString();
+
+    AudioPlayer audPlayer;
+
+    audPlayer.setAudio(song);
+
+    audPlayer.exec();
+
+    qDebug() << index.data().toString();
 }

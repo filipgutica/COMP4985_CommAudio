@@ -26,6 +26,7 @@
 #include <QDirIterator>
 #include <list>
 #include "server.h"
+#include "audioplayer.h"
 
 
 namespace Ui {
@@ -45,12 +46,13 @@ private slots:
     void on_pushButton_clicked();
     void on_actionConfigure_triggered();
 
+    void on_playList_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::Application *ui;
     std::list<QString> fileList;
     void loadPlaylist();
     void updatePlaylist();
-
 
 signals: // Custom signal for appending to the QTextBrowser widget
     void valueChanged(QString);
