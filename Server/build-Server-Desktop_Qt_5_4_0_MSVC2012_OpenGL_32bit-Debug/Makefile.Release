@@ -276,6 +276,16 @@ release\moc_application.cpp: C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QMainWi
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qtabwidget.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qicon.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QDebug \
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QFileDialog \
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qfiledialog.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qdir.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qfileinfo.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qdialog.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QStringListModel \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qstringlistmodel.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qabstractitemmodel.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QDirIterator \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qdiriterator.h \
 		..\Server\server.h \
 		ui_application.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QVariant \
@@ -301,7 +311,6 @@ release\moc_application.cpp: C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QMainWi
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qabstractitemview.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qabstractscrollarea.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qframe.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qabstractitemmodel.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qitemselectionmodel.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qabstractitemdelegate.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qstyleoption.h \
@@ -577,6 +586,16 @@ release\main.obj: ..\Server\main.cpp ..\Server\application.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qtabwidget.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qicon.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QDebug \
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QFileDialog \
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qfiledialog.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qdir.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qfileinfo.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qdialog.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QStringListModel \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qstringlistmodel.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qabstractitemmodel.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QDirIterator \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qdiriterator.h \
 		..\Server\server.h \
 		ui_application.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QVariant \
@@ -602,7 +621,6 @@ release\main.obj: ..\Server\main.cpp ..\Server\application.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qabstractitemview.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qabstractscrollarea.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qframe.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qabstractitemmodel.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qitemselectionmodel.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qabstractitemdelegate.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qstyleoption.h \
@@ -746,6 +764,16 @@ release\application.obj: ..\Server\application.cpp ..\Server\application.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qtabwidget.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtGui\qicon.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QDebug \
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QFileDialog \
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qfiledialog.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qdir.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qfileinfo.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qdialog.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QStringListModel \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qstringlistmodel.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qabstractitemmodel.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QDirIterator \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qdiriterator.h \
 		..\Server\server.h \
 		ui_application.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QVariant \
@@ -771,7 +799,6 @@ release\application.obj: ..\Server\application.cpp ..\Server\application.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qabstractitemview.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qabstractscrollarea.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qframe.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qabstractitemmodel.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qitemselectionmodel.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qabstractitemdelegate.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qstyleoption.h \
@@ -808,8 +835,7 @@ release\application.obj: ..\Server\application.cpp ..\Server\application.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qtoolbar.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QWidget \
 		..\Server\configure.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QDialog \
-		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qdialog.h
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QDialog
 
 release\configure.obj: ..\Server\configure.cpp ..\Server\configure.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QDialog \
@@ -1131,7 +1157,16 @@ release\server.obj: ..\Server\server.cpp ..\Server\server.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QToolBar \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qtoolbar.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QWidget \
-		..\Server\application.h
+		..\Server\application.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QFileDialog \
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qfiledialog.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qdir.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qfileinfo.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qdialog.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QStringListModel \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qstringlistmodel.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QDirIterator \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qdiriterator.h
 
 release\moc_application.obj: release\moc_application.cpp 
 
