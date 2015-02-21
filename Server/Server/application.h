@@ -24,6 +24,9 @@
 #include <QFileDialog>
 #include <QStringListModel>
 #include <QDirIterator>
+#include <QAudioFormat>
+#include <QAudioInput>
+#include <QAudioOutput>
 #include <list>
 #include "server.h"
 #include "audioplayer.h"
