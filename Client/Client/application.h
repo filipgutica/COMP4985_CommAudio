@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <stdio.h>
 #include <stdlib.h>
+#include "audioplayer.h"
 #include <WinSock2.h>
 #pragma comment(lib,"WS2_32")
 

@@ -197,4 +197,3 @@ void AudioPlayer::on_durationChanged(qint64 position)
     ui->sliderProgress->setMaximum(position);
 }
 
-
