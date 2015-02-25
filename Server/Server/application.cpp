@@ -89,9 +89,9 @@ void Application::on_pushButton_clicked()
     }
 
     //Iterate through the list print out contents **debugging purposes**
-    for (std::list<QString>::iterator iter = fileList.begin(); iter != fileList.end(); ++iter)
+    for (int i = 0; i < fileList.size(); i++)
     {
-        qDebug() << *iter << endl;
+        qDebug() << fileList.at(i) << endl;
     }
 
 }
@@ -124,7 +124,7 @@ void Application::on_actionConfigure_triggered()
 
         portnum = atoi(port.toUtf8().constData());  // Convert QString to int
 
-        StartServer(portnum, (LPVOID)this);         // Start the server pass instance of the ui as a void pointer
+        StartServer(portnum, (LPVOID)this, fileList);         // Start the server pass instance of the ui as a void pointer
 
     }
 
@@ -198,7 +198,7 @@ void Application::loadPlaylist()
 void Application::updatePlaylist()
 {
     //Add to the list view
-    ui->playList->setModel(new QStringListModel(QList<QString>::fromStdList(fileList)));
+    ui->playList->setModel(new QStringListModel(QList<QString>::fromVector(fileList)));
 }
 
 

@@ -53,7 +53,7 @@ private slots:
 
 private:
     Ui::Application *ui;
-    std::list<QString> fileList;
+    QVector<QString> fileList;
     void loadPlaylist();
     void updatePlaylist();
 
