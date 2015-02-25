@@ -34,15 +34,15 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QListView" name="playList"/>
-      </item>
       <item row="2" column="0">
        <widget class="QPushButton" name="pushButton">
         <property name="text">
          <string>Add Song</string>
         </property>
        </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QListView" name="playList"/>
       </item>
      </layout>
     </item>
@@ -87,5 +87,25 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>Application</sender>
+   <signal>valueChanged(QString)</signal>
+   <receiver>serverLog</receiver>
+   <slot>append(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>421</x>
+     <y>396</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>425</x>
+     <y>354</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <signal>valueChanged(QString)</signal>
+ </slots>
 </ui>

@@ -1,3 +1,21 @@
+/*---------------------------------------------------------------------------------------
+--	SOURCE FILE:	configure.h -		Header file for configure.cpp ui class
+--                                      Contains function headers.
+--
+--	PROGRAM:		Server
+--
+--
+--	DATE:			February 15, 2015
+--
+--	REVISIONS:		(Date and Description)
+--
+--	DESIGNERS:		Filip Gutica & Auto-generated
+--
+--	PROGRAMMER:		Filip Gutica & Auto-generated
+--
+--	NOTES:
+--
+---------------------------------------------------------------------------------------*/
 #ifndef CONFIGURE_H
 #define CONFIGURE_H
 

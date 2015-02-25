@@ -6,8 +6,10 @@ SOCKET ListenSocket;
 QTextBrowser *Log;
 WSAEVENT AcceptEvent;
 CRITICAL_SECTION CriticalSection;
+Application *mainWindow;
+QVector<QString> SongList;
 
-void StartServer(int port)
+void StartServer(int port, LPVOID app, QVector<QString> songList)
 {
    WSADATA wsaData;
    SOCKADDR_IN InternetAddr;
@@ -17,6 +19,10 @@ void StartServer(int port)
    DWORD ThreadId;
    DWORD ThreadIdListen;
    QString strInfo;
+
+   mainWindow = (Application*) app;
+
+   SongList = songList;
 
    InitializeCriticalSection(&CriticalSection);
 
@@ -57,6 +63,8 @@ void StartServer(int port)
 
    /*** Displaying results to the log ***/
    strInfo = QString("Server listening on port: %1").arg(port);
+   mainWindow->appendToLog(strInfo);
+   //mainWindow->show();
 
    // Create a worker thread to service completed I/O requests. 
 
@@ -101,8 +109,9 @@ DWORD WINAPI WorkerThread(LPVOID lpParameter)
    LPSOCKET_INFORMATION SocketInfo;
    WSAEVENT EventArray[1];
    DWORD Index;
-   DWORD RecvBytes;
+   DWORD RecvBytes, SendBytes;
    QString strInfo;
+   char temp[256];
 
    // Save the accept event in the event array.
 
@@ -166,6 +175,22 @@ DWORD WINAPI WorkerThread(LPVOID lpParameter)
       qDebug() << "Socket  " << AcceptSocket << "connected" << endl;
 
       strInfo = QString("Accepted connection: %1").arg(AcceptSocket);
+      mainWindow->appendToLog(strInfo);
+
+      ZeroMemory(&(SocketInfo->Overlapped), sizeof(WSAOVERLAPPED));
+      memcpy(temp, (char*)(SongList[0].toUtf8().constData()), (SongList.size() * sizeof SongList[0]));
+      qDebug() << "sending: " << temp;
+      SocketInfo->DataBuf.buf = temp;
+      SocketInfo->DataBuf.len = (SongList.size() * sizeof(QString));
+
+      if (WSASend(SocketInfo->Socket, &(SocketInfo->DataBuf), 1, &SendBytes, 0, &(SocketInfo->Overlapped), WorkerRoutine) == SOCKET_ERROR)
+      {
+         if (WSAGetLastError() != WSA_IO_PENDING)
+         {
+            qDebug() << "WSASend() failed with error " << WSAGetLastError() << endl;
+            return 0;
+         }
+      }
 
    }
 
@@ -195,6 +220,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
     {
         qDebug() << "Closing socket " << SI->Socket << endl;
         strInfo = QString("Closing socket: %1").arg(SI->Socket);
+        mainWindow->appendToLog(strInfo);
 
         closesocket(SI->Socket);
         GlobalFree(SI);
@@ -213,8 +239,25 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
    {
       SI->BytesRECV = BytesTransferred;
       SI->BytesSEND = 0;
+      strInfo = QString("Received: %1 on socket: %2").arg(SI->Buffer).arg(SI->Socket);
+      mainWindow->appendToLog(strInfo);
+      qDebug() << "Received: " << SI->Buffer << endl;
 
-      qDebug () << "Received: " << SI->Buffer << endl;
+/*      qDebug() << "Sending: " << SongList.data()->toUtf8().constData();
+
+      ZeroMemory(&(SI->Overlapped), sizeof(WSAOVERLAPPED));
+      SI->DataBuf.buf = (char *)SongList.data()->toUtf8().constData();
+      SI->DataBuf.len = sizeof(SongList);
+
+      if (WSASend(SI->Socket, &(SI->DataBuf), 1, &SendBytes, 0, &(SI->Overlapped), WorkerRoutine) == SOCKET_ERROR)
+      {
+         if (WSAGetLastError() != WSA_IO_PENDING)
+         {
+            qDebug() << "WSASend() failed with error " << WSAGetLastError() << endl;
+            return;
+         }
+      }
+      */
    }
    else
    {
@@ -232,7 +275,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
       // Since WSASend() is not gauranteed to send all of the bytes requested,
       // continue posting WSASend() calls until all received bytes are sent.
 
-      ZeroMemory(&(SI->Overlapped), sizeof(WSAOVERLAPPED));
+     /* ZeroMemory(&(SI->Overlapped), sizeof(WSAOVERLAPPED));
 
       SI->DataBuf.buf = SI->Buffer + SI->BytesSEND;
       SI->DataBuf.len = SI->BytesRECV - SI->BytesSEND;
@@ -244,7 +287,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
             qDebug() << "WSASend() failed with error " << WSAGetLastError() << endl;
             return;
          }
-      }
+      }*/
    }
    else
    {

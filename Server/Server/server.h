@@ -20,7 +20,7 @@ typedef struct _SOCKET_INFORMATION {
    DWORD BytesRECV;
 } SOCKET_INFORMATION, * LPSOCKET_INFORMATION;
 
-void StartServer(int port);
+void StartServer(int port, LPVOID app, QVector<QString> songList);
 void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred,LPWSAOVERLAPPED Overlapped, DWORD InFlags);
 DWORD WINAPI ListenThread(LPVOID lpParameter);
 DWORD WINAPI WorkerThread(LPVOID lpParameter);
