@@ -21,6 +21,13 @@ public:
     explicit Application(QWidget *parent = 0);
     ~Application();
 
+private slots:
+    void on_actionAudio_Stream_triggered();
+
+    void on_actionMulticast_Stream_triggered();
+
+    void on_actionVOIP_triggered();
+
 private:
     Ui::Application *ui;
 };

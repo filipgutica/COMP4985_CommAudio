@@ -1,24 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Application</class>
- <widget class="QMainWindow" name="Application" >
-  <property name="geometry" >
+ <widget class="QMainWindow" name="Application">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>472</width>
+    <height>404</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Application</string>
   </property>
-  <widget class="QMenuBar" name="menuBar" />
-  <widget class="QToolBar" name="mainToolBar" />
-  <widget class="QWidget" name="centralWidget" />
-  <widget class="QStatusBar" name="statusBar" />
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="1" column="0">
+       <widget class="QListView" name="listMusic"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelPlaylist">
+        <property name="text">
+         <string>Playlist</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>472</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuAudio_Server">
+    <property name="title">
+     <string>Options</string>
+    </property>
+   </widget>
+   <addaction name="menuAudio_Server"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionAudio_Stream"/>
+   <addaction name="actionMulticast_Stream"/>
+   <addaction name="actionVOIP"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionAudio_Stream">
+   <property name="text">
+    <string>Audio Streamer</string>
+   </property>
+  </action>
+  <action name="actionMulticast_Stream">
+   <property name="text">
+    <string>Radio</string>
+   </property>
+  </action>
+  <action name="actionVOIP">
+   <property name="text">
+    <string>VOIP</string>
+   </property>
+  </action>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
+ <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections/>
 </ui>
