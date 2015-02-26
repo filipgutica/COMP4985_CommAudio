@@ -15,6 +15,8 @@
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QListView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
@@ -28,11 +30,13 @@ class Ui_Application
 {
 public:
     QAction *actionAudio_Stream;
-    QAction *actionMulticast_Stream;
+    QAction *actionRadio;
     QAction *actionVOIP;
     QWidget *centralWidget;
     QGridLayout *gridLayout_2;
     QGridLayout *gridLayout;
+    QListView *listMusic;
+    QLabel *labelPlaylist;
     QMenuBar *menuBar;
     QMenu *menuAudio_Server;
     QToolBar *mainToolBar;
@@ -42,11 +46,11 @@ public:
     {
         if (Application->objectName().isEmpty())
             Application->setObjectName(QStringLiteral("Application"));
-        Application->resize(732, 466);
+        Application->resize(472, 404);
         actionAudio_Stream = new QAction(Application);
         actionAudio_Stream->setObjectName(QStringLiteral("actionAudio_Stream"));
-        actionMulticast_Stream = new QAction(Application);
-        actionMulticast_Stream->setObjectName(QStringLiteral("actionMulticast_Stream"));
+        actionRadio = new QAction(Application);
+        actionRadio->setObjectName(QStringLiteral("actionRadio"));
         actionVOIP = new QAction(Application);
         actionVOIP->setObjectName(QStringLiteral("actionVOIP"));
         centralWidget = new QWidget(Application);
@@ -58,13 +62,23 @@ public:
         gridLayout = new QGridLayout();
         gridLayout->setSpacing(6);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        listMusic = new QListView(centralWidget);
+        listMusic->setObjectName(QStringLiteral("listMusic"));
+
+        gridLayout->addWidget(listMusic, 1, 0, 1, 1);
+
+        labelPlaylist = new QLabel(centralWidget);
+        labelPlaylist->setObjectName(QStringLiteral("labelPlaylist"));
+
+        gridLayout->addWidget(labelPlaylist, 0, 0, 1, 1);
+
 
         gridLayout_2->addLayout(gridLayout, 0, 0, 1, 1);
 
         Application->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(Application);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 732, 21));
+        menuBar->setGeometry(QRect(0, 0, 472, 21));
         menuAudio_Server = new QMenu(menuBar);
         menuAudio_Server->setObjectName(QStringLiteral("menuAudio_Server"));
         Application->setMenuBar(menuBar);
@@ -76,9 +90,9 @@ public:
         Application->setStatusBar(statusBar);
 
         menuBar->addAction(menuAudio_Server->menuAction());
-        menuAudio_Server->addAction(actionAudio_Stream);
-        menuAudio_Server->addAction(actionMulticast_Stream);
-        menuAudio_Server->addAction(actionVOIP);
+        mainToolBar->addAction(actionAudio_Stream);
+        mainToolBar->addAction(actionRadio);
+        mainToolBar->addAction(actionVOIP);
 
         retranslateUi(Application);
 
@@ -89,8 +103,9 @@ public:
     {
         Application->setWindowTitle(QApplication::translate("Application", "Application", 0));
         actionAudio_Stream->setText(QApplication::translate("Application", "Audio Streamer", 0));
-        actionMulticast_Stream->setText(QApplication::translate("Application", "Radio", 0));
+        actionRadio->setText(QApplication::translate("Application", "Radio", 0));
         actionVOIP->setText(QApplication::translate("Application", "VOIP", 0));
+        labelPlaylist->setText(QApplication::translate("Application", "Playlist", 0));
         menuAudio_Server->setTitle(QApplication::translate("Application", "Options", 0));
     } // retranslateUi
 

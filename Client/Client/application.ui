@@ -55,7 +55,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionAudio_Stream"/>
-   <addaction name="actionMulticast_Stream"/>
+   <addaction name="actionRadio"/>
    <addaction name="actionVOIP"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -64,7 +64,7 @@
     <string>Audio Streamer</string>
    </property>
   </action>
-  <action name="actionMulticast_Stream">
+  <action name="actionRadio">
    <property name="text">
     <string>Radio</string>
    </property>

@@ -5,9 +5,9 @@ SOCKET AcceptSocket;
 SOCKET ListenSocket;
 QTextBrowser *Log;
 WSAEVENT AcceptEvent;
-CRITICAL_SECTION CriticalSection;
 Application *mainWindow;
 QVector<QString> SongList;
+CRITICAL_SECTION critSection;
 
 void StartServer(int port, LPVOID app, QVector<QString> songList)
 {
@@ -24,7 +24,7 @@ void StartServer(int port, LPVOID app, QVector<QString> songList)
 
    SongList = songList;
 
-   InitializeCriticalSection(&CriticalSection);
+   InitializeCriticalSection(&critSection);
 
    if ((Ret = WSAStartup(0x0202,&wsaData)) != 0)
    {
@@ -93,13 +93,13 @@ DWORD WINAPI ListenThread(LPVOID lpParameter)
 {
     while(TRUE)
     {
-       AcceptSocket = accept(ListenSocket, NULL, NULL);
+        AcceptSocket = accept(ListenSocket, NULL, NULL);
 
-       if (WSASetEvent(AcceptEvent) == FALSE)
-       {
-          qDebug() << "WSASetEvent failed with error " << WSAGetLastError() << endl;
-          return 0;
-       }
+        if (WSASetEvent(AcceptEvent) == FALSE)
+        {
+            qDebug() << "WSASetEvent failed with error " << WSAGetLastError() << endl;
+            return 0;
+        }
     }
 }
 
@@ -111,7 +111,6 @@ DWORD WINAPI WorkerThread(LPVOID lpParameter)
    DWORD Index;
    DWORD RecvBytes, SendBytes;
    QString strInfo;
-   char temp[256];
 
    // Save the accept event in the event array.
 
@@ -121,80 +120,57 @@ DWORD WINAPI WorkerThread(LPVOID lpParameter)
    {
       // Wait for accept() to signal an event and also process WorkerRoutine() returns.
 
-      while(TRUE)
-      {
-         Index = WSAWaitForMultipleEvents(1, EventArray, FALSE, WSA_INFINITE, TRUE);
+        while(TRUE)
+        {
+            Index = WSAWaitForMultipleEvents(1, EventArray, FALSE, WSA_INFINITE, TRUE);
 
-         if (Index == WSA_WAIT_FAILED)
-         {
-            qDebug() << "WSAWaitForMultipleEvents failed with error " << WSAGetLastError() << endl;
+            if (Index == WSA_WAIT_FAILED)
+            {
+                qDebug() << "WSAWaitForMultipleEvents failed with error " << WSAGetLastError() << endl;
+                return FALSE;
+            }
+
+            if (Index != WAIT_IO_COMPLETION)
+            {
+                // An accept() call event is ready - break the wait loop
+                break;
+            }
+        }
+
+        WSAResetEvent(EventArray[Index - WSA_WAIT_EVENT_0]);
+
+        // Create a socket information structure to associate with the accepted socket.
+
+        if ((SocketInfo = (LPSOCKET_INFORMATION) GlobalAlloc(GPTR, sizeof(SOCKET_INFORMATION))) == NULL)
+        {
+            qDebug() << "GlobalAlloc() failed with error " << GetLastError() << endl;
             return FALSE;
-         }
+        }
 
-         if (Index != WAIT_IO_COMPLETION)
-         {
-            // An accept() call event is ready - break the wait loop
-            break;
-         } 
-      }
+        // Fill in the details of our accepted socket.
 
-      WSAResetEvent(EventArray[Index - WSA_WAIT_EVENT_0]);
-   
-      // Create a socket information structure to associate with the accepted socket.
+        SocketInfo->Socket = AcceptSocket;
+        ZeroMemory(&(SocketInfo->Overlapped), sizeof(WSAOVERLAPPED));
+        SocketInfo->BytesSEND = 0;
+        SocketInfo->BytesRECV = 0;
+        SocketInfo->DataBuf.len = DATA_BUFSIZE;
+        SocketInfo->DataBuf.buf = SocketInfo->Buffer;
 
-      if ((SocketInfo = (LPSOCKET_INFORMATION) GlobalAlloc(GPTR, sizeof(SOCKET_INFORMATION))) == NULL)
-      {
-         qDebug() << "GlobalAlloc() failed with error " << GetLastError() << endl;
-         return FALSE;
-      } 
+        Flags = 0;
 
-      // Fill in the details of our accepted socket.
+        /***
+        * Post WSARecv on the socket to begin receiving data on it.
+        ***/
+        RecvBytes = ReadSocket(&SocketInfo->Socket, &SocketInfo->DataBuf, Flags, &SocketInfo->Overlapped);
+        qDebug() << "Socket  " << AcceptSocket << "connected" << endl;
+        strInfo = QString("Accepted connection: %1").arg(AcceptSocket);
+        mainWindow->appendToLog(strInfo);
 
-      SocketInfo->Socket = AcceptSocket;
-      ZeroMemory(&(SocketInfo->Overlapped), sizeof(WSAOVERLAPPED));  
-      SocketInfo->BytesSEND = 0;
-      SocketInfo->BytesRECV = 0;
-      SocketInfo->DataBuf.len = DATA_BUFSIZE;
-      SocketInfo->DataBuf.buf = SocketInfo->Buffer;
 
-      Flags = 0;
 
-      /***
-       * Post initial WSARecv on the socket to begin receiving data on it.
-       * In order to get any data though, we need to post another WSARecv later on
-       ***/
-      if (WSARecv(SocketInfo->Socket, &(SocketInfo->DataBuf), 1, &RecvBytes, &Flags, &(SocketInfo->Overlapped), WorkerRoutine) == SOCKET_ERROR)
-      {
-         if (WSAGetLastError() != WSA_IO_PENDING)
-         {
-            qDebug() << "WSARecv() failed with error " << WSAGetLastError() << endl;
-            return FALSE;
-         }
-      }
+    }
 
-      qDebug() << "Socket  " << AcceptSocket << "connected" << endl;
-
-      strInfo = QString("Accepted connection: %1").arg(AcceptSocket);
-      mainWindow->appendToLog(strInfo);
-
-      ZeroMemory(&(SocketInfo->Overlapped), sizeof(WSAOVERLAPPED));
-      memcpy(temp, (char*)(SongList[0].toUtf8().constData()), (SongList.size() * sizeof SongList[0]));
-      qDebug() << "sending: " << temp;
-      SocketInfo->DataBuf.buf = temp;
-      SocketInfo->DataBuf.len = (SongList.size() * sizeof(QString));
-
-      if (WSASend(SocketInfo->Socket, &(SocketInfo->DataBuf), 1, &SendBytes, 0, &(SocketInfo->Overlapped), WorkerRoutine) == SOCKET_ERROR)
-      {
-         if (WSAGetLastError() != WSA_IO_PENDING)
-         {
-            qDebug() << "WSASend() failed with error " << WSAGetLastError() << endl;
-            return 0;
-         }
-      }
-
-   }
-
-   return TRUE;
+    return TRUE;
 }
 
 /*******************************************************************
@@ -204,17 +180,19 @@ DWORD WINAPI WorkerThread(LPVOID lpParameter)
  ******************************************************************/
 void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED Overlapped, DWORD InFlags)
 {
-   DWORD SendBytes, RecvBytes;
-   DWORD Flags;
-   QString strInfo;
+    DWORD SendBytes, RecvBytes;
+    DWORD Flags;
+    QString strInfo;
 
-   // Reference the WSAOVERLAPPED structure as a SOCKET_INFORMATION structure
-   LPSOCKET_INFORMATION SI = (LPSOCKET_INFORMATION) Overlapped;
+    char temp[1024];
 
-   if (Error != 0)
-   {
-     qDebug() << "I/O operation failed with error " << Error << endl;
-   }
+    // Reference the WSAOVERLAPPED structure as a SOCKET_INFORMATION structure
+    LPSOCKET_INFORMATION SI = (LPSOCKET_INFORMATION) Overlapped;
+
+    if (Error != 0)
+    {
+        qDebug() << "I/O operation failed with error " << Error << endl;
+    }
 
     if (Error != 0 || BytesTransferred == 0)
     {
@@ -235,82 +213,123 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
     * We will process client requests here
     * Check for requested songs, start UDP thread etc...
     ***/
-   if (SI->BytesRECV == 0)
-   {
-      SI->BytesRECV = BytesTransferred;
-      SI->BytesSEND = 0;
-      strInfo = QString("Received: %1 on socket: %2").arg(SI->Buffer).arg(SI->Socket);
-      mainWindow->appendToLog(strInfo);
-      qDebug() << "Received: " << SI->Buffer << endl;
+    if (SI->BytesRECV == 0)
+    {
+        SI->BytesRECV = BytesTransferred;
+        SI->BytesSEND = 0;
 
-/*      qDebug() << "Sending: " << SongList.data()->toUtf8().constData();
+        ZeroMemory(&(SI->Overlapped), sizeof(WSAOVERLAPPED));
 
-      ZeroMemory(&(SI->Overlapped), sizeof(WSAOVERLAPPED));
-      SI->DataBuf.buf = (char *)SongList.data()->toUtf8().constData();
-      SI->DataBuf.len = sizeof(SongList);
+        strInfo = QString("Received: %1 on socket: %2").arg(SI->Buffer).arg(SI->Socket);
+        mainWindow->appendToLog(strInfo);
 
-      if (WSASend(SI->Socket, &(SI->DataBuf), 1, &SendBytes, 0, &(SI->Overlapped), WorkerRoutine) == SOCKET_ERROR)
-      {
-         if (WSAGetLastError() != WSA_IO_PENDING)
-         {
-            qDebug() << "WSASend() failed with error " << WSAGetLastError() << endl;
-            return;
-         }
-      }
-      */
-   }
-   else
-   {
-      SI->BytesSEND += BytesTransferred;
-   }
+         qDebug() << "Received: " << SI->Buffer << endl;
 
-   /***
-    * we can get rid of this since were not an echo-server
-    * Perhaps we can use this part for sending a file
-    ***/
-   if (SI->BytesRECV > SI->BytesSEND)
-   {
+        /***
+         * Here we should check for a client mode.
+         * If the clients mode is stream.. we send over the list.
+         * Im leaving it up to you to set up the way a client sends over its mode.
+         ***/
+        if (strcmp(SI->Buffer, "tcp") == 0)
+        {
+            for (int i = 0; i < SongList.size(); i++)
+            {
+                strcat(temp, (char*)SongList.at(i).toUtf8().constData());
+                strcat(temp, "\n");
+            }
+            qDebug() << "sending: " << temp;
+            SI->DataBuf.buf = temp;
+            SI->DataBuf.len = strlen(temp);
 
-      // Post another WSASend() request.
-      // Since WSASend() is not gauranteed to send all of the bytes requested,
-      // continue posting WSASend() calls until all received bytes are sent.
+            SendBytes = WriteToSocket(&SI->Socket, &SI->DataBuf, 0, &SI->Overlapped);
 
-     /* ZeroMemory(&(SI->Overlapped), sizeof(WSAOVERLAPPED));
+        }
+    }
 
-      SI->DataBuf.buf = SI->Buffer + SI->BytesSEND;
-      SI->DataBuf.len = SI->BytesRECV - SI->BytesSEND;
+    /***
+     * We are in the completion port. Therefore a WSARecv call finished so we set the bytes received field to 0
+     * We then post another WSARecv call to continue receiving data on this socket.
+     ***/
+    SI->BytesRECV = 0;
 
-      if (WSASend(SI->Socket, &(SI->DataBuf), 1, &SendBytes, 0, &(SI->Overlapped), WorkerRoutine) == SOCKET_ERROR)
-      {
-         if (WSAGetLastError() != WSA_IO_PENDING)
-         {
-            qDebug() << "WSASend() failed with error " << WSAGetLastError() << endl;
-            return;
-         }
-      }*/
-   }
-   else
-   {
-      SI->BytesRECV = 0;
-
-      /***
-       * Now that there are no more bytes to send post another WSARecv() request.
-       * This is where we receive the data on the socket.
-       ***/
-
-      Flags = 0;
-      ZeroMemory(&(SI->Overlapped), sizeof(WSAOVERLAPPED));
-
-      SI->DataBuf.len = DATA_BUFSIZE;
-      SI->DataBuf.buf = SI->Buffer;
-
-      if (WSARecv(SI->Socket, &(SI->DataBuf), 1, &RecvBytes, &Flags, &(SI->Overlapped), WorkerRoutine) == SOCKET_ERROR)
-      {
-         if (WSAGetLastError() != WSA_IO_PENDING )
-         {
-            qDebug() << "WSARecv() failed with error " << WSAGetLastError() << endl;
-            return;
-         }
-      }
-   }
+    ZeroMemory(&(SI->Overlapped), sizeof(WSAOVERLAPPED));
+    Flags = 0;
+    SI->DataBuf.len = DATA_BUFSIZE;
+    SI->DataBuf.buf = SI->Buffer;
+    SI->BytesRECV = 0;
+    RecvBytes = ReadSocket(&SI->Socket, &SI->DataBuf, Flags, &SI->Overlapped);
 }
+
+/*------------------------------------------------------------------------------
+--	FUNCTION: WriteToSocket()
+--
+--	PURPOSE:		Wrapper function for writing data to a WSASocket using
+--					WSASend and overlapped structures
+--
+--	PARAMETERS:
+--			SOCKET *sock		-Socket to write to
+--			WSABUF *buf			-Buffer to be written
+--			WSAOVERLAPPED *ol	-Overlapped structure to be used for Overlapped I/O
+--
+--	Return:
+            DWORD	Number of bytes written.
+--
+--	DESIGNERS:		Filip Gutica
+--
+--	PROGRAMMER:		Filip Gutica
+--
+/*-----------------------------------------------------------------------------*/
+DWORD WriteToSocket(SOCKET *sock, WSABUF *buf, DWORD fl, WSAOVERLAPPED *ol)
+{
+    DWORD sb;
+
+    if (WSASend(*sock, buf, 1, &sb, 0, ol, NULL) == SOCKET_ERROR)
+    {
+        if (WSAGetLastError() != ERROR_IO_PENDING)
+        {
+            qDebug() << "WSASend() failed with error " << WSAGetLastError();
+            return 0;
+        }
+    }
+
+    return sb;
+}
+
+/*------------------------------------------------------------------------------
+--	FUNCTION: ReadSocket()
+--
+--	PURPOSE:		Wrapper function for receiving data from a WSASocket using
+--					WSARecv and overlapped structures
+--
+--	PARAMETERS:
+--			SOCKET *sock		-Socket to receive from
+--			WSABUF *buf			-Receive buffer
+--			DWORD fl			-Flags
+--			WSAOVERLAPPED *ol	-Overlapped structure to be used for Overlapped I/O
+--
+--	Return:
+            DWORD	Number of bytes written.
+--
+--	DESIGNERS:		Filip Gutica
+--
+--	PROGRAMMER:		Filip Gutica
+--
+/*-----------------------------------------------------------------------------*/
+DWORD ReadSocket(SOCKET *sock, WSABUF *buf, DWORD fl,  WSAOVERLAPPED *ol)
+{
+    DWORD rb;
+
+    if (WSARecv(*sock, buf, 1, &rb, &fl, ol, WorkerRoutine) == SOCKET_ERROR)
+    {
+        if (WSAGetLastError() != ERROR_IO_PENDING)
+        {
+            qDebug() << "WSASRecv() failed with error " << WSAGetLastError();
+            return 0;
+        }
+
+    }
+
+    return rb;
+}
+
+

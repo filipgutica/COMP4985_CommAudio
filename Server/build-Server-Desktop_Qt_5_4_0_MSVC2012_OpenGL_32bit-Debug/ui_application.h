@@ -49,7 +49,7 @@ public:
     {
         if (Application->objectName().isEmpty())
             Application->setObjectName(QStringLiteral("Application"));
-        Application->resize(572, 436);
+        Application->resize(582, 434);
         actionConfigure = new QAction(Application);
         actionConfigure->setObjectName(QStringLiteral("actionConfigure"));
         centralWidget = new QWidget(Application);
@@ -92,7 +92,7 @@ public:
         Application->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(Application);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 572, 21));
+        menuBar->setGeometry(QRect(0, 0, 582, 21));
         menuSettings = new QMenu(menuBar);
         menuSettings->setObjectName(QStringLiteral("menuSettings"));
         Application->setMenuBar(menuBar);

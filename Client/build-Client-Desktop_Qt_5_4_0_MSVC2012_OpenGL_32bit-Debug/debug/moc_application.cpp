@@ -20,7 +20,7 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Application_t {
     QByteArrayData data[5];
-    char stringdata[105];
+    char stringdata[94];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,13 +32,13 @@ static const qt_meta_stringdata_Application_t qt_meta_stringdata_Application = {
 QT_MOC_LITERAL(0, 0, 11), // "Application"
 QT_MOC_LITERAL(1, 12, 31), // "on_actionAudio_Stream_triggered"
 QT_MOC_LITERAL(2, 44, 0), // ""
-QT_MOC_LITERAL(3, 45, 35), // "on_actionMulticast_Stream_tri..."
-QT_MOC_LITERAL(4, 81, 23) // "on_actionVOIP_triggered"
+QT_MOC_LITERAL(3, 45, 23), // "on_actionVOIP_triggered"
+QT_MOC_LITERAL(4, 69, 24) // "on_actionRadio_triggered"
 
     },
     "Application\0on_actionAudio_Stream_triggered\0"
-    "\0on_actionMulticast_Stream_triggered\0"
-    "on_actionVOIP_triggered"
+    "\0on_actionVOIP_triggered\0"
+    "on_actionRadio_triggered"
 };
 #undef QT_MOC_LITERAL
 
@@ -74,8 +74,8 @@ void Application::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         Application *_t = static_cast<Application *>(_o);
         switch (_id) {
         case 0: _t->on_actionAudio_Stream_triggered(); break;
-        case 1: _t->on_actionMulticast_Stream_triggered(); break;
-        case 2: _t->on_actionVOIP_triggered(); break;
+        case 1: _t->on_actionVOIP_triggered(); break;
+        case 2: _t->on_actionRadio_triggered(); break;
         default: ;
         }
     }
