@@ -14,7 +14,8 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         application.cpp \
-    audioplayer.cpp
+    audioplayer.cpp \
+    client.cpp
 
 HEADERS  += application.h \
     audioplayer.h \
