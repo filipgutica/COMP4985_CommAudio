@@ -11,12 +11,11 @@ class Client
         HANDLE streamThread;        //for terminating threads
 
     public:
-        Client ( string ip_address, int port);
-        Client ();
+        Client ( string ip_address, int port, int mode);
         ~Client();
         int SongRequest (int songID);
         int DownloadFile (int fileID);
-        int SentVoice();
+        void SendVoice();
         int CreateStream();
         int TerminateStream();
 };
