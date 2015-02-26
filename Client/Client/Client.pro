@@ -17,7 +17,8 @@ SOURCES += main.cpp\
     audioplayer.cpp
 
 HEADERS  += application.h \
-    audioplayer.h
+    audioplayer.h \
+    client.h
 
 FORMS    += application.ui \
     audioplayer.ui
