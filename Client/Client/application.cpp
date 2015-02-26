@@ -18,7 +18,7 @@ void Application::on_actionAudio_Stream_triggered()
 
 }
 
-void Application::on_actionMulticast_Stream_triggered()
+void Application::on_actionRadio_triggered()
 {
 
 }
@@ -27,3 +27,5 @@ void Application::on_actionVOIP_triggered()
 {
 
 }
+
+

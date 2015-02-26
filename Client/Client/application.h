@@ -24,9 +24,9 @@ public:
 private slots:
     void on_actionAudio_Stream_triggered();
 
-    void on_actionMulticast_Stream_triggered();
-
     void on_actionVOIP_triggered();
+
+    void on_actionRadio_triggered();
 
 private:
     Ui::Application *ui;
