@@ -3,6 +3,13 @@
 
 #include <QDialog>
 #include <QtMultimedia/QMediaPlayer>
+#include <QAudioFormat>
+#include <QAudioInput>
+#include <QAudioOutput>
+#include <QAudioDecoder>
+#include <QAudioBuffer>
+#include <QBuffer>
+#include <Windows.h>
 
 namespace Ui {
 class AudioPlayer;
@@ -32,10 +39,27 @@ private slots:
 
     void on_btnResume_clicked();
 
+    void readBuffer();
+
 private:
+    void PlayMusic();
     Ui::AudioPlayer *ui;
     QMediaPlayer *player;
     QString filePath;
+    QAudioDecoder *decoder;
+    QAudioFormat desiredFormat;
+    QAudioBuffer buff;
+
+    bool lock;
 };
+
+struct AudioStruct
+{
+    AudioPlayer* myPlayer;
+    QAudioBuffer buff;
+    QAudioFormat fmt;
+};
+
+DWORD WINAPI AudioThread(LPVOID param);
 
 #endif // AUDIOPLAYER_H

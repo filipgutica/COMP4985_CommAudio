@@ -21,6 +21,9 @@
 #include "audioplayer.h"
 #include "ui_audioplayer.h"
 
+AudioStruct *audio;
+
+
 /*------------------------------------------------------------------------------
 --	FUNCTION: AudioPlayer()
 --
@@ -34,7 +37,11 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 {
     ui->setupUi(this);
 
-    player = new QMediaPlayer;
+    player = new QMediaPlayer(0, QMediaPlayer::StreamPlayback);
+
+    audio = new AudioStruct();
+
+    lock = false;
 
     /*** Connect the audio palyer to the progress slider so they are synchronized ***/
     connect(player, &QMediaPlayer::positionChanged, this, &AudioPlayer::on_positionChanged);
@@ -53,6 +60,7 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 AudioPlayer::~AudioPlayer()
 {
     delete player;
+    delete decoder;
     delete ui;
 }
 
@@ -71,10 +79,34 @@ AudioPlayer::~AudioPlayer()
 /*-----------------------------------------------------------------------------*/
 void AudioPlayer::on_btnPlay_clicked()
 {
+    HANDLE ThreadHandle;
+    DWORD ThreadId;
+
+    audio->fmt.setChannelCount(2);
+    audio->fmt.setCodec("audio/pcm");
+    audio->fmt.setSampleType(QAudioFormat::UnSignedInt);
+    audio->fmt.setSampleRate(8000);
+    audio->fmt.setSampleSize(8);
+
+    audio->myPlayer = this;
+
+    decoder = new QAudioDecoder(this);
+    decoder->setAudioFormat(desiredFormat);
+    decoder->setSourceFilename(filePath);
+
+    ThreadHandle =  CreateThread(NULL, 0, AudioThread, (LPVOID) audio, 0, &ThreadId);
+
+    connect(decoder, SIGNAL(bufferReady()), this, SLOT(readBuffer()));
+    decoder->start();
+
+/*
+    QAudioBuffer *buff = &decoder->read();
+    QBuffer dataBuff;
+    dataBuff.setBuffer(&QByteArray::fromRawData((char *)buff->data(), buff->byteCount()));
     // ...
-    player->setMedia(QUrl::fromLocalFile(filePath));
+    player->setMedia(NULL, &dataBuff);
     player->setVolume(100);
-    player->play();
+    player->play();*/
 }
 
 /*------------------------------------------------------------------------------
@@ -198,3 +230,53 @@ void AudioPlayer::on_durationChanged(qint64 position)
 }
 
 
+void AudioPlayer::readBuffer()
+{
+    qDebug() << "Buffer ready";
+
+    audio->buff = decoder->read();
+
+
+
+    // ...
+    /*player->setMedia(NULL, &dataBuff);
+    player->setVolume(100);
+    player->play();*/
+}
+
+
+void AudioPlayer::PlayMusic()
+{
+    QAudioOutput *audio = new QAudioOutput(desiredFormat, this);
+    audio->setBufferSize(1024);
+    QByteArray *data = new QByteArray();
+
+    data->setRawData( (const char*)buff.data(), buff.byteCount() );
+
+    QBuffer *buffer = new QBuffer(data);
+    QEventLoop *loop = new QEventLoop(this);
+    buffer->open(QIODevice::ReadOnly);
+    audio->start(buffer);
+
+    return;
+}
+
+DWORD WINAPI AudioThread(LPVOID param)
+{
+    AudioStruct *audioStruct = (AudioStruct*) param;
+
+    QAudioOutput *audio = new QAudioOutput(audioStruct->fmt, audioStruct->myPlayer);
+    audio->setBufferSize(1024);
+    QByteArray *data = new QByteArray();
+
+
+    data->setRawData( (const char*)audioStruct->buff.data(), audioStruct->buff.byteCount() );
+
+    QBuffer *buffer = new QBuffer(data);
+    QEventLoop *loop = new QEventLoop(audioStruct->myPlayer);
+    buffer->open(QIODevice::ReadOnly);
+    audio->start(buffer);
+
+
+    return 0;
+}
