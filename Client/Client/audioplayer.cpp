@@ -34,11 +34,35 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 {
     ui->setupUi(this);
 
-    player = new QMediaPlayer;
+    player = new QMediaPlayer(this, QMediaPlayer::StreamPlayback);
+
+    groupAddress = QHostAddress("234.5.6.7");
+
+    udpSocket = new QUdpSocket(this);
+    udpSocket->bind(QHostAddress::AnyIPv4, 7575);
+    udpSocket->joinMulticastGroup(groupAddress);
+    udpSocket->setReadBufferSize(AUDIO_BUFFSIZE);
+
+    connect(udpSocket, SIGNAL(readyRead()),this, SLOT(processPendingDatagrams()));
+
+    format.setChannelCount(2);
+    format.setSampleRate(8000);
+    format.setSampleSize(8);
+    format.setCodec("audio/pcm");
+    format.setByteOrder(QAudioFormat::LittleEndian);
+    format.setSampleType(QAudioFormat::UnSignedInt);
+
+    audio = new QAudioOutput(format, this);
+    audio->setBufferSize(AUDIO_BUFFSIZE);
 
     /*** Connect the audio palyer to the progress slider so they are synchronized ***/
     connect(player, &QMediaPlayer::positionChanged, this, &AudioPlayer::on_positionChanged);
     connect(player, &QMediaPlayer::durationChanged, this, &AudioPlayer::on_durationChanged);
+
+
+    ioDevice = audio->start();
+
+
 }
 
 /*------------------------------------------------------------------------------
@@ -52,6 +76,7 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 /*-----------------------------------------------------------------------------*/
 AudioPlayer::~AudioPlayer()
 {
+    udpSocket->close();
     delete player;
     delete ui;
 }
@@ -197,3 +222,27 @@ void AudioPlayer::on_durationChanged(qint64 position)
     ui->sliderProgress->setMaximum(position);
 }
 
+void AudioPlayer::processPendingDatagrams()
+{
+    QByteArray datagram;
+
+    player->setMedia(QMediaContent(), udpSocket);
+
+   while (udpSocket->hasPendingDatagrams())
+   {
+        datagram.resize(udpSocket->pendingDatagramSize());
+        udpSocket->readDatagram(datagram.data(), datagram.size());
+        qDebug() << datagram.data();
+
+        writeData(datagram);
+
+   }
+
+
+
+}
+
+void AudioPlayer::writeData(QByteArray d)
+{
+    ioDevice->write(d.data(), d.size());
+}

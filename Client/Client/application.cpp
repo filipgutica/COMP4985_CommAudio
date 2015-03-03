@@ -20,7 +20,9 @@ void Application::on_actionAudio_Stream_triggered()
 
 void Application::on_actionRadio_triggered()
 {
+    AudioPlayer audPlayer;
 
+    audPlayer.exec();
 }
 
 void Application::on_actionVOIP_triggered()
