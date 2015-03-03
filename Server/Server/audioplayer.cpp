@@ -21,7 +21,7 @@
 #include "audioplayer.h"
 #include "ui_audioplayer.h"
 
-AudioStruct *audio;
+AudioStruct *audioStruct;
 
 
 /*------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 
     player = new QMediaPlayer(0, QMediaPlayer::StreamPlayback);
 
-    audio = new AudioStruct();
+    audioStruct = new AudioStruct();
 
     lock = false;
 
@@ -59,8 +59,6 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 /*-----------------------------------------------------------------------------*/
 AudioPlayer::~AudioPlayer()
 {
-    delete player;
-    delete decoder;
     delete ui;
 }
 
@@ -82,22 +80,22 @@ void AudioPlayer::on_btnPlay_clicked()
     HANDLE ThreadHandle;
     DWORD ThreadId;
 
-    audio->fmt.setChannelCount(2);
-    audio->fmt.setCodec("audio/pcm");
-    audio->fmt.setSampleType(QAudioFormat::UnSignedInt);
-    audio->fmt.setSampleRate(8000);
-    audio->fmt.setSampleSize(8);
-
-    audio->myPlayer = this;
+    audioStruct->fmt.setChannelCount(2);
+    audioStruct->fmt.setCodec("audio/pcm");
+    audioStruct->fmt.setSampleType(QAudioFormat::UnSignedInt);
+    audioStruct->fmt.setSampleRate(8000);
+    audioStruct->fmt.setSampleSize(8);
 
     decoder = new QAudioDecoder(this);
-    decoder->setAudioFormat(desiredFormat);
+    decoder->setAudioFormat(audioStruct->fmt);
     decoder->setSourceFilename(filePath);
 
-    ThreadHandle =  CreateThread(NULL, 0, AudioThread, (LPVOID) audio, 0, &ThreadId);
+    PlayMusic();
 
     connect(decoder, SIGNAL(bufferReady()), this, SLOT(readBuffer()));
     decoder->start();
+
+
 
 /*
     QAudioBuffer *buff = &decoder->read();
@@ -234,9 +232,7 @@ void AudioPlayer::readBuffer()
 {
     qDebug() << "Buffer ready";
 
-    audio->buff = decoder->read();
-
-
+    audioStruct->buff = decoder->read();
 
     // ...
     /*player->setMedia(NULL, &dataBuff);
@@ -247,17 +243,16 @@ void AudioPlayer::readBuffer()
 
 void AudioPlayer::PlayMusic()
 {
-    QAudioOutput *audio = new QAudioOutput(desiredFormat, this);
-    audio->setBufferSize(1024);
+    QAudioOutput *audio = new QAudioOutput(audioStruct->fmt, this);
+    audio->setBufferSize(4096);
     QByteArray *data = new QByteArray();
 
-    data->setRawData( (const char*)buff.data(), buff.byteCount() );
+    data->setRawData( (const char*)audioStruct->buff.data(), audioStruct->buff.byteCount() );
 
     QBuffer *buffer = new QBuffer(data);
     QEventLoop *loop = new QEventLoop(this);
     buffer->open(QIODevice::ReadOnly);
     audio->start(buffer);
-
     return;
 }
 

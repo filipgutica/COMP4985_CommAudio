@@ -49,6 +49,9 @@ private:
     QAudioDecoder *decoder;
     QAudioFormat desiredFormat;
     QAudioBuffer buff;
+    QAudioOutput *audioOut;
+    QByteArray *data;
+    QBuffer *buffer;
 
     bool lock;
 };
