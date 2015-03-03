@@ -4,17 +4,12 @@
 #include <QDebug>
 #include <stdio.h>
 #include <WinSock2.h>
-#include <WS2tcpip.h>
 #include "ui_application.h"
 #include "application.h"
 #pragma comment(lib,"WS2_32")
 
 #define PORT 5150
-#define DATA_BUFSIZE    64000
-#define TIMECAST_ADDR   "234.5.6.7"
-#define TIMECAST_PORT   7575
-#define TIMECAST_TTL    2
-#define AUDIO_BUFFER    4096
+#define DATA_BUFSIZE 64000
 
 typedef struct _SOCKET_INFORMATION {
    OVERLAPPED Overlapped;
@@ -31,8 +26,6 @@ DWORD WINAPI ListenThread(LPVOID lpParameter);
 DWORD WINAPI WorkerThread(LPVOID lpParameter);
 DWORD WriteToSocket(SOCKET *sock, WSABUF *buf, DWORD fl, WSAOVERLAPPED *ol);
 DWORD ReadSocket(SOCKET *sock, WSABUF *buf, DWORD fl,  WSAOVERLAPPED *ol);
-DWORD WINAPI MulticastThread(LPVOID lpParameter);
-void StartMulticast();
 
 
 #endif // SERVER
