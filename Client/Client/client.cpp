@@ -54,7 +54,7 @@
 --  Constructor. This version of the constructor is used to connect to and interface with another instance of an application
 --  specified by the ip address and port. For hosting a voice chat, pass null in the first two arguments.
 ---------------------------------------------------------------------------------------------------------------------------*/
-Client::Client ( string ip_address, int port, int mode)
+Client::Client ( QString ip_address, int port, int mode)
 {
 
 }
@@ -78,7 +78,7 @@ Client::Client ( string ip_address, int port, int mode)
 --  NOTES:
 --  Deconstructor for objects of the Client class.
 ---------------------------------------------------------------------------------------------------------------------------*/
-Client::Client ()
+Client::~Client ()
 {
 
 }
@@ -153,7 +153,7 @@ int Client::DownloadFile (int fileID)
 ---------------------------------------------------------------------------------------------------------------------------*/
 void Client::SendVoice()
 {
-    return 0;
+    return;
 }
 
 /*---------------------------------------------------------------------------------------------------------------------------

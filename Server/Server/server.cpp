@@ -3,6 +3,7 @@
 
 SOCKET AcceptSocket;
 SOCKET ListenSocket;
+SOCKET MulticastSocket;
 QTextBrowser *Log;
 WSAEVENT AcceptEvent;
 Application *mainWindow;
@@ -19,6 +20,8 @@ void StartServer(int port, LPVOID app, QVector<QString> songList)
    DWORD ThreadId;
    DWORD ThreadIdListen;
    QString strInfo;
+
+
 
    mainWindow = (Application*) app;
 
@@ -38,6 +41,8 @@ void StartServer(int port, LPVOID app, QVector<QString> songList)
       qDebug() << "Failed to get a socket " << WSAGetLastError() << endl;
       return;
    }
+
+   StartMulticast();
 
    InternetAddr.sin_family = AF_INET;
    InternetAddr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -81,6 +86,67 @@ void StartServer(int port, LPVOID app, QVector<QString> songList)
       qDebug() << "CreateThread failed with error " << GetLastError() << endl;
       return;
    }
+
+}
+
+void StartMulticast()
+{
+    HANDLE hThread;
+    DWORD threadID;
+    struct ip_mreq stMreq;
+    SOCKADDR_IN stLclAddr, stDstAddr;
+    char MCAddr[64] = TIMECAST_ADDR;
+    u_short nPort = TIMECAST_PORT;
+    u_long lTTL = TIMECAST_TTL;
+    int ret;
+    bool flag;
+
+    if ((MulticastSocket = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET)
+    {
+       qDebug() << "Failed to get a socket " << WSAGetLastError() << endl;
+       return;
+    }
+
+    stLclAddr.sin_family      = AF_INET;
+    stLclAddr.sin_addr.s_addr = htonl(INADDR_ANY); /* any interface */
+    stLclAddr.sin_port        = 0;
+
+    if ((ret = bind(MulticastSocket, (struct sockaddr*) &stLclAddr, sizeof(stLclAddr))) == SOCKET_ERROR)
+    {
+        qDebug() << "bind failed error: " << WSAGetLastError();
+        return;
+
+    }
+
+    stMreq.imr_multiaddr.s_addr = inet_addr(MCAddr);
+    stMreq.imr_interface.s_addr = INADDR_ANY;
+
+    if ((ret = setsockopt(MulticastSocket, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char*)&stMreq, sizeof(stMreq))) == SOCKET_ERROR)
+    {
+        qDebug() << "IP ADD MEMBERSHIP FAILED errorr: " << WSAGetLastError();
+        return;
+    }
+
+    if ((ret = setsockopt(MulticastSocket, IPPROTO_IP, IP_MULTICAST_TTL, (char*)&lTTL, sizeof(lTTL))) == SOCKET_ERROR)
+    {
+        qDebug() << "IP MULTICAST TTL failed error: " << WSAGetLastError();
+        return;
+    }
+
+    if ((ret = setsockopt(MulticastSocket, IPPROTO_IP, IP_MULTICAST_LOOP, (char*)&flag, sizeof(flag))) == SOCKET_ERROR)
+    {
+        qDebug() << "IP MULTICAST LOOP failed error: " << WSAGetLastError();
+        return;
+    }
+
+
+
+      if ((hThread = CreateThread(NULL, 0, MulticastThread, (LPVOID) &stDstAddr, 0, &threadID)) == NULL)
+      {
+         qDebug() << "CreateThread failed with error " << GetLastError() << endl;
+         return;
+      }
+
 
 }
 
@@ -332,4 +398,49 @@ DWORD ReadSocket(SOCKET *sock, WSABUF *buf, DWORD fl,  WSAOVERLAPPED *ol)
     return rb;
 }
 
+DWORD WINAPI MulticastThread(LPVOID lpParameter)
+{
+    SOCKADDR_IN stDstAddr;
+    QString send;
+
+    /* Assign our destination address */
+      stDstAddr.sin_family =      AF_INET;
+      stDstAddr.sin_addr.s_addr = inet_addr(TIMECAST_ADDR);
+      stDstAddr.sin_port =        htons(TIMECAST_PORT);
+
+    int ret;
+    QFile file("../Music/David_Guetta_Showtek_-_Bad_ft.wav");
+
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        qDebug() << "cannot find file";
+        return 0;
+    }
+
+    QByteArray stream = file.readAll();
+
+    while(TRUE)
+    {
+       for (int i = 0; i < stream.size(); i++)
+       {
+
+           send += stream[i];
+
+           if (i % AUDIO_BUFFER == 0)
+           {
+               qDebug() << "Sending: " << send;
+               if(ret = sendto(MulticastSocket, send.toUtf8().constData(), AUDIO_BUFFER, 0, (struct sockaddr*)&stDstAddr,sizeof(stDstAddr)) < 0 )
+               {
+                    qDebug() << "Sendto failed error: " << WSAGetLastError();
+                    return 1;
+               }
+
+               send.clear();
+           }
+       }
+
+    }
+
+    return 0;
+}
 
