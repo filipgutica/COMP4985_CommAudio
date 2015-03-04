@@ -9,6 +9,7 @@
 #include <QHostAddress>
 #include <QAudioFormat>
 #include <QAudioOutput>
+#include <QAudioBuffer>
 
 namespace Ui {
 class AudioPlayer;
@@ -50,7 +51,8 @@ private:
     QAudioFormat format;
     QAudioOutput *audio;
     QIODevice *ioDevice;
-    QByteArray data;
+    QByteArray *data;
+    QAudioBuffer audioBuff;
 
     void writeData(QByteArray data);
 };

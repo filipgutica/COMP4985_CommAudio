@@ -409,7 +409,7 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
       stDstAddr.sin_port =        htons(TIMECAST_PORT);
 
     int ret;
-    QFile file("../Music/David_Guetta_Showtek_-_Bad_ft.wav");
+    QFile file("../Music/Avicii_-_Levels.wav");
 
     if (!file.open(QIODevice::ReadOnly))
     {

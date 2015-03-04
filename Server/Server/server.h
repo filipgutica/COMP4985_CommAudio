@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <WinSock2.h>
 #include <WS2tcpip.h>
+#include <QAudioFormat>
+#include <QAudioOutput>
 #include "ui_application.h"
 #include "application.h"
 #pragma comment(lib,"WS2_32")

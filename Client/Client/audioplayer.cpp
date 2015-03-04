@@ -46,14 +46,16 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
     connect(udpSocket, SIGNAL(readyRead()),this, SLOT(processPendingDatagrams()));
 
     format.setChannelCount(2);
-    format.setSampleRate(8000);
-    format.setSampleSize(8);
+    format.setSampleRate(44100);
+    format.setSampleSize(16);
     format.setCodec("audio/pcm");
     format.setByteOrder(QAudioFormat::LittleEndian);
     format.setSampleType(QAudioFormat::UnSignedInt);
 
     audio = new QAudioOutput(format, this);
     audio->setBufferSize(AUDIO_BUFFSIZE);
+
+    data = new QByteArray();
 
     /*** Connect the audio palyer to the progress slider so they are synchronized ***/
     connect(player, &QMediaPlayer::positionChanged, this, &AudioPlayer::on_positionChanged);
@@ -96,10 +98,14 @@ AudioPlayer::~AudioPlayer()
 /*-----------------------------------------------------------------------------*/
 void AudioPlayer::on_btnPlay_clicked()
 {
-    // ...
+    /*
     player->setMedia(QUrl::fromLocalFile(filePath));
     player->setVolume(100);
     player->play();
+    */
+
+
+
 }
 
 /*------------------------------------------------------------------------------
@@ -232,14 +238,13 @@ void AudioPlayer::processPendingDatagrams()
    {
         datagram.resize(udpSocket->pendingDatagramSize());
         udpSocket->readDatagram(datagram.data(), datagram.size());
-        qDebug() << datagram.data();
+        data->append(datagram.data(), datagram.size());
+
+        //qDebug() << datagram.data();
 
         writeData(datagram);
 
    }
-
-
-
 }
 
 void AudioPlayer::writeData(QByteArray d)
