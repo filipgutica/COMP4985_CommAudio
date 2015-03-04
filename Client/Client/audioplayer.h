@@ -1,15 +1,17 @@
 #ifndef AUDIOPLAYER_H
 #define AUDIOPLAYER_H
 
-#define AUDIO_BUFFSIZE 4096
+#define AUDIO_BUFFSIZE 24000
 
 #include <QDialog>
-#include <QtMultimedia/QMediaPlayer>
 #include <QtNetwork>
 #include <QHostAddress>
 #include <QAudioFormat>
 #include <QAudioOutput>
 #include <QAudioBuffer>
+#include <Windows.h>
+#pragma comment(lib,"WS2_32")
+
 
 namespace Ui {
 class AudioPlayer;
@@ -41,20 +43,28 @@ private slots:
 
     void processPendingDatagrams();
 
+    void playData(QByteArray d);
+
+signals:
+    void audioReady(QByteArray d);
+
 private:
     Ui::AudioPlayer *ui;
-    QMediaPlayer *player;
-    QString filePath;
-
     QUdpSocket *udpSocket;
     QHostAddress groupAddress;
     QAudioFormat format;
     QAudioOutput *audio;
     QIODevice *ioDevice;
-    QByteArray *data;
+    QByteArray data;
+    QByteArray datagram;
     QAudioBuffer audioBuff;
+    QString str;
+    int bytecount;
+    HANDLE thrdHandle;
 
-    void writeData(QByteArray data);
+    void writeData(QByteArray d);
+
+
 };
 
 #endif // AUDIOPLAYER_H

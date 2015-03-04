@@ -34,8 +34,6 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 {
     ui->setupUi(this);
 
-    player = new QMediaPlayer(this, QMediaPlayer::StreamPlayback);
-
     groupAddress = QHostAddress("234.5.6.7");
 
     udpSocket = new QUdpSocket(this);
@@ -44,6 +42,8 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
     udpSocket->setReadBufferSize(AUDIO_BUFFSIZE);
 
     connect(udpSocket, SIGNAL(readyRead()),this, SLOT(processPendingDatagrams()));
+    connect(this, SIGNAL(audioReady(QByteArray)), this, SLOT(playData(QByteArray)));
+
 
     format.setChannelCount(2);
     format.setSampleRate(44100);
@@ -55,14 +55,10 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
     audio = new QAudioOutput(format, this);
     audio->setBufferSize(AUDIO_BUFFSIZE);
 
-    data = new QByteArray();
-
-    /*** Connect the audio palyer to the progress slider so they are synchronized ***/
-    connect(player, &QMediaPlayer::positionChanged, this, &AudioPlayer::on_positionChanged);
-    connect(player, &QMediaPlayer::durationChanged, this, &AudioPlayer::on_durationChanged);
-
+    bytecount = 0;
 
     ioDevice = audio->start();
+
 
 
 }
@@ -79,7 +75,7 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 AudioPlayer::~AudioPlayer()
 {
     udpSocket->close();
-    delete player;
+    TerminateThread(thrdHandle, 0);
     delete ui;
 }
 
@@ -122,7 +118,7 @@ void AudioPlayer::on_btnPlay_clicked()
 /*-----------------------------------------------------------------------------*/
 void AudioPlayer::on_btnPause_clicked()
 {
-    player->pause();
+    //player->pause();
 }
 
 /*------------------------------------------------------------------------------
@@ -139,7 +135,7 @@ void AudioPlayer::on_btnPause_clicked()
 /*-----------------------------------------------------------------------------*/
 void AudioPlayer::on_btnResume_clicked()
 {
-    player->play();
+    //player->play();
 }
 
 /*------------------------------------------------------------------------------
@@ -156,7 +152,7 @@ void AudioPlayer::on_btnResume_clicked()
 /*-----------------------------------------------------------------------------*/
 void AudioPlayer::on_sliderProgress_sliderMoved(int position)
 {
-    player->setPosition(position);
+    //player->setPosition(position);
 }
 
 /*------------------------------------------------------------------------------
@@ -173,7 +169,7 @@ void AudioPlayer::on_sliderProgress_sliderMoved(int position)
 /*-----------------------------------------------------------------------------*/
 void AudioPlayer::on_sliderVolume_sliderMoved(int position)
 {
-    player->setVolume(position);
+    //player->setVolume(position);
 }
 
 /*------------------------------------------------------------------------------
@@ -190,8 +186,8 @@ void AudioPlayer::on_sliderVolume_sliderMoved(int position)
 /*-----------------------------------------------------------------------------*/
 void AudioPlayer::setAudio(QString file)
 {
-    filePath = file;
-    this->setWindowTitle(filePath);
+    //filePath = file;
+    //this->setWindowTitle(filePath);
 }
 
 /*------------------------------------------------------------------------------
@@ -230,24 +226,34 @@ void AudioPlayer::on_durationChanged(qint64 position)
 
 void AudioPlayer::processPendingDatagrams()
 {
-    QByteArray datagram;
+    DWORD ThreadID;
 
-    player->setMedia(QMediaContent(), udpSocket);
+    while (udpSocket->hasPendingDatagrams())
+    {
+       bytecount += udpSocket->pendingDatagramSize();
+       qDebug() << "Bytes: " << bytecount;
+       datagram.resize(udpSocket->pendingDatagramSize());
+       udpSocket->readDatagram(datagram.data(), datagram.size());
+       str += datagram.data();
+        //writeData(datagram);
 
-   while (udpSocket->hasPendingDatagrams())
-   {
-        datagram.resize(udpSocket->pendingDatagramSize());
-        udpSocket->readDatagram(datagram.data(), datagram.size());
-        data->append(datagram.data(), datagram.size());
+    }
+    data.append(datagram.data());
 
-        //qDebug() << datagram.data();
+    emit audioReady(datagram);
 
-        writeData(datagram);
+    //writeData(data);
 
-   }
+
 }
 
 void AudioPlayer::writeData(QByteArray d)
 {
     ioDevice->write(d.data(), d.size());
+}
+
+void AudioPlayer::playData(QByteArray d)
+{
+    ioDevice->write(d.data(), d.size());
+
 }

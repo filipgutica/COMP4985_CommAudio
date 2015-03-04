@@ -99,7 +99,7 @@ void StartMulticast()
     int ret;
     bool flag;
 
-    if ((MulticastSocket = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET)
+    if ((MulticastSocket = WSASocket(AF_INET, SOCK_DGRAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED)) == INVALID_SOCKET)
     {
        qDebug() << "Failed to get a socket " << WSAGetLastError() << endl;
        return;
@@ -399,6 +399,14 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
 {
     SOCKADDR_IN stDstAddr;
     QString send;
+    WSABUF *buf;
+    DWORD sent;
+    DWORD flags;
+    OVERLAPPED *ol;
+    char temp[AUDIO_BUFFER];
+    int i = 0;
+
+    buf = (WSABUF*) malloc(sizeof(WSABUF));
 
     /* Assign our destination address */
       stDstAddr.sin_family =      AF_INET;
@@ -406,7 +414,7 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
       stDstAddr.sin_port =        htons(TIMECAST_PORT);
 
     int ret;
-    QFile file("../Music/Avicii_-_Levels.wav");
+    QFile file("../Music/David_Guetta_Showtek_-_Bad_ft.wav");
 
     if (!file.open(QIODevice::ReadOnly))
     {
@@ -414,27 +422,28 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
         return 0;
     }
 
-    QByteArray stream = file.readAll();
 
     while(TRUE)
     {
-       for (int i = 0; i < stream.size(); i++)
-       {
 
-           send += stream[i];
+        if ((file.read(temp, AUDIO_BUFFER)))
+        {
+            buf->buf = temp;
+            buf->len = AUDIO_BUFFER;
+            ZeroMemory((&ol), sizeof(ol));
 
-           if (i % AUDIO_BUFFER == 0)
-           {
-               qDebug() << "Sending: " << send;
-               if(ret = sendto(MulticastSocket, send.toUtf8().constData(), AUDIO_BUFFER, 0, (struct sockaddr*)&stDstAddr,sizeof(stDstAddr)) < 0 )
-               {
-                    qDebug() << "Sendto failed error: " << WSAGetLastError();
-                    return 1;
-               }
+            i+= AUDIO_BUFFER;
+            //Sleep(32);
+            if(ret = WSASendTo(MulticastSocket,buf, 1, &sent, 0, (struct sockaddr*)&stDstAddr,sizeof(stDstAddr), ol, NULL) < 0 )
+            {
+                qDebug() << "Sendto failed error: " << WSAGetLastError();
+                return 1;
+            }
 
-               send.clear();
-           }
-       }
+
+            file.seek(i);
+            memset(temp, 0, sizeof(temp));
+        }
 
     }
 
