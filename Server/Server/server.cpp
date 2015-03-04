@@ -21,8 +21,6 @@ void StartServer(int port, LPVOID app, QVector<QString> songList)
    DWORD ThreadIdListen;
    QString strInfo;
 
-
-
    mainWindow = (Application*) app;
 
    SongList = songList;
@@ -141,12 +139,11 @@ void StartMulticast()
 
 
 
-      if ((hThread = CreateThread(NULL, 0, MulticastThread, (LPVOID) &stDstAddr, 0, &threadID)) == NULL)
-      {
-         qDebug() << "CreateThread failed with error " << GetLastError() << endl;
-         return;
-      }
-
+    if ((hThread = CreateThread(NULL, 0, MulticastThread, (LPVOID) &stDstAddr, 0, &threadID)) == NULL)
+    {
+        qDebug() << "CreateThread failed with error " << GetLastError() << endl;
+        return;
+    }
 
 }
 
