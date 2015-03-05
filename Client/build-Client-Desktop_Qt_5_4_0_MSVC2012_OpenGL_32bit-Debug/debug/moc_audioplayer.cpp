@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_AudioPlayer_t {
-    QByteArrayData data[14];
-    char stringdata[224];
+    QByteArrayData data[17];
+    char stringdata[262];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -42,7 +42,10 @@ QT_MOC_LITERAL(9, 132, 18), // "on_positionChanged"
 QT_MOC_LITERAL(10, 151, 18), // "on_durationChanged"
 QT_MOC_LITERAL(11, 170, 20), // "on_btnResume_clicked"
 QT_MOC_LITERAL(12, 191, 23), // "processPendingDatagrams"
-QT_MOC_LITERAL(13, 215, 8) // "playData"
+QT_MOC_LITERAL(13, 215, 8), // "playData"
+QT_MOC_LITERAL(14, 224, 17), // "audioStateChanged"
+QT_MOC_LITERAL(15, 242, 13), // "QAudio::State"
+QT_MOC_LITERAL(16, 256, 5) // "state"
 
     },
     "AudioPlayer\0audioReady\0\0d\0on_btnPlay_clicked\0"
@@ -50,7 +53,8 @@ QT_MOC_LITERAL(13, 215, 8) // "playData"
     "position\0on_sliderVolume_sliderMoved\0"
     "on_positionChanged\0on_durationChanged\0"
     "on_btnResume_clicked\0processPendingDatagrams\0"
-    "playData"
+    "playData\0audioStateChanged\0QAudio::State\0"
+    "state"
 };
 #undef QT_MOC_LITERAL
 
@@ -60,7 +64,7 @@ static const uint qt_meta_data_AudioPlayer[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      10,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -68,18 +72,19 @@ static const uint qt_meta_data_AudioPlayer[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   64,    2, 0x06 /* Public */,
+       1,    1,   69,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       4,    0,   67,    2, 0x08 /* Private */,
-       5,    0,   68,    2, 0x08 /* Private */,
-       6,    1,   69,    2, 0x08 /* Private */,
-       8,    1,   72,    2, 0x08 /* Private */,
-       9,    1,   75,    2, 0x08 /* Private */,
-      10,    1,   78,    2, 0x08 /* Private */,
-      11,    0,   81,    2, 0x08 /* Private */,
-      12,    0,   82,    2, 0x08 /* Private */,
-      13,    1,   83,    2, 0x08 /* Private */,
+       4,    0,   72,    2, 0x08 /* Private */,
+       5,    0,   73,    2, 0x08 /* Private */,
+       6,    1,   74,    2, 0x08 /* Private */,
+       8,    1,   77,    2, 0x08 /* Private */,
+       9,    1,   80,    2, 0x08 /* Private */,
+      10,    1,   83,    2, 0x08 /* Private */,
+      11,    0,   86,    2, 0x08 /* Private */,
+      12,    0,   87,    2, 0x08 /* Private */,
+      13,    1,   88,    2, 0x08 /* Private */,
+      14,    1,   91,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QByteArray,    3,
@@ -94,6 +99,7 @@ static const uint qt_meta_data_AudioPlayer[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QByteArray,    3,
+    QMetaType::Void, 0x80000000 | 15,   16,
 
        0        // eod
 };
@@ -113,7 +119,19 @@ void AudioPlayer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 7: _t->on_btnResume_clicked(); break;
         case 8: _t->processPendingDatagrams(); break;
         case 9: _t->playData((*reinterpret_cast< QByteArray(*)>(_a[1]))); break;
+        case 10: _t->audioStateChanged((*reinterpret_cast< QAudio::State(*)>(_a[1]))); break;
         default: ;
+        }
+    } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+        switch (_id) {
+        default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+        case 10:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<int*>(_a[0]) = -1; break;
+            case 0:
+                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QAudio::State >(); break;
+            }
+            break;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
@@ -152,13 +170,13 @@ int AudioPlayer::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 10)
-            *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 10;
+        if (_id < 11)
+            qt_static_metacall(this, _c, _id, _a);
+        _id -= 11;
     }
     return _id;
 }

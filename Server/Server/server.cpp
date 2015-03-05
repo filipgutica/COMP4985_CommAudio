@@ -87,6 +87,11 @@ void StartServer(int port, LPVOID app, QVector<QString> songList)
 
 }
 
+/***********************************************************
+ *
+ * Set up the multicast socket
+ *
+ **********************************************************/
 void StartMulticast()
 {
     HANDLE hThread;
@@ -146,6 +151,69 @@ void StartMulticast()
     }
 
 }
+
+/**********************************************************************
+ *
+ * Multicast thread for streaming songs to multicast group.
+ *
+ *********************************************************************/
+DWORD WINAPI MulticastThread(LPVOID lpParameter)
+{
+    SOCKADDR_IN stDstAddr;
+    QString send;
+    WSABUF *buf;
+    DWORD sent;
+    DWORD flags;
+    OVERLAPPED *ol;
+    char temp[AUDIO_BUFFER];
+    int i = 0;
+
+    buf = (WSABUF*) malloc(sizeof(WSABUF));
+
+    /* Assign our destination address */
+      stDstAddr.sin_family =      AF_INET;
+      stDstAddr.sin_addr.s_addr = inet_addr(TIMECAST_ADDR);
+      stDstAddr.sin_port =        htons(TIMECAST_PORT);
+
+    int ret;
+    QFile file("../Music/David_Guetta_Showtek_-_Bad_ft.wav");
+
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        qDebug() << "cannot find file";
+        return 0;
+    }
+
+
+    while(TRUE)
+    {
+
+        if ((file.read(temp, AUDIO_BUFFER)))
+        {
+            buf->buf = temp;
+            buf->len = AUDIO_BUFFER;
+            ZeroMemory((&ol), sizeof(ol));
+
+            i+= AUDIO_BUFFER;
+            Sleep(32);
+
+            if(ret = WSASendTo(MulticastSocket,buf, 1, &sent, 0, (struct sockaddr*)&stDstAddr,sizeof(stDstAddr), ol, NULL) < 0 )
+            {
+                qDebug() << "Sendto failed error: " << WSAGetLastError();
+                return 1;
+            }
+
+
+            file.seek(i);
+            memset(temp, 0, sizeof(temp));
+        }
+
+    }
+
+    return 0;
+}
+
+
 
 /**********************************************************************
  *
@@ -395,58 +463,4 @@ DWORD ReadSocket(SOCKET *sock, WSABUF *buf, DWORD fl,  WSAOVERLAPPED *ol)
     return rb;
 }
 
-DWORD WINAPI MulticastThread(LPVOID lpParameter)
-{
-    SOCKADDR_IN stDstAddr;
-    QString send;
-    WSABUF *buf;
-    DWORD sent;
-    DWORD flags;
-    OVERLAPPED *ol;
-    char temp[AUDIO_BUFFER];
-    int i = 0;
-
-    buf = (WSABUF*) malloc(sizeof(WSABUF));
-
-    /* Assign our destination address */
-      stDstAddr.sin_family =      AF_INET;
-      stDstAddr.sin_addr.s_addr = inet_addr(TIMECAST_ADDR);
-      stDstAddr.sin_port =        htons(TIMECAST_PORT);
-
-    int ret;
-    QFile file("../Music/David_Guetta_Showtek_-_Bad_ft.wav");
-
-    if (!file.open(QIODevice::ReadOnly))
-    {
-        qDebug() << "cannot find file";
-        return 0;
-    }
-
-
-    while(TRUE)
-    {
-
-        if ((file.read(temp, AUDIO_BUFFER)))
-        {
-            buf->buf = temp;
-            buf->len = AUDIO_BUFFER;
-            ZeroMemory((&ol), sizeof(ol));
-
-            i+= AUDIO_BUFFER;
-            //Sleep(32);
-            if(ret = WSASendTo(MulticastSocket,buf, 1, &sent, 0, (struct sockaddr*)&stDstAddr,sizeof(stDstAddr), ol, NULL) < 0 )
-            {
-                qDebug() << "Sendto failed error: " << WSAGetLastError();
-                return 1;
-            }
-
-
-            file.seek(i);
-            memset(temp, 0, sizeof(temp));
-        }
-
-    }
-
-    return 0;
-}
 
