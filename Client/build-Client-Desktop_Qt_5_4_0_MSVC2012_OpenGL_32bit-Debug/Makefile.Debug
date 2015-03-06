@@ -46,21 +46,28 @@ OBJECTS_DIR   = debug
 SOURCES       = ..\Client\main.cpp \
 		..\Client\application.cpp \
 		..\Client\audioplayer.cpp \
-		..\Client\client.cpp debug\moc_application.cpp \
-		debug\moc_audioplayer.cpp
+		..\Client\client.cpp \
+		..\Client\audiothread.cpp debug\moc_application.cpp \
+		debug\moc_audioplayer.cpp \
+		debug\moc_audiothread.cpp
 OBJECTS       = debug\main.obj \
 		debug\application.obj \
 		debug\audioplayer.obj \
 		debug\client.obj \
+		debug\audiothread.obj \
 		debug\moc_application.obj \
-		debug\moc_audioplayer.obj
+		debug\moc_audioplayer.obj \
+		debug\moc_audiothread.obj
 
 DIST          =  ..\Client\application.h \
 		..\Client\audioplayer.h \
-		..\Client\client.h ..\Client\main.cpp \
+		..\Client\client.h \
+		..\Client\audiothread.h \
+		..\Client\globals.h ..\Client\main.cpp \
 		..\Client\application.cpp \
 		..\Client\audioplayer.cpp \
-		..\Client\client.cpp
+		..\Client\client.cpp \
+		..\Client\audiothread.cpp
 QMAKE_TARGET  = Client
 DESTDIR        = debug\ #avoid trailing-slash linebreak
 TARGET         = Client.exe
@@ -161,7 +168,7 @@ dist:
 	$(ZIP) Client.zip $(SOURCES) $(DIST) ..\Client\Client.pro C:\Qt\5.4\msvc2012_opengl\mkspecs\features\spec_pre.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\common\shell-win32.conf C:\Qt\5.4\msvc2012_opengl\mkspecs\qconfig.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_axbase.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_axbase_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_axcontainer.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_axcontainer_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_axserver.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_axserver_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_bluetooth.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_bluetooth_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_bootstrap_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_clucene_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_concurrent.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_concurrent_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_core.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_core_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_declarative.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_declarative_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_designer.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_designer_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_designercomponents_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_enginio.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_enginio_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_gui.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_gui_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_help.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_help_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_location.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_location_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_multimedia.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_multimedia_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_multimediawidgets.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_multimediawidgets_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_network.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_network_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_nfc.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_nfc_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_opengl.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_opengl_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_openglextensions.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_openglextensions_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_platformsupport_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_positioning.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_positioning_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_printsupport.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_printsupport_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_qml.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_qml_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_qmldevtools_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_qmltest.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_qmltest_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_quick.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_quick_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_quickparticles_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_quickwidgets.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_script.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_script_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_scripttools.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_scripttools_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_sensors.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_sensors_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_serialport.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_serialport_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_sql.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_sql_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_svg.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_svg_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_testlib.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_testlib_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_uitools.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_uitools_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_webchannel.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_webchannel_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_webkit.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_webkit_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_webkitwidgets.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_webkitwidgets_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_websockets.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_websockets_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_webview.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_webview_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_widgets.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_widgets_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_winextras.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_winextras_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_xml.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_xml_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_xmlpatterns.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\modules\qt_lib_xmlpatterns_private.pri C:\Qt\5.4\msvc2012_opengl\mkspecs\features\qt_functions.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\qt_config.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\win32\qt_config.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\win32-msvc2012\qmake.conf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\spec_post.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\exclusive_builds.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\default_pre.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\win32\default_pre.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\resolve_config.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\exclusive_builds_post.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\default_post.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\build_pass.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\win32\rtti.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\precompile_header.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\warn_on.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\qt.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\resources.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\moc.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\win32\opengl.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\uic.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\win32\windows.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\testcase_targets.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\exceptions.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\yacc.prf C:\Qt\5.4\msvc2012_opengl\mkspecs\features\lex.prf ..\Client\Client.pro C:/Qt/5.4/msvc2012_opengl/lib/qtmaind.prl C:/Qt/5.4/msvc2012_opengl/lib/Qt5Cored.prl C:/Qt/5.4/msvc2012_opengl/lib/Qt5Multimediad.prl C:/Qt/5.4/msvc2012_opengl/lib/Qt5Widgetsd.prl C:/Qt/5.4/msvc2012_opengl/lib/Qt5Guid.prl C:/Qt/5.4/msvc2012_opengl/lib/Qt5Networkd.prl  NO_PCH_SOURCES RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES FORMS YACCSOURCES YACCSOURCES LEXSOURCES 
 
 clean: compiler_clean 
-	-$(DEL_FILE) debug\main.obj debug\application.obj debug\audioplayer.obj debug\client.obj debug\moc_application.obj debug\moc_audioplayer.obj
+	-$(DEL_FILE) debug\main.obj debug\application.obj debug\audioplayer.obj debug\client.obj debug\audiothread.obj debug\moc_application.obj debug\moc_audioplayer.obj debug\moc_audiothread.obj
 	-$(DEL_FILE) debug\Client.exp debug\Client.ilk debug\Client.idb debug\Client.exe.embed.manifest debug\Client.exe_manifest.rc debug\Client.exe_manifest.res
 
 distclean: clean 
@@ -179,9 +186,9 @@ compiler_no_pch_compiler_make_all:
 compiler_no_pch_compiler_clean:
 compiler_rcc_make_all:
 compiler_rcc_clean:
-compiler_moc_header_make_all: debug\moc_application.cpp debug\moc_audioplayer.cpp
+compiler_moc_header_make_all: debug\moc_application.cpp debug\moc_audioplayer.cpp debug\moc_audiothread.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) debug\moc_application.cpp debug\moc_audioplayer.cpp
+	-$(DEL_FILE) debug\moc_application.cpp debug\moc_audioplayer.cpp debug\moc_audiothread.cpp
 debug\moc_application.cpp: C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QMainWindow \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qmainwindow.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qwidget.h \
@@ -451,12 +458,11 @@ debug\moc_application.cpp: C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QMainWind
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudioformat.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qtmultimediadefs.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qmultimedia.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\QAudioOutput \
-		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudiooutput.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudio.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudiodeviceinfo.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\QAudioInput \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudioinput.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudio.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudiodeviceinfo.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QDataStream \
 		..\Client\application.h
 	C:\Qt\5.4\msvc2012_opengl\bin\moc.exe $(DEFINES) -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -ID:/School/BCIT/Semester4/COMP4985_AmanWindows/COMM_AUDIO/Client/Client -IC:/Qt/5.4/msvc2012_opengl/include -IC:/Qt/5.4/msvc2012_opengl/include/QtMultimedia -IC:/Qt/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/5.4/msvc2012_opengl/include/QtNetwork -IC:/Qt/5.4/msvc2012_opengl/include/QtCore -I. ..\Client\application.h -o debug\moc_application.cpp
 
@@ -723,14 +729,67 @@ debug\moc_audioplayer.cpp: C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QDialog \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudioformat.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qtmultimediadefs.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qmultimedia.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\QAudioOutput \
-		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudiooutput.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudio.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudiodeviceinfo.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\QAudioInput \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudioinput.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudio.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudiodeviceinfo.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QDataStream \
 		..\Client\audioplayer.h
 	C:\Qt\5.4\msvc2012_opengl\bin\moc.exe $(DEFINES) -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -ID:/School/BCIT/Semester4/COMP4985_AmanWindows/COMM_AUDIO/Client/Client -IC:/Qt/5.4/msvc2012_opengl/include -IC:/Qt/5.4/msvc2012_opengl/include/QtMultimedia -IC:/Qt/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/5.4/msvc2012_opengl/include/QtNetwork -IC:/Qt/5.4/msvc2012_opengl/include/QtCore -I. ..\Client\audioplayer.h -o debug\moc_audioplayer.cpp
+
+debug\moc_audiothread.cpp: C:\Qt\5.4\msvc2012_opengl\include\QtCore\QThread \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qthread.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qobject.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qobjectdefs.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qnamespace.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qglobal.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qconfig.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qfeatures.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qsystemdetection.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qprocessordetection.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qcompilerdetection.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qtypeinfo.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qtypetraits.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qsysinfo.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qlogging.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qflags.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qbasicatomic.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_bootstrap.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qgenericatomic.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_msvc.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_armv7.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_armv6.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_armv5.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_ia64.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_mips.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_x86.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_cxx11.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_gcc.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_unix.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qglobalstatic.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qmutex.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qnumeric.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qobjectdefs_impl.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qstring.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qchar.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qbytearray.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qrefcount.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qarraydata.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qstringbuilder.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qlist.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qalgorithms.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qiterator.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qbytearraylist.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qcoreevent.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qscopedpointer.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qmetatype.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qvarlengtharray.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qcontainerfwd.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qisenum.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qobject_impl.h \
+		..\Client\audiothread.h
+	C:\Qt\5.4\msvc2012_opengl\bin\moc.exe $(DEFINES) -D_MSC_VER=1700 -D_WIN32 -IC:/Qt/5.4/msvc2012_opengl/mkspecs/win32-msvc2012 -ID:/School/BCIT/Semester4/COMP4985_AmanWindows/COMM_AUDIO/Client/Client -IC:/Qt/5.4/msvc2012_opengl/include -IC:/Qt/5.4/msvc2012_opengl/include/QtMultimedia -IC:/Qt/5.4/msvc2012_opengl/include/QtWidgets -IC:/Qt/5.4/msvc2012_opengl/include/QtGui -IC:/Qt/5.4/msvc2012_opengl/include/QtNetwork -IC:/Qt/5.4/msvc2012_opengl/include/QtCore -I. ..\Client\audiothread.h -o debug\moc_audiothread.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -1025,12 +1084,11 @@ debug\main.obj: ..\Client\main.cpp ..\Client\application.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudioformat.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qtmultimediadefs.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qmultimedia.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\QAudioOutput \
-		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudiooutput.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudio.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudiodeviceinfo.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\QAudioInput \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudioinput.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudio.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudiodeviceinfo.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QDataStream \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QApplication \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qapplication.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qdesktopwidget.h \
@@ -1307,12 +1365,11 @@ debug\application.obj: ..\Client\application.cpp ..\Client\application.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudioformat.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qtmultimediadefs.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qmultimedia.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\QAudioOutput \
-		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudiooutput.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudio.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudiodeviceinfo.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\QAudioInput \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudioinput.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudio.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudiodeviceinfo.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QDataStream \
 		ui_application.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QAction \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qaction.h \
@@ -1621,12 +1678,11 @@ debug\audioplayer.obj: ..\Client\audioplayer.cpp ..\Client\audioplayer.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudioformat.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qtmultimediadefs.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qmultimedia.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\QAudioOutput \
-		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudiooutput.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudio.h \
-		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudiodeviceinfo.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\QAudioInput \
 		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudioinput.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudio.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudiodeviceinfo.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QDataStream \
 		ui_audioplayer.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QAction \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qaction.h \
@@ -1667,7 +1723,11 @@ debug\audioplayer.obj: ..\Client\audioplayer.cpp ..\Client\audioplayer.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qpushbutton.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\qabstractbutton.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QSlider \
-		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QWidget
+		C:\Qt\5.4\msvc2012_opengl\include\QtWidgets\QWidget \
+		..\Client\globals.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QBuffer \
+		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\QAudioOutput \
+		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudiooutput.h
 
 debug\client.obj: ..\Client\client.cpp ..\Client\client.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QString \
@@ -1707,9 +1767,82 @@ debug\client.obj: ..\Client\client.cpp ..\Client\client.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qarraydata.h \
 		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qstringbuilder.h
 
+debug\audiothread.obj: ..\Client\audiothread.cpp ..\Client\audiothread.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QThread \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qthread.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qobject.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qobjectdefs.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qnamespace.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qglobal.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qconfig.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qfeatures.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qsystemdetection.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qprocessordetection.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qcompilerdetection.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qtypeinfo.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qtypetraits.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qsysinfo.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qlogging.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qflags.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qbasicatomic.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_bootstrap.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qgenericatomic.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_msvc.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_armv7.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_armv6.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_armv5.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_ia64.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_mips.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_x86.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_cxx11.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_gcc.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qatomic_unix.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qglobalstatic.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qmutex.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qnumeric.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qobjectdefs_impl.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qstring.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qchar.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qbytearray.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qrefcount.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qarraydata.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qstringbuilder.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qlist.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qalgorithms.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qiterator.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qbytearraylist.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qcoreevent.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qscopedpointer.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qmetatype.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qvarlengtharray.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qcontainerfwd.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qisenum.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qobject_impl.h \
+		..\Client\globals.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\QBuffer \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qbuffer.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qiodevice.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\QAudioOutput \
+		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudiooutput.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qtmultimediadefs.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qmultimedia.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qpair.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudio.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudioformat.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qshareddata.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qhash.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtMultimedia\qaudiodeviceinfo.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qstringlist.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qdatastream.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qregexp.h \
+		C:\Qt\5.4\msvc2012_opengl\include\QtCore\qstringmatcher.h
+
 debug\moc_application.obj: debug\moc_application.cpp 
 
 debug\moc_audioplayer.obj: debug\moc_audioplayer.cpp 
+
+debug\moc_audiothread.obj: debug\moc_audiothread.cpp 
 
 ####### Install
 

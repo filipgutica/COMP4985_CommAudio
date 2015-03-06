@@ -7,7 +7,6 @@
 #include <QtNetwork>
 #include <QHostAddress>
 #include <QAudioFormat>
-#include <QAudioOutput>
 #include <QAudioInput>
 #include <QDataStream>
 
@@ -54,7 +53,6 @@ private:
     QUdpSocket *udpSocket;
     QHostAddress groupAddress;
     QAudioFormat format;
-    QAudioOutput *audioOutput;
     QIODevice *outputDevice;
     QString str;
     QBuffer *buff;

@@ -20,6 +20,14 @@
 ---------------------------------------------------------------------------------------*/
 #include "audioplayer.h"
 #include "ui_audioplayer.h"
+#include "globals.h"
+#include "audiothread.h"
+
+QAudioOutput *audioOutput;
+QIODevice *ioOutput;
+QBuffer *buffer;
+
+QSemaphore sem(1);
 
 /*------------------------------------------------------------------------------
 --	FUNCTION: AudioPlayer()
@@ -35,7 +43,9 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 
     ui->setupUi(this);
 
-    buff = new QBuffer();
+    //buff = new QBuffer();
+    buffer = new QBuffer();
+
 
     // Hardcoded multicast address
     groupAddress = QHostAddress("234.5.6.7");
@@ -70,7 +80,11 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
     connect(audioOutput, SIGNAL(stateChanged(QAudio::State)), this, SLOT(audioStateChanged(QAudio::State)));
 
     //For reading directly from the socket... no buferring
-    outputDevice = audioOutput->start();
+    ioOutput = audioOutput->start();
+
+    AudioThread *thrd = new AudioThread(this);
+
+    thrd->start();
 }
 
 /*------------------------------------------------------------------------------
@@ -250,7 +264,7 @@ void AudioPlayer::processPendingDatagrams()
     if (udpSocket->hasPendingDatagrams())
     {
         bytecount += udpSocket->pendingDatagramSize();
-        qDebug() << "Bytes: " << bytecount;
+        //qDebug() << "Bytes: " << bytecount;
         datagram.resize(udpSocket->pendingDatagramSize());
         udpSocket->readDatagram(datagram.data(), datagram.size());
     }
@@ -274,21 +288,22 @@ void AudioPlayer::processPendingDatagrams()
 void AudioPlayer::playData(QByteArray d)
 {
     // buffering component... work in progress
-    /*data.append(d.data(), d.size());
+    //data.append(d.data(), d.size());
 
     //Let it buffer up at least half a second of play time then start
     //Problem is we need a circular buffer because like this it will wait for half a second
     //then play for half a second then wait then play ...
-    if (data.size() % 319644 == 0)
-    {
-        buff->close();
-        buff->setData(data);
-        buff->open(QIODevice::ReadOnly);
-        audioOutput->start(buff);
-    }*/
+
+    sem.acquire();
+    buffer->open(QIODevice::ReadWrite);
+    buffer->write(d.data(), d.size());
+    buffer->seek(bytecount);
+
+    qDebug() << buffer->size();
+    sem.release();
 
     // For now, play bytes as they come in.. works for localhost or very fast networks
-    outputDevice->write(d.data(), d.size());
+    //outputDevice->write(d.data(), d.size());
 }
 
 /*------------------------------------------------------------------------------

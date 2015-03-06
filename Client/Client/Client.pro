@@ -17,11 +17,14 @@ TEMPLATE = app
 SOURCES += main.cpp\
         application.cpp \
     audioplayer.cpp \
-    client.cpp
+    client.cpp \
+    audiothread.cpp
 
 HEADERS  += application.h \
     audioplayer.h \
-    client.h
+    client.h \
+    audiothread.h \
+    globals.h
 
 FORMS    += application.ui \
     audioplayer.ui

@@ -3,14 +3,15 @@
 
 #include <QThread>
 
-#include "common.h"
+
 
 class AudioThread : public QThread
 {
     Q_OBJECT
 public:
-    explicit AudioThread(QObject *parent = 0);
+    AudioThread(QObject *parent = 0);
     ~AudioThread();
+    void run();
 };
 
 #endif // AUDIOTHREAD_H
