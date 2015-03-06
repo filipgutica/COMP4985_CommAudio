@@ -9,6 +9,7 @@
 #include <QAudioFormat>
 #include <QAudioInput>
 #include <QDataStream>
+#include "audiothread.h"
 
 
 namespace Ui {
@@ -57,6 +58,7 @@ private:
     QString str;
     QBuffer *buff;
     QByteArray data;
+    AudioThread *thrd;
     int bytecount;
 
 };

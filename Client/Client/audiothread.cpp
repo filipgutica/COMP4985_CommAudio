@@ -15,16 +15,22 @@ AudioThread::~AudioThread()
 
 void AudioThread::run()
 {
+    int nbytes;
+    char temp[10000 + 1];
+
     while (true)
     {
-        if (buffer->size() >= 352800 && audioOutput != NULL)
+        if (audioOutput != NULL)
         {
            // qDebug() << "Playing music";
-            sem.acquire();
+            sem2.acquire();
             buffer->open(QIODevice::ReadOnly);
 
-            ioOutput->write(buffer->data(), buffer->size());
-            sem.release();
+            buffer->read(temp, 10000);
+
+            nbytes = ioOutput->write(temp, 10000);
+
+            sem1.release();
 
             //break;
         }

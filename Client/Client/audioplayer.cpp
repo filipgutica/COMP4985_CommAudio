@@ -21,13 +21,13 @@
 #include "audioplayer.h"
 #include "ui_audioplayer.h"
 #include "globals.h"
-#include "audiothread.h"
 
 QAudioOutput *audioOutput;
 QIODevice *ioOutput;
 QBuffer *buffer;
 
-QSemaphore sem(1);
+QSemaphore sem1(1);
+QSemaphore sem2(0);
 
 /*------------------------------------------------------------------------------
 --	FUNCTION: AudioPlayer()
@@ -82,7 +82,7 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
     //For reading directly from the socket... no buferring
     ioOutput = audioOutput->start();
 
-    AudioThread *thrd = new AudioThread(this);
+    thrd = new AudioThread(this);
 
     thrd->start();
 }
@@ -100,6 +100,7 @@ AudioPlayer::~AudioPlayer()
 {
     // Close the socket
     udpSocket->close();
+    thrd->terminate();
     delete ui;
 }
 
@@ -290,17 +291,14 @@ void AudioPlayer::playData(QByteArray d)
     // buffering component... work in progress
     //data.append(d.data(), d.size());
 
-    //Let it buffer up at least half a second of play time then start
-    //Problem is we need a circular buffer because like this it will wait for half a second
-    //then play for half a second then wait then play ...
 
-    sem.acquire();
+    sem1.acquire();
     buffer->open(QIODevice::ReadWrite);
     buffer->write(d.data(), d.size());
     buffer->seek(bytecount);
 
     qDebug() << buffer->size();
-    sem.release();
+    sem2.release();
 
     // For now, play bytes as they come in.. works for localhost or very fast networks
     //outputDevice->write(d.data(), d.size());

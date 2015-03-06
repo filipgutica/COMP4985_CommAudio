@@ -9,7 +9,8 @@
 extern QIODevice *ioOutput;
 extern QBuffer *buffer;
 extern QAudioOutput *audioOutput;
-extern QSemaphore sem;
+extern QSemaphore sem1;
+extern QSemaphore sem2;
 
 #endif // GLOBALS
 
