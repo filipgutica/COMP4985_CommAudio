@@ -371,8 +371,8 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
             {
                 strcat(temp, (char*)SongList.at(i).toUtf8().constData());
                 strcat(temp, "\n");
+
             }
-            qDebug() << "sending: " << temp;
             SI->DataBuf.buf = temp;
             SI->DataBuf.len = strlen(temp);
 
