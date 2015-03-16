@@ -12,6 +12,9 @@ public:
     AudioThread(QObject *parent = 0);
     ~AudioThread();
     void run();
+
+private:
+    int nBytes;
 };
 
 #endif // AUDIOTHREAD_H

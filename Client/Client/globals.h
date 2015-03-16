@@ -1,6 +1,8 @@
 #ifndef GLOBALS
 #define GLOBALS
 
+#define MAX_BUFFSIZE 1024 * 5000
+
 #include <QIODevice>
 #include <QBuffer>
 #include <QAudioOutput>

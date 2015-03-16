@@ -195,7 +195,7 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
             ZeroMemory((&ol), sizeof(ol));
 
             i+= AUDIO_BUFFER;
-            //Sleep(32);
+           // Sleep(32);
 
             if(ret = WSASendTo(MulticastSocket,buf, 1, &sent, 0, (struct sockaddr*)&stDstAddr,sizeof(stDstAddr), ol, NULL) < 0 )
             {

@@ -292,13 +292,19 @@ void AudioPlayer::playData(QByteArray d)
     //data.append(d.data(), d.size());
 
 
-    sem1.acquire();
+  //  sem1.acquire();
     buffer->open(QIODevice::ReadWrite);
     buffer->write(d.data(), d.size());
     buffer->seek(bytecount);
 
     qDebug() << buffer->size();
-    sem2.release();
+
+    if (buffer->size() >= MAX_BUFFSIZE)
+    {
+        bytecount = 0;
+        buffer->seek(0);
+    }
+   // sem2.release();
 
     // For now, play bytes as they come in.. works for localhost or very fast networks
     //outputDevice->write(d.data(), d.size());
