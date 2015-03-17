@@ -20,7 +20,7 @@
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_AudioPlayer_t {
     QByteArrayData data[18];
-    char stringdata[276];
+    char stringdata[275];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -46,7 +46,7 @@ QT_MOC_LITERAL(13, 215, 8), // "playData"
 QT_MOC_LITERAL(14, 224, 17), // "audioStateChanged"
 QT_MOC_LITERAL(15, 242, 13), // "QAudio::State"
 QT_MOC_LITERAL(16, 256, 5), // "state"
-QT_MOC_LITERAL(17, 262, 13) // "writeMoreData"
+QT_MOC_LITERAL(17, 262, 12) // "onTimerEvent"
 
     },
     "AudioPlayer\0audioReady\0\0d\0on_btnPlay_clicked\0"
@@ -55,7 +55,7 @@ QT_MOC_LITERAL(17, 262, 13) // "writeMoreData"
     "on_positionChanged\0on_durationChanged\0"
     "on_btnResume_clicked\0processPendingDatagrams\0"
     "playData\0audioStateChanged\0QAudio::State\0"
-    "state\0writeMoreData"
+    "state\0onTimerEvent"
 };
 #undef QT_MOC_LITERAL
 
@@ -123,7 +123,7 @@ void AudioPlayer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 8: _t->processPendingDatagrams(); break;
         case 9: _t->playData((*reinterpret_cast< QByteArray(*)>(_a[1]))); break;
         case 10: _t->audioStateChanged((*reinterpret_cast< QAudio::State(*)>(_a[1]))); break;
-        case 11: _t->writeMoreData(); break;
+        case 11: _t->onTimerEvent(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {

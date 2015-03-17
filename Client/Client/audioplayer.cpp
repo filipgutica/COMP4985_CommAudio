@@ -67,9 +67,11 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
     // Setup the audioOuput address with the desired format
     audioOutput = new QAudioOutput(format, this);
     audioOutput->setBufferSize(AUDIO_BUFFSIZE);
-    audioOutput->setNotifyInterval(50);
+
+    timer = new QTimer(this);
 
     bytecount = 0;
+    nBytes = 0;
 
     // Connect the udp readyReady signal with the processPendingDatagrams slot
     connect(udpSocket, SIGNAL(readyRead()),this, SLOT(processPendingDatagrams()));
@@ -80,7 +82,9 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
     // Connect audioOutput object's stateChanged signal with our audioStateChanged SLOT to handle state changes in the player
     connect(audioOutput, SIGNAL(stateChanged(QAudio::State)), this, SLOT(audioStateChanged(QAudio::State)));
 
-    connect(audioOutput, SIGNAL(notify()), this, SLOT(writeMoreData()));
+    connect(timer, SIGNAL(timeout()), this, SLOT(onTimerEvent()));
+
+    timer->setInterval(15 * 9);
 
     //For reading directly from the socket... no buferring
     ioOutput = audioOutput->start();
@@ -295,7 +299,20 @@ void AudioPlayer::processPendingDatagrams()
 void AudioPlayer::playData(QByteArray d)
 {
     // buffering component... work in progress
-    //data.append(d.data(), d.size());
+
+
+    /*if (buf_pos <= 50)
+    {
+        qDebug() << "Socket side: " << buf_pos;
+        data.append(data.data());
+        buf_pos++;
+    }
+    else
+    {
+        timer->start();
+        data.clear();
+        buf_pos = 0;
+    }
 
    // sem1.acquire();
     buffer->open(QIODevice::ReadWrite);
@@ -308,32 +325,38 @@ void AudioPlayer::playData(QByteArray d)
     {
         bytecount = 0;
         buffer->seek(0);
-    }
+        timer->start();
+    }*/
    // sem2.release();
 
    // For now, play bytes as they come in.. works for localhost or very fast networks
-   // ioOutput->write(d.data(), d.size());
+   ioOutput->write(d.data(), d.size());
 }
 
 // Called when 50ms is ready
-void AudioPlayer::writeMoreData()
+void AudioPlayer::onTimerEvent()
 {
-    int nBytes;
-
-    buffer->open(QIODevice::ReadOnly);
-
-    nBytes += ioOutput->write(buffer->data().constData(), 8096);
-    qDebug() << "Audio side: " << nBytes;
-    ioOutput->waitForBytesWritten(1000);
-    buffer->seek(nBytes);
-
-    if (nBytes >= MAX_BUFFSIZE)
+    if (buffer->size() > 0)
     {
-        nBytes = 0;
-        buffer->seek(0);
+        buffer->open(QIODevice::ReadOnly);
+
+        nBytes += ioOutput->write(buffer->data().constData(), 512);
+        qDebug() << "Audio side: " << nBytes;
+        ioOutput->waitForBytesWritten(1000);
+        buffer->seek(nBytes);
+
+
+        if (nBytes >= BufferSize)
+        {
+            nBytes = 0;
+            buffer->seek(0);
+        }
     }
 
-    qDebug() << " Notified";
+   /* if (!data.isEmpty())
+    {
+        ioOutput->write(data);
+    }*/
 }
 
 /*------------------------------------------------------------------------------

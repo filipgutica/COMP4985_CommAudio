@@ -9,6 +9,7 @@
 #include <QAudioFormat>
 #include <QAudioInput>
 #include <QDataStream>
+#include <QTimer>
 #include "audiothread.h"
 
 const int BufferSize   = 44100;
@@ -47,7 +48,7 @@ private slots:
 
     void audioStateChanged(QAudio::State state);
 
-    void writeMoreData();
+    void onTimerEvent();
 
 signals:
     void audioReady(QByteArray d);
@@ -63,9 +64,9 @@ private:
     QByteArray data;
     AudioThread *thrd;
     int bytecount;
-    signed short   aubuffer[BufferSize];     // Audio circular buffer
-    int                      readpointer;           // Pointer to the portion of the audio buffer                                              // to be read.
-    int                      writepointer;
+    int nBytes;
+    QTimer *timer;
+    int buf_pos;
 
 };
 
