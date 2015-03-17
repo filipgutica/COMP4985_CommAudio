@@ -1,7 +1,7 @@
 #ifndef GLOBALS
 #define GLOBALS
 
-#define MAX_BUFFSIZE 1024 * 5000
+#define MAX_BUFFSIZE 44100
 
 #include <QIODevice>
 #include <QBuffer>

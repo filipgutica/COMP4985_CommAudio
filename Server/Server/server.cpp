@@ -184,10 +184,8 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
         return 0;
     }
 
-
     while(TRUE)
     {
-
         if ((file.read(temp, AUDIO_BUFFER)))
         {
             buf->buf = temp;
@@ -195,9 +193,9 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
             ZeroMemory((&ol), sizeof(ol));
 
             i+= AUDIO_BUFFER;
-           // Sleep(32);
 
-            if(ret = WSASendTo(MulticastSocket,buf, 1, &sent, 0, (struct sockaddr*)&stDstAddr,sizeof(stDstAddr), ol, NULL) < 0 )
+
+            if(ret = WSASendTo(MulticastSocket, buf, 1, &sent, 0, (struct sockaddr*)&stDstAddr,sizeof(stDstAddr), ol, NULL) < 0 )
             {
                 qDebug() << "Sendto failed error: " << WSAGetLastError();
                 return 1;
@@ -211,7 +209,6 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
         {
             file.seek(0);
         }
-
     }
 
     return 0;

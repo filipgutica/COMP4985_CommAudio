@@ -11,6 +11,7 @@
 #include <QDataStream>
 #include "audiothread.h"
 
+const int BufferSize   = 44100;
 
 namespace Ui {
 class AudioPlayer;
@@ -46,6 +47,8 @@ private slots:
 
     void audioStateChanged(QAudio::State state);
 
+    void writeMoreData();
+
 signals:
     void audioReady(QByteArray d);
 
@@ -60,6 +63,9 @@ private:
     QByteArray data;
     AudioThread *thrd;
     int bytecount;
+    signed short   aubuffer[BufferSize];     // Audio circular buffer
+    int                      readpointer;           // Pointer to the portion of the audio buffer                                              // to be read.
+    int                      writepointer;
 
 };
 
