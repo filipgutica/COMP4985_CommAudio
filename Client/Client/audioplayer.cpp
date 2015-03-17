@@ -312,9 +312,9 @@ void AudioPlayer::playData(QByteArray d)
         timer->start();
         data.clear();
         buf_pos = 0;
-    }
+    }*/
 
-   // sem1.acquire();
+    // sem1.acquire();
     buffer->open(QIODevice::ReadWrite);
     buffer->write(d.data(), d.size());
     buffer->seek(bytecount);
@@ -326,11 +326,11 @@ void AudioPlayer::playData(QByteArray d)
         bytecount = 0;
         buffer->seek(0);
         timer->start();
-    }*/
+    }
    // sem2.release();
 
    // For now, play bytes as they come in.. works for localhost or very fast networks
-   ioOutput->write(d.data(), d.size());
+  // ioOutput->write(d.data(), d.size());
 }
 
 // Called when 50ms is ready
