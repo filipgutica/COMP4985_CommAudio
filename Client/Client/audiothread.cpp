@@ -25,11 +25,11 @@ void AudioThread::run()
            // qDebug() << "Playing music";
 
            // sem2.acquire();
-            if (buffer->size() >= (44100))
+            if (buffer->size() >= (MAX))
             {
                 buffer->open(QIODevice::ReadOnly);
 
-                nBytes += ioOutput->write(buffer->data().constData(), 8096);
+                nBytes += ioOutput->write(buffer->data().constData(), 8192);
                 qDebug() << "Audio side: " << nBytes;
                 ioOutput->waitForBytesWritten(1000);
                 buffer->seek(nBytes);

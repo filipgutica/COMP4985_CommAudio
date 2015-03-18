@@ -1,7 +1,7 @@
 #ifndef AUDIOPLAYER_H
 #define AUDIOPLAYER_H
 
-#define AUDIO_BUFFSIZE 60000
+#define AUDIO_BUFFSIZE 750000
 
 #include <QDialog>
 #include <QtNetwork>
@@ -48,7 +48,7 @@ private slots:
 
     void audioStateChanged(QAudio::State state);
 
-    void onTimerEvent();
+    void onTimeout();
 
 signals:
     void audioReady(QByteArray d);
@@ -64,6 +64,7 @@ private:
     QByteArray data;
     AudioThread *thrd;
     int bytecount;
+    int offset;
     int nBytes;
     QTimer *timer;
     int buf_pos;
