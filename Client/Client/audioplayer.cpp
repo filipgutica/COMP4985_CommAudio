@@ -68,8 +68,6 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
     audioOutput = new QAudioOutput(format, this);
     audioOutput->setBufferSize(AUDIO_BUFFSIZE);
 
-    timer = new QTimer(this);
-
     bytecount = 0;
     nBytes = 0;
 
@@ -82,18 +80,20 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
     // Connect audioOutput object's stateChanged signal with our audioStateChanged SLOT to handle state changes in the player
     connect(audioOutput, SIGNAL(stateChanged(QAudio::State)), this, SLOT(audioStateChanged(QAudio::State)));
 
+    /*timer = new QTimer(this);
+
     connect(timer, SIGNAL(timeout()), this, SLOT(onTimerEvent()));
 
-    timer->setInterval(15 * 9);
+    timer->setInterval(15 * 9);//*/
 
     //For reading directly from the socket... no buferring
     ioOutput = audioOutput->start();
 
    // writeMoreData();
 
-   // thrd = new AudioThread(this);
+    thrd = new AudioThread(this);
 
-  //  thrd->start();
+    thrd->start();
 }
 
 /*------------------------------------------------------------------------------
@@ -316,21 +316,22 @@ void AudioPlayer::playData(QByteArray d)
 
     // sem1.acquire();
     buffer->open(QIODevice::ReadWrite);
-    buffer->write(d.data(), d.size());
     buffer->seek(bytecount);
+    buffer->write(d.data(), d.size());
+    buffer->waitForBytesWritten(10);
+    //qDebug() << "Socket side: " << bytecount;
 
-    qDebug() << "Socket side: " << bytecount;
-
-    if (bytecount >= BufferSize)
+    if (bytecount >= AUDIO_BUFFSIZE)
     {
         bytecount = 0;
-        buffer->seek(0);
-        timer->start();
-    }
-   // sem2.release();
+        //buffer->seek(0);
+        //timer->start();
+    }//*/
+    // sem2.release();
 
-   // For now, play bytes as they come in.. works for localhost or very fast networks
-  // ioOutput->write(d.data(), d.size());
+    // For now, play bytes as they come in.. works for localhost or very fast networks
+    // ioOutput->write(d.data(), d.size());
+
 }
 
 // Called when 50ms is ready
@@ -353,11 +354,11 @@ void AudioPlayer::onTimerEvent()
         }
     }
 
-   /* if (!data.isEmpty())
+    if (!data.isEmpty())
     {
         ioOutput->write(data);
-    }*/
-}
+    }
+}//*/
 
 /*------------------------------------------------------------------------------
 --	FUNCTION: audioStateChanged(QAudio::State)

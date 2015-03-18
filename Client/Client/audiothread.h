@@ -3,8 +3,6 @@
 
 #include <QThread>
 
-
-
 class AudioThread : public QThread
 {
     Q_OBJECT
