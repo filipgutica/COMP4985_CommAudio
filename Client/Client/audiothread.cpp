@@ -25,7 +25,7 @@ void AudioThread::run()
            // qDebug() << "Playing music";
 
            // sem2.acquire();
-            if (buffer->size() >= (MAX))
+            if (buffer->size() >= (MAX_BUFFSIZE))
             {
                 buffer->open(QIODevice::ReadOnly);
 

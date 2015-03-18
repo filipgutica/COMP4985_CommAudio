@@ -1,7 +1,7 @@
 #ifndef AUDIOPLAYER_H
 #define AUDIOPLAYER_H
 
-#define AUDIO_BUFFSIZE 750000
+#define AUDIO_BUFFSIZE 88200
 
 #include <QDialog>
 #include <QtNetwork>
