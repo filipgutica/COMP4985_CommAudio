@@ -17,7 +17,7 @@ class Application : public QMainWindow
 
 public:
     explicit Application(QWidget *parent = 0);
-    void ConnectTCP();
+    void ConnectTCP(QString, QString);
     void WriteTCP(QByteArray);
     void UpdatePlaylist();
     ~Application();
@@ -39,8 +39,8 @@ private:
 
     QTcpSocket *msock;
     QByteArray playlist;
-    int expectedSize = 0;
-    int currentSize = 0;
+    int expectedSize;
+    int currentSize;
 
 };
 

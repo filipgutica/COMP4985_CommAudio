@@ -8,6 +8,9 @@ Application::Application(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->listMusic->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    expectedSize = 0;
+    currentSize = 0;
 }
 
 Application::~Application()
@@ -32,7 +35,7 @@ void Application::on_actionAudio_Stream_triggered()
 
     }
     qDebug() << "IP" + ip + "\nPORT" + port;
-    ConnectTCP();
+    ConnectTCP(ip, port);
 
 }
 
@@ -49,12 +52,12 @@ void Application::on_actionVOIP_triggered()
 }
 
 
-void Application::ConnectTCP()
+void Application::ConnectTCP(QString ip, QString port)
 {
     msock = new QTcpSocket( this );
     connect( msock, SIGNAL(readyRead()), SLOT(ReadTCP()) );
 
-    msock->connectToHost("127.0.0.1", 7000);
+    msock->connectToHost(ip, port.toInt());
 
     char* tcpChar = "tcp";
     QByteArray tcpbytes(tcpChar, sizeof(tcpChar));

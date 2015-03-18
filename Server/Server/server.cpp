@@ -363,7 +363,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
 
          //qDebug() << "before regex: " << SI->Buffer;
 
-         QRegExp rx("index: *");
+        QRegExp rx("index: *");
 
         if (rx.indexIn(SI->Buffer) != -1)
         {
