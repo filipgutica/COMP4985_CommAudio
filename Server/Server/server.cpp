@@ -373,6 +373,17 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
             memset(tok, 0, sizeof(tok));
         }
 
+        QRegExp rxdown("download: *");
+
+        if (rxdown.indexIn(SI->Buffer) != -1)
+        {
+            char *tok = strtok(SI->Buffer, ":");
+            tok = strtok(NULL, ":");
+            qDebug() << "received " << tok;
+            memset(tok, 0, sizeof(tok));
+        }
+
+
 
         if (strcmp(SI->Buffer, "tcp") == 0)
         {
