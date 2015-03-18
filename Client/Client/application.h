@@ -33,6 +33,8 @@ private slots:
 
     void on_listMusic_doubleClicked(const QModelIndex &index);
 
+    void on_listMusic_customContextMenuRequested(const QPoint &pos);
+
 private:
     Ui::Application *ui;
     //QVector<QString> fileList;

@@ -8,6 +8,8 @@ Application::Application(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->listMusic->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->listMusic->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->listMusic, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(onCustomContextMenu(const QPoint &)));
 
     expectedSize = 0;
     currentSize = 0;
@@ -139,4 +141,30 @@ void Application::on_listMusic_doubleClicked(const QModelIndex &index)
     //audPlayer.exec();
 
     qDebug() << index.data().toString();
+}
+
+void Application::on_listMusic_customContextMenuRequested(const QPoint &pos)
+{
+    QModelIndex index = ui->listMusic->indexAt(pos);
+
+    QMenu myMenu;
+    myMenu.addAction("Download");
+
+    if ( index.isValid())
+    {
+        myMenu.exec(ui->listMusic->mapToGlobal(pos));
+
+        qDebug() << "Download requested: " << index.row();
+
+        QString qs;
+        qs = QString("download: %1").arg(index.row());
+        qDebug() << index.row();
+        qDebug() << qs;
+        QByteArray tcpbytes;
+        tcpbytes.append(qs);
+        WriteTCP(tcpbytes);
+
+        QString song = index.data().toString();
+
+    }
 }
