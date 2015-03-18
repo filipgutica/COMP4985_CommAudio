@@ -39,21 +39,12 @@ private slots:
 
     void on_btnResume_clicked();
 
-    void readBuffer();
 
 private:
     void PlayMusic();
     Ui::AudioPlayer *ui;
     QMediaPlayer *player;
     QString filePath;
-    QAudioDecoder *decoder;
-    QAudioFormat desiredFormat;
-    QAudioBuffer buff;
-    QAudioOutput *audioOut;
-    QByteArray *data;
-    QBuffer *buffer;
-
-    bool lock;
 };
 
 struct AudioStruct
