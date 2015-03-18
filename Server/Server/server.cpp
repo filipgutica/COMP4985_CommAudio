@@ -367,7 +367,10 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
 
         if (rx.indexIn(SI->Buffer) != -1)
         {
-            qDebug() << "received " << SI->Buffer;
+            char *tok = strtok(SI->Buffer, ":");
+            tok = strtok(NULL, ":");
+            qDebug() << "received " << tok;
+            memset(tok, 0, sizeof(tok));
         }
 
 
