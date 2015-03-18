@@ -17,6 +17,9 @@ class Application : public QMainWindow
 
 public:
     explicit Application(QWidget *parent = 0);
+    void ConnectTCP();
+    void WriteTCP(QByteArray);
+    void UpdatePlaylist();
     ~Application();
 
 private slots:
@@ -26,8 +29,19 @@ private slots:
 
     void on_actionRadio_triggered();
 
+    void ReadTCP();
+
+    void on_listMusic_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::Application *ui;
+    //QVector<QString> fileList;
+
+    QTcpSocket *msock;
+    QByteArray playlist;
+    int expectedSize = 0;
+    int currentSize = 0;
+
 };
 
 #endif // APPLICATION_H

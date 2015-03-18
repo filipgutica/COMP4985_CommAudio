@@ -18,13 +18,16 @@ SOURCES += main.cpp\
         application.cpp \
     audioplayer.cpp \
     client.cpp \
-    audiothread.cpp
+    audiothread.cpp \
+    configure.cpp
 
 HEADERS  += application.h \
     audioplayer.h \
     client.h \
     audiothread.h \
-    globals.h
+    globals.h \
+    configure.h
 
 FORMS    += application.ui \
-    audioplayer.ui
+    audioplayer.ui \
+    configure.ui
