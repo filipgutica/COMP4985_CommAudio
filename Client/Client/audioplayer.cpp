@@ -110,7 +110,7 @@ AudioPlayer::~AudioPlayer()
     // Close the socket
     buffer->close();
     udpSocket->close();
-    thrd->terminate();
+    //thrd->terminate();
     delete ui;
 }
 
