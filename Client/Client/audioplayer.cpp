@@ -86,8 +86,8 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
     connect(timer, SIGNAL(timeout()), this, SLOT(onTimeout()));
 
 
-    timer->setInterval(10);
-    timer->start();
+   // timer->setInterval(10);
+  //  timer->start();
 
     //For reading directly from the socket... no buferring
     ioOutput = audioOutput->start();
@@ -301,7 +301,7 @@ void AudioPlayer::processPendingDatagrams()
 void AudioPlayer::playData(QByteArray d)
 {
     // buffering component... work in progress
-    static int lastWritten = 0;
+   /* static int lastWritten = 0;
     // sem1.acquire();
     buffer->seek(lastWritten);
     buffer->open(QIODevice::ReadWrite);
@@ -312,16 +312,17 @@ void AudioPlayer::playData(QByteArray d)
 
     qDebug() << "Socket side: " << bytecount;
 
-    if (bytecount >= MAX_BUFFSIZE)
-    {
+   // if (bytecount >= MAX_BUFFSIZE)
+    //{
        //bytecount = 0;
        // buffer->seek(0);
     }//*/
-    lastWritten = bytecount;
+  //  lastWritten = bytecount;
    // sem2.release();
 
    // For now, play bytes as they come in.. works for localhost or very fast networks
-  // ioOutput->write(d.data(), d.size());
+    qDebug() << "Socket side: " << bytecount;
+   ioOutput->write(d.data(), d.size());
 }
 
 void AudioPlayer::onTimeout()

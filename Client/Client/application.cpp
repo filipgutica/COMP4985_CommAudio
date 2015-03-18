@@ -9,7 +9,6 @@ Application::Application(QWidget *parent) :
     ui->setupUi(this);
     ui->listMusic->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->listMusic->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->listMusic, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(onCustomContextMenu(const QPoint &)));
 
     expectedSize = 0;
     currentSize = 0;
