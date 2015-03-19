@@ -55,6 +55,8 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 /*-----------------------------------------------------------------------------*/
 AudioPlayer::~AudioPlayer()
 {
+    player->stop();
+    delete player;
     delete ui;
 }
 

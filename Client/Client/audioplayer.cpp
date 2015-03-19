@@ -289,17 +289,42 @@ void AudioPlayer::processPendingDatagrams()
 void AudioPlayer::playData(QByteArray d)
 {
     // buffering component... work in progress
+<<<<<<< HEAD
     static int bytesWritten = 0;
 
+=======
+   /* static int lastWritten = 0;
+    // sem1.acquire();
+    buffer->seek(lastWritten);
+>>>>>>> adfcf645b906b91f0979528328b95f19eb9ac94a
     buffer->open(QIODevice::ReadWrite);
     buffer->seek(bytesWritten);
     buffer->write(d.data(), d.size());
     buffer->waitForBytesWritten(10);
     //qDebug() << "Socket side: " << bytecount;
 
+<<<<<<< HEAD
     if (bytecount >= AUDIO_BUFFSIZE)
         bytecount = 0;
     bytesWritten = bytecount;
+=======
+
+    //data.append(d.data(), d.size());
+
+    qDebug() << "Socket side: " << bytecount;
+
+   // if (bytecount >= MAX_BUFFSIZE)
+    //{
+       //bytecount = 0;
+       // buffer->seek(0);
+    }//*/
+  //  lastWritten = bytecount;
+   // sem2.release();
+
+   // For now, play bytes as they come in.. works for localhost or very fast networks
+    qDebug() << "Socket side: " << bytecount;
+   ioOutput->write(d.data(), d.size());
+>>>>>>> adfcf645b906b91f0979528328b95f19eb9ac94a
 }
 
 // Don't really need this anymore

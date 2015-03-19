@@ -194,7 +194,7 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
 
             i+= AUDIO_BUFFER;
 
-            Sleep(64);
+            Sleep(225);
             if(ret = WSASendTo(MulticastSocket, buf, 1, &sent, 0, (struct sockaddr*)&stDstAddr,sizeof(stDstAddr), ol, NULL) < 0 )
             {
                 qDebug() << "Sendto failed error: " << WSAGetLastError();
@@ -307,7 +307,7 @@ DWORD WINAPI WorkerThread(LPVOID lpParameter)
 
 /*******************************************************************
  *
- * Copletion routine
+ * Completion routine
  *
  ******************************************************************/
 void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED Overlapped, DWORD InFlags)
@@ -355,13 +355,36 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
         strInfo = QString("Received: %1 on socket: %2").arg(SI->Buffer).arg(SI->Socket);
         mainWindow->appendToLog(strInfo);
 
-         qDebug() << "Received: " << SI->Buffer << endl;
-
         /***
          * Here we should check for a client mode.
          * If the clients mode is stream.. we send over the list.
          * Im leaving it up to you to set up the way a client sends over its mode.
          ***/
+
+         //qDebug() << "before regex: " << SI->Buffer;
+
+        QRegExp rx("index: *");
+
+        if (rx.indexIn(SI->Buffer) != -1)
+        {
+            char *tok = strtok(SI->Buffer, ":");
+            tok = strtok(NULL, ":");
+            qDebug() << "received " << tok;
+            memset(tok, 0, sizeof(tok));
+        }
+
+        QRegExp rxdown("download: *");
+
+        if (rxdown.indexIn(SI->Buffer) != -1)
+        {
+            char *tok = strtok(SI->Buffer, ":");
+            tok = strtok(NULL, ":");
+            qDebug() << "received " << tok;
+            memset(tok, 0, sizeof(tok));
+        }
+
+
+
         if (strcmp(SI->Buffer, "tcp") == 0)
         {
             for (int i = 0; i < SongList.size(); i++)
@@ -371,7 +394,10 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
 
             }
             SI->DataBuf.buf = temp;
-            SI->DataBuf.len = strlen(temp);
+//            SI->DataBuf.len = strlen(temp);
+            SI->DataBuf.len = 1024;
+
+            qDebug() << SI->DataBuf.len;
 
             SendBytes = WriteToSocket(&SI->Socket, &SI->DataBuf, 0, &SI->Overlapped);
 
