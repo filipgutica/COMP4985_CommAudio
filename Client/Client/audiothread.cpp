@@ -15,8 +15,7 @@ AudioThread::~AudioThread()
 
 void AudioThread::run()
 {
-   // int nbytes;
-    bool keepPlaying = false;
+    // bool keepPlaying = false;
     buffer->open(QIODevice::ReadOnly);
 
     while (true)
@@ -24,21 +23,21 @@ void AudioThread::run()
         msleep(10);
         if (audioOutput != NULL)
         {
-            if (buffer->size() >= HIGH_WATERMARK ||
-                (buffer->size() >= LOW_WATERMARK && keepPlaying))
+            if (buffer->size() >= HIGH_WATERMARK)
+               // || (buffer->size() >= LOW_WATERMARK && keepPlaying))
             {
-                keepPlaying = true;
+                //keepPlaying = true;
 
                 buffer->seek(nBytes);
-                nBytes += ioOutput->write(buffer->data().constData(), 88200);
+                nBytes += ioOutput->write(buffer->read(BYTES_PER_SECOND), BYTES_PER_SECOND);
                 qDebug() << " Audio buffer: " << nBytes;
-                ioOutput->waitForBytesWritten(1000);
+                ioOutput->waitForBytesWritten(990);
 
                 if (nBytes >= AUDIO_BUFFSIZE)
                     nBytes = 0;
             }
-            else
-                keepPlaying = false;
+            //else
+            //    keepPlaying = false;
         }
     }
 }

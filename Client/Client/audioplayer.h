@@ -9,6 +9,7 @@
 #include <QDataStream>
 #include <QTimer>
 #include "audiothread.h"
+#include "globals.h"
 
 const int BufferSize   = 44100;
 
@@ -59,7 +60,7 @@ private:
     QIODevice *outputDevice;
     QString str;
     QBuffer *buff;
-    QByteArray data;
+    QByteArray *data;
     AudioThread *thrd;
     int bytecount;
     int nBytes;
