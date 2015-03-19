@@ -20,7 +20,6 @@ void AudioThread::run()
 
     while (true)
     {
-        msleep(10);
         if (audioOutput != NULL)
         {
             if (buffer->size() >= HIGH_WATERMARK)
