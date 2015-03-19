@@ -15,37 +15,29 @@ AudioThread::~AudioThread()
 
 void AudioThread::run()
 {
-   // int nbytes;
+    // bool keepPlaying = false;
+    buffer->open(QIODevice::ReadOnly);
 
     while (true)
     {
         msleep(10);
         if (audioOutput != NULL)
         {
-           // qDebug() << "Playing music";
-
-           // sem2.acquire();
-            if (buffer->size() >= (MAX_BUFFSIZE))
+            if (buffer->size() >= HIGH_WATERMARK)
+               // || (buffer->size() >= LOW_WATERMARK && keepPlaying))
             {
-                buffer->open(QIODevice::ReadOnly);
+                //keepPlaying = true;
 
-                nBytes += ioOutput->write(buffer->data().constData(), 8192);
-                qDebug() << "Audio side: " << nBytes;
-                ioOutput->waitForBytesWritten(1000);
                 buffer->seek(nBytes);
+                nBytes += ioOutput->write(buffer->read(BYTES_PER_SECOND), BYTES_PER_SECOND);
+                qDebug() << " Audio buffer: " << nBytes;
+                ioOutput->waitForBytesWritten(990);
 
-                if (nBytes >= MAX_BUFFSIZE)
-                {
+                if (nBytes >= AUDIO_BUFFSIZE)
                     nBytes = 0;
-                    buffer->seek(0);
-                }
             }
-
-
-          //  sem1.release();
-
-
-            //break;
+            //else
+            //    keepPlaying = false;
         }
     }
 }
