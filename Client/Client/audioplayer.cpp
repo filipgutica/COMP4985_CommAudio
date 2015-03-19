@@ -99,7 +99,10 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 /*-----------------------------------------------------------------------------*/
 AudioPlayer::~AudioPlayer()
 {
+    thrd->terminate();
     buffer->close();
+    ioOutput->close();
+    audioOutput->stop();
     udpSocket->close();
     delete ui;
 }
@@ -288,45 +291,19 @@ void AudioPlayer::processPendingDatagrams()
 /*-----------------------------------------------------------------------------*/
 void AudioPlayer::playData(QByteArray d)
 {
-    // buffering component... work in progress
     static int bytesWritten = 0;
 
     buffer->open(QIODevice::ReadWrite);
     buffer->seek(bytesWritten);
     buffer->write(d.data(), d.size());
-    buffer->waitForBytesWritten(10);
-    //qDebug() << "Socket side: " << bytecount;
+   // buffer->waitForBytesWritten(10);
+   // qDebug() << "Socket side: " << buffer->pos();
 
     if (bytecount >= AUDIO_BUFFSIZE)
         bytecount = 0;
+
     bytesWritten = bytecount;
 }
-
-// Don't really need this anymore
-void AudioPlayer::onTimerEvent()
-{
-    if (buffer->size() > 0)
-    {
-        buffer->open(QIODevice::ReadOnly);
-
-        nBytes += ioOutput->write(buffer->data().constData(), 512);
-        qDebug() << "Audio side: " << nBytes;
-        ioOutput->waitForBytesWritten(1000);
-        buffer->seek(nBytes);
-
-
-        if (nBytes >= BufferSize)
-        {
-            nBytes = 0;
-            buffer->seek(0);
-        }
-    }
-
-    if (!data->isEmpty())
-    {
-        ioOutput->write(*data);
-    }
-}//*/
 
 /*------------------------------------------------------------------------------
 --	FUNCTION: audioStateChanged(QAudio::State)

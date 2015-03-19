@@ -11,7 +11,6 @@
 #include "audiothread.h"
 #include "globals.h"
 
-const int BufferSize   = 44100;
 
 namespace Ui {
 class AudioPlayer;
@@ -47,7 +46,6 @@ private slots:
 
     void audioStateChanged(QAudio::State state);
 
-    void onTimerEvent();
 
 signals:
     void audioReady(QByteArray d);
