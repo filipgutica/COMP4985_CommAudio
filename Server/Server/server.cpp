@@ -194,7 +194,7 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
 
             i+= AUDIO_BUFFER;
 
-            Sleep(1000);
+            Sleep(225);
             if(ret = WSASendTo(MulticastSocket, buf, 1, &sent, 0, (struct sockaddr*)&stDstAddr,sizeof(stDstAddr), ol, NULL) < 0 )
             {
                 qDebug() << "Sendto failed error: " << WSAGetLastError();
