@@ -39,10 +39,10 @@ public:
     {
         if (AudioPlayer->objectName().isEmpty())
             AudioPlayer->setObjectName(QStringLiteral("AudioPlayer"));
-        AudioPlayer->resize(368, 132);
+        AudioPlayer->resize(378, 162);
         formLayoutWidget = new QWidget(AudioPlayer);
         formLayoutWidget->setObjectName(QStringLiteral("formLayoutWidget"));
-        formLayoutWidget->setGeometry(QRect(30, 20, 311, 61));
+        formLayoutWidget->setGeometry(QRect(30, 10, 311, 91));
         formLayout = new QFormLayout(formLayoutWidget);
         formLayout->setObjectName(QStringLiteral("formLayout"));
         formLayout->setFieldGrowthPolicy(QFormLayout::AllNonFixedFieldsGrow);
@@ -72,13 +72,13 @@ public:
 
         btnPlay = new QPushButton(AudioPlayer);
         btnPlay->setObjectName(QStringLiteral("btnPlay"));
-        btnPlay->setGeometry(QRect(30, 90, 81, 23));
+        btnPlay->setGeometry(QRect(40, 110, 91, 23));
         btnPause = new QPushButton(AudioPlayer);
         btnPause->setObjectName(QStringLiteral("btnPause"));
-        btnPause->setGeometry(QRect(190, 90, 81, 23));
+        btnPause->setGeometry(QRect(250, 110, 91, 23));
         btnResume = new QPushButton(AudioPlayer);
         btnResume->setObjectName(QStringLiteral("btnResume"));
-        btnResume->setGeometry(QRect(110, 90, 81, 23));
+        btnResume->setGeometry(QRect(150, 110, 91, 23));
 
         retranslateUi(AudioPlayer);
 
