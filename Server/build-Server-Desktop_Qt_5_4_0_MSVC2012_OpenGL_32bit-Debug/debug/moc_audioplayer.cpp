@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'audioplayer.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.4.0)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.3.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'audioplayer.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.4.0. It"
+#error "This file was generated using the moc from 5.3.1. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -29,17 +29,16 @@ struct qt_meta_stringdata_AudioPlayer_t {
     )
 static const qt_meta_stringdata_AudioPlayer_t qt_meta_stringdata_AudioPlayer = {
     {
-QT_MOC_LITERAL(0, 0, 11), // "AudioPlayer"
-QT_MOC_LITERAL(1, 12, 18), // "on_btnPlay_clicked"
-QT_MOC_LITERAL(2, 31, 0), // ""
-QT_MOC_LITERAL(3, 32, 19), // "on_btnPause_clicked"
-QT_MOC_LITERAL(4, 52, 29), // "on_sliderProgress_sliderMoved"
-QT_MOC_LITERAL(5, 82, 8), // "position"
-QT_MOC_LITERAL(6, 91, 27), // "on_sliderVolume_sliderMoved"
-QT_MOC_LITERAL(7, 119, 18), // "on_positionChanged"
-QT_MOC_LITERAL(8, 138, 18), // "on_durationChanged"
-QT_MOC_LITERAL(9, 157, 20) // "on_btnResume_clicked"
-
+QT_MOC_LITERAL(0, 0, 11),
+QT_MOC_LITERAL(1, 12, 18),
+QT_MOC_LITERAL(2, 31, 0),
+QT_MOC_LITERAL(3, 32, 19),
+QT_MOC_LITERAL(4, 52, 29),
+QT_MOC_LITERAL(5, 82, 8),
+QT_MOC_LITERAL(6, 91, 27),
+QT_MOC_LITERAL(7, 119, 18),
+QT_MOC_LITERAL(8, 138, 18),
+QT_MOC_LITERAL(9, 157, 20)
     },
     "AudioPlayer\0on_btnPlay_clicked\0\0"
     "on_btnPause_clicked\0on_sliderProgress_sliderMoved\0"
@@ -102,7 +101,7 @@ void AudioPlayer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
 
 const QMetaObject AudioPlayer::staticMetaObject = {
     { &QDialog::staticMetaObject, qt_meta_stringdata_AudioPlayer.data,
-      qt_meta_data_AudioPlayer,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
+      qt_meta_data_AudioPlayer,  qt_static_metacall, 0, 0}
 };
 
 
@@ -113,7 +112,7 @@ const QMetaObject *AudioPlayer::metaObject() const
 
 void *AudioPlayer::qt_metacast(const char *_clname)
 {
-    if (!_clname) return Q_NULLPTR;
+    if (!_clname) return 0;
     if (!strcmp(_clname, qt_meta_stringdata_AudioPlayer.stringdata))
         return static_cast<void*>(const_cast< AudioPlayer*>(this));
     return QDialog::qt_metacast(_clname);

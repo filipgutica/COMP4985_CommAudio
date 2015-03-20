@@ -31,3 +31,5 @@ HEADERS  += application.h \
 FORMS    += application.ui \
     audioplayer.ui \
     configure.ui
+
+CONFIG += static
