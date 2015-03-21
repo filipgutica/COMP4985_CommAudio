@@ -66,7 +66,7 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 
     // Setup the audioOuput address with the desired format
     audioOutput = new QAudioOutput(format, this);
-    audioOutput->setBufferSize(AUDIO_BUFFSIZE);
+    audioOutput->setBufferSize(BYTES_PER_SECOND);
 
     bytecount = 0;
     nBytes = 0;
@@ -287,7 +287,7 @@ void AudioPlayer::processPendingDatagrams()
 --
 --	DESIGNERS:		Filip Gutica
 --
---	PROGRAMMER:		Filip Gutica
+--	PROGRAMMER:		Filip Gutica & Sanders Lee
 /*-----------------------------------------------------------------------------*/
 void AudioPlayer::playData(QByteArray d)
 {
@@ -296,8 +296,7 @@ void AudioPlayer::playData(QByteArray d)
     buffer->open(QIODevice::ReadWrite);
     buffer->seek(bytesWritten);
     buffer->write(d.data(), d.size());
-   // buffer->waitForBytesWritten(10);
-   // qDebug() << "Socket side: " << buffer->pos();
+    buffer->waitForBytesWritten(10);
 
     if (bytecount >= AUDIO_BUFFSIZE)
         bytecount = 0;
