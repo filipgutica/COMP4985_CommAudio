@@ -26,7 +26,7 @@ QAudioOutput *audioOutput;
 QIODevice *ioOutput;
 QBuffer *buffer;
 
-QSemaphore sem1(100);
+QSemaphore sem1(AUDIO_BUFFSIZE);
 QSemaphore sem2(0);
 
 /*------------------------------------------------------------------------------
@@ -273,8 +273,9 @@ void AudioPlayer::processPendingDatagrams()
         udpSocket->readDatagram(datagram.data(), datagram.size());
     }
 
-    //Signal that there is audio ready to be played.
+
     emit audioReady(datagram);
+
 }
 
 /*------------------------------------------------------------------------------
@@ -293,10 +294,13 @@ void AudioPlayer::playData(QByteArray d)
 {
     static int bytesWritten = 0;
 
+    sem1.acquire();
     buffer->open(QIODevice::ReadWrite);
     buffer->seek(bytesWritten);
     buffer->write(d.data(), d.size());
     buffer->waitForBytesWritten(10);
+    sem2.release();
+   qDebug() << "Socket positionL " << buffer->pos();
 
     if (bytecount >= AUDIO_BUFFSIZE)
         bytecount = 0;

@@ -59,6 +59,7 @@ private:
     QString str;
     QBuffer *buff;
     QByteArray *data;
+    QByteArray readyBytes;
     AudioThread *thrd;
     int bytecount;
     int nBytes;

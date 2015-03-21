@@ -23,21 +23,24 @@ void AudioThread::run()
         if (audioOutput != NULL)
         {
             if (buffer->pos() >= HIGH_WATERMARK
-                || (buffer->pos() >= 0 && keepPlaying))
+                || (buffer->pos() >= 1 && keepPlaying))
             {
                 keepPlaying = true;
 
+                sem2.acquire();
                 buffer->seek(nBytes);
                 nBytes += ioOutput->write(buffer->read(BYTES_PER_SECOND), BYTES_PER_SECOND);
-                msleep(10);
-                //qDebug() << " Audio side: " << buffer->pos();
-                //ioOutput->waitForBytesWritten(10);
+                sem1.release();
+                //msleep(32);
+                qDebug() << " Audio pos: " << buffer->pos();
 
                 if (nBytes >= AUDIO_BUFFSIZE)
                     nBytes = 0;
             }
             else
+            {
                 keepPlaying = false;
+            }
         }
     }
 }
