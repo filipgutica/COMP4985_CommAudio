@@ -29,7 +29,7 @@ void AudioThread::run()
 
                 sem2.acquire();
                 buffer->seek(nBytes);
-                nBytes += ioOutput->write(buffer->read(BYTES_PER_SECOND), BYTES_PER_SECOND);
+                nBytes += ioOutput->write(buffer->read(8192), 8192);
                 sem1.release();
                 //msleep(32);
                 qDebug() << " Audio pos: " << buffer->pos();
