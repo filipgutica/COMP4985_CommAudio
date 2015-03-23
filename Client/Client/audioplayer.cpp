@@ -27,7 +27,7 @@ QIODevice *ioOutput;
 QBuffer *buffer;
 
 QSemaphore sem1(AUDIO_BUFFSIZE);
-QSemaphore sem2(0);
+QSemaphore sem2(214);
 
 /*------------------------------------------------------------------------------
 --	FUNCTION: AudioPlayer()
