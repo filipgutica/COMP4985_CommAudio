@@ -27,12 +27,12 @@ void AudioThread::run()
             {
                 keepPlaying = true;
 
-                sem2.acquire();
+              //  sem2.acquire();
                 buffer->seek(nBytes);
-                nBytes += ioOutput->write(buffer->read(BYTES_PER_SECOND), BYTES_PER_SECOND);
-                msleep(450);
-                sem1.release();
-                //msleep(32);
+                nBytes += ioOutput->write(buffer->read(BYTES_PER_SECOND/10), BYTES_PER_SECOND/10);
+                msleep(32);
+                //msleep(200);
+             //   sem1.release();
                 qDebug() << " Audio pos: " << buffer->pos();
 
                 if (nBytes >= AUDIO_BUFFSIZE)
@@ -41,6 +41,7 @@ void AudioThread::run()
             else
             {
                 keepPlaying = false;
+                msleep(500);
             }
         }
     }

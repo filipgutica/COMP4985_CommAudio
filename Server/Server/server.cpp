@@ -183,7 +183,7 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
       stDstAddr.sin_port =        htons(TIMECAST_PORT);
 
     int ret;
-    QFile file("../Music/Avicii_-_Levels.wav");
+    QFile file("../Music/Yo_Gotti_-_I_Don_39_t_Like_CM7_-_5_[1_.wav");
 
     if (!file.open(QIODevice::ReadOnly))
     {
@@ -200,7 +200,7 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
             ZeroMemory((&ol), sizeof(ol));
 
             i+= AUDIO_BUFFER;
-            //Sleep(32);
+            Sleep(DELAY);
             if(ret = WSASendTo(MulticastSocket, buf, 1, &sent, 0, (struct sockaddr*)&stDstAddr,sizeof(stDstAddr), ol, NULL) < 0 )
             {
                 qDebug() << "Sendto failed error: " << WSAGetLastError();

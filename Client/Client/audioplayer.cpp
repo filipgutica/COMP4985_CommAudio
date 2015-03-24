@@ -26,8 +26,8 @@ QAudioOutput *audioOutput;
 QIODevice *ioOutput;
 QBuffer *buffer;
 
-QSemaphore sem1(AUDIO_BUFFSIZE);
-QSemaphore sem2(214);
+QSemaphore sem1(HIGH_WATERMARK/44100);
+QSemaphore sem2(0);
 
 /*------------------------------------------------------------------------------
 --	FUNCTION: AudioPlayer()
@@ -294,12 +294,12 @@ void AudioPlayer::playData(QByteArray d)
 {
     static int bytesWritten = 0;
 
-    sem1.acquire();
+  //  sem1.acquire();
     buffer->open(QIODevice::ReadWrite);
     buffer->seek(bytesWritten);
     buffer->write(d.data(), d.size());
     buffer->waitForBytesWritten(10);
-    sem2.release();
+  //  sem2.release();
    qDebug() << "Socket positionL " << buffer->pos();
 
     if (bytecount >= AUDIO_BUFFSIZE)
