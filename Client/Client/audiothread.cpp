@@ -37,6 +37,17 @@ void AudioThread::run()
 
                 if (nBytes >= AUDIO_BUFFSIZE)
                     nBytes = 0;
+
+            //If single stream mode is set, then check if you have recied the max size of the song, if reached, end thread
+            if(streamMode == true)
+            {
+                totalBytes += BYTES_PER_SECOND/10;
+                if( totalBytes >= maxBytes)
+                {
+                    break;
+                }
+            }
+
             }
             else
             {
@@ -45,6 +56,12 @@ void AudioThread::run()
             }
         }
     }
+}
+
+void AudioThread::setMaxBytes(int x)
+{
+    maxBytes = x;
+    streamMode = true;
 }
 
 
