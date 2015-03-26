@@ -21,6 +21,8 @@ void StartServer(int port, LPVOID app, QVector<QString> songList)
    DWORD ThreadIdListen;
    QString strInfo;
 
+   playerInfo = (PLAYER_INFORMATION*)malloc(sizeof(PLAYER_INFORMATION));
+
    mainWindow = (Application*) app;
 
    SongList = songList;
@@ -386,14 +388,18 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
             //get the file size
             int filesize = file.size();
 
+            qDebug() << "got the file size: " << filesize;
             //put info in the buffer
-            sprintf(temp, "Size of song:" + file.size());
+
+            sprintf(temp, "size:%d", file.size());
 
             SI->DataBuf.buf = temp;
             SI->DataBuf.len = 1024;
 
+            //qDebug() << "before WriteToSocket";
             //write metadata to the TCP control line
             WriteToSocket(&SI->Socket, &SI->DataBuf, 0, &SI->Overlapped);
+            //qDebug() << "done WriteToSocket";
 
             //put data into structure to establish UDP socket
 
@@ -401,6 +407,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
             playerInfo->index = atoi(tok);
             playerInfo->addrIn = InternetAddr;
 
+            qDebug() << "about to stream song";
             //stream song
 
 

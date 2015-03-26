@@ -124,6 +124,8 @@ void Application::on_listMusic_doubleClicked(const QModelIndex &index)
     //start listening to udp socket on pre-agreed port
     audPlayer = new AudioPlayer(ip);
 
+    audPlayer->show();
+
     //Expect file size over tcp from server
 
     qDebug() << index.data().toString();
