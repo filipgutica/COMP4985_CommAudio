@@ -44,6 +44,11 @@ private:
     int expectedSize;
     int currentSize;
 
+    AudioPlayer *audPlayer;
+
+    QString ip;
+    QString port;
+    bool playlistReceived = false;
 };
 
 #endif // APPLICATION_H

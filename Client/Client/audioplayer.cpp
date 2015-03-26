@@ -89,6 +89,79 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 }
 
 /*------------------------------------------------------------------------------
+--	FUNCTION: AudioPlayer(QHostAddress ga, int songSize)
+--
+--	PURPOSE:		Constructor, initializes the Ui object containing al ui elemnets
+--
+--	DESIGNERS:		Alex Lam
+--
+--	PROGRAMMER:		Alex Lam
+/*-----------------------------------------------------------------------------*/
+AudioPlayer::AudioPlayer(QString ga, QWidget *parent) : QDialog(parent), ui(new Ui::AudioPlayer)
+{
+    ui->setupUi(this);
+
+    //buff = new QBuffer();
+    data = new QByteArray(AUDIO_BUFFSIZE, '\0');
+    buffer = new QBuffer(data);
+
+    // Hardcoded multicast address
+    //groupAddress = QHostAddress("234.5.6.7");
+    groupAddress = ga;
+
+    // Setup the muticast socket
+    udpSocket = new QUdpSocket(this);
+    udpSocket->bind(QHostAddress::AnyIPv4, 7000);
+    udpSocket->setReadBufferSize(AUDIO_BUFFSIZE);
+
+    // Set the audio format
+    format.setChannelCount(2);
+    format.setSampleRate(44100);
+    format.setSampleSize(16);
+    format.setCodec("audio/pcm");
+    format.setByteOrder(QAudioFormat::LittleEndian);
+    format.setSampleType(QAudioFormat::UnSignedInt);
+
+    // Setup the audioOuput address with the desired format
+    audioOutput = new QAudioOutput(format, this);
+    audioOutput->setBufferSize(BYTES_PER_SECOND);
+
+    bytecount = 0;
+    nBytes = 0;
+
+    // Connect the udp readyReady signal with the processPendingDatagrams slot
+    connect(udpSocket, SIGNAL(readyRead()),this, SLOT(processPendingDatagrams()));
+
+    // Connect our custom audioReady signal with the playData slot
+    connect(this, SIGNAL(audioReady(QByteArray)), this, SLOT(playData(QByteArray)));
+
+    // Connect audioOutput object's stateChanged signal with our audioStateChanged SLOT to handle state changes in the player
+    connect(audioOutput, SIGNAL(stateChanged(QAudio::State)), this, SLOT(audioStateChanged(QAudio::State)));
+
+    //For reading directly from the socket... no buferring
+    ioOutput = audioOutput->start();
+
+    thrd = new AudioThread(this);
+
+    thrd->start();
+}
+
+/*------------------------------------------------------------------------------
+--	FUNCTION:       void setMaxByte(int);
+--
+--	PURPOSE:		Constructor, initializes the Ui object containing al ui elemnets
+--
+--	DESIGNERS:		Alex Lam
+--
+--	PROGRAMMER:		Alex Lam
+/*-----------------------------------------------------------------------------*/
+void AudioPlayer::setMaxByte(int x)
+{
+    thrd->setMaxBytes(x);
+}
+
+
+/*------------------------------------------------------------------------------
 --	FUNCTION: ~Application()
 --
 --	PURPOSE:		Destructor, cleans up the ui. Deletes the ui object
