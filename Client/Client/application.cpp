@@ -142,17 +142,31 @@ void Application::on_listMusic_doubleClicked(const QModelIndex &index)
     qDebug() << index.data().toString();
 }
 
+/***
+ * Right clicking the song opens up the download option.
+ */
 void Application::on_listMusic_customContextMenuRequested(const QPoint &pos)
 {
     QModelIndex index = ui->listMusic->indexAt(pos);
-
     QMenu myMenu;
-    myMenu.addAction("Download");
+    QAction *myAction = myMenu.addAction("Download");
 
     if ( index.isValid())
     {
         myMenu.exec(ui->listMusic->mapToGlobal(pos));
+        QSignalMapper mapper((QObject *) &myMenu);
+        mapper.setMapping(myAction, (QObject *) &index);
+        connect(&mapper, SIGNAL(mapped(QModelIndex)), this, SLOT(SaveNew(QModelIndex)));
+    }
+}
 
+/***
+ * Clicking on the download option starts the download
+ */
+void Application::SaveNew(QModelIndex index)
+{
+    if ( index.isValid())
+    {
         qDebug() << "Download requested: " << index.row();
 
         QString qs;
