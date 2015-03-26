@@ -25,9 +25,6 @@ void Application::on_actionAudio_Stream_triggered()
 //     conf->show();
     Configure conf;
     conf.setModal(true);
-    QString port;
-    QString ip;
-
 
     if(conf.exec() == QDialog::Accepted)
     {
@@ -68,37 +65,27 @@ void Application::ConnectTCP(QString ip, QString port)
 void Application::ReadTCP()
 {
     QByteArray data = msock->readAll();
-    /*
-    playlist.insert(currentSize, data);
-
-    if(playlist.contains('\n'))
-    {
-        UpdatePlaylist();
-    }
-    */
-
-
     if(expectedSize == 0) // First read
     {
-        /*
-        QByteArray a2;
-        a2.reserve(sizeof(int));
-        for(int i = 0; i < sizeof(int); i++)
-        {
-            q2.append(data[i]);
-        }
-        expectedSize =
-        */
         expectedSize = 1024;
     }
     playlist.insert(currentSize, data);//might need to read data out and then append it
     currentSize = playlist.size();
 
-    if(currentSize == expectedSize)
+    if(playlistReceived)
     {
-        UpdatePlaylist();
-        expectedSize = 0;
-        currentSize = 0;
+        char* s = data.data();
+        audPlayer->setMaxByte((int)*s);
+    }
+    else
+    {
+        if(currentSize == expectedSize)
+        {
+            UpdatePlaylist();
+            expectedSize = 0;
+            currentSize = 0;
+            playlistReceived = true;
+        }
     }
 }
 
@@ -131,13 +118,15 @@ void Application::on_listMusic_doubleClicked(const QModelIndex &index)
     tcpbytes.append(qs);
     WriteTCP(tcpbytes);
 
-    QString song = index.data().toString();
+    //QString song = index.data().toString();
 
-    //AudioPlayer audPlayer;
+    //Call song interface
+    //start listening to udp socket on pre-agreed port
+    audPlayer = new AudioPlayer(ip);
 
-    //audPlayer.setAudio(song);
+    audPlayer->show();
 
-    //audPlayer.exec();
+    //Expect file size over tcp from server
 
     qDebug() << index.data().toString();
 }

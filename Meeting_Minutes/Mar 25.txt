@@ -1,0 +1,13 @@
+song streaming protocol
+	
+	Default:
+		server sends song size
+		client receives song size bytes
+		end
+	Special case:
+		server sends song size
+		client sends TCP STOP
+			client may want to switch songs
+			client may want to exit
+		server kill thread, free socket
+		

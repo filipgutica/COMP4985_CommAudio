@@ -163,7 +163,6 @@ dist:
 
 clean: compiler_clean 
 	-$(DEL_FILE) release\main.obj release\application.obj release\audioplayer.obj release\client.obj release\audiothread.obj release\configure.obj release\moc_application.obj release\moc_audioplayer.obj release\moc_audiothread.obj release\moc_configure.obj
-	-$(DEL_FILE) release\Client.exp
 
 distclean: clean 
 	-$(DEL_FILE) $(DESTDIR_TARGET)
@@ -459,6 +458,11 @@ release\moc_application.cpp: C:\Qt\5.4\msvc2013_64\include\QtWidgets\QMainWindow
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QTimer \
 		..\Client\audiothread.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QThread \
+		..\Client\globals.h \
+		C:\Qt\5.4\msvc2013_64\include\QtCore\QBuffer \
+		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\QAudioOutput \
+		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\qaudiooutput.h \
+		C:\Qt\5.4\msvc2013_64\include\QtCore\QSemaphore \
 		..\Client\application.h
 	C:\Qt\5.4\msvc2013_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -IC:/Qt/5.4/msvc2013_64/mkspecs/win32-msvc2013 -IC:/Users/Alex/Documents/GitHub/COMP4985_CommAudio/Client/Client -IC:/Qt/5.4/msvc2013_64/include -IC:/Qt/5.4/msvc2013_64/include/QtMultimedia -IC:/Qt/5.4/msvc2013_64/include/QtWidgets -IC:/Qt/5.4/msvc2013_64/include/QtGui -IC:/Qt/5.4/msvc2013_64/include/QtANGLE -IC:/Qt/5.4/msvc2013_64/include/QtNetwork -IC:/Qt/5.4/msvc2013_64/include/QtCore -I. ..\Client\application.h -o release\moc_application.cpp
 
@@ -733,6 +737,11 @@ release\moc_audioplayer.cpp: C:\Qt\5.4\msvc2013_64\include\QtWidgets\QDialog \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QTimer \
 		..\Client\audiothread.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QThread \
+		..\Client\globals.h \
+		C:\Qt\5.4\msvc2013_64\include\QtCore\QBuffer \
+		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\QAudioOutput \
+		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\qaudiooutput.h \
+		C:\Qt\5.4\msvc2013_64\include\QtCore\QSemaphore \
 		..\Client\audioplayer.h
 	C:\Qt\5.4\msvc2013_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -IC:/Qt/5.4/msvc2013_64/mkspecs/win32-msvc2013 -IC:/Users/Alex/Documents/GitHub/COMP4985_CommAudio/Client/Client -IC:/Qt/5.4/msvc2013_64/include -IC:/Qt/5.4/msvc2013_64/include/QtMultimedia -IC:/Qt/5.4/msvc2013_64/include/QtWidgets -IC:/Qt/5.4/msvc2013_64/include/QtGui -IC:/Qt/5.4/msvc2013_64/include/QtANGLE -IC:/Qt/5.4/msvc2013_64/include/QtNetwork -IC:/Qt/5.4/msvc2013_64/include/QtCore -I. ..\Client\audioplayer.h -o release\moc_audioplayer.cpp
 
@@ -1200,6 +1209,11 @@ release\main.obj: ..\Client\main.cpp ..\Client\application.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QTimer \
 		..\Client\audiothread.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QThread \
+		..\Client\globals.h \
+		C:\Qt\5.4\msvc2013_64\include\QtCore\QBuffer \
+		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\QAudioOutput \
+		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\qaudiooutput.h \
+		C:\Qt\5.4\msvc2013_64\include\QtCore\QSemaphore \
 		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QApplication \
 		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qapplication.h \
 		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qdesktopwidget.h \
@@ -1484,6 +1498,11 @@ release\application.obj: ..\Client\application.cpp ..\Client\application.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QTimer \
 		..\Client\audiothread.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QThread \
+		..\Client\globals.h \
+		C:\Qt\5.4\msvc2013_64\include\QtCore\QBuffer \
+		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\QAudioOutput \
+		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\qaudiooutput.h \
+		C:\Qt\5.4\msvc2013_64\include\QtCore\QSemaphore \
 		ui_application.h \
 		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QAction \
 		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qaction.h \
@@ -1801,6 +1820,11 @@ release\audioplayer.obj: ..\Client\audioplayer.cpp ..\Client\audioplayer.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QTimer \
 		..\Client\audiothread.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QThread \
+		..\Client\globals.h \
+		C:\Qt\5.4\msvc2013_64\include\QtCore\QBuffer \
+		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\QAudioOutput \
+		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\qaudiooutput.h \
+		C:\Qt\5.4\msvc2013_64\include\QtCore\QSemaphore \
 		ui_audioplayer.h \
 		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QAction \
 		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qaction.h \
@@ -1841,12 +1865,7 @@ release\audioplayer.obj: ..\Client\audioplayer.cpp ..\Client\audioplayer.h \
 		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qpushbutton.h \
 		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qabstractbutton.h \
 		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QSlider \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QWidget \
-		..\Client\globals.h \
-		C:\Qt\5.4\msvc2013_64\include\QtCore\QBuffer \
-		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\QAudioOutput \
-		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\qaudiooutput.h \
-		C:\Qt\5.4\msvc2013_64\include\QtCore\QSemaphore
+		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QWidget
 
 release\client.obj: ..\Client\client.cpp ..\Client\client.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QString \

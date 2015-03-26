@@ -346,7 +346,6 @@ qmake_all: FORCE
 make_first: debug-make_first release-make_first FORCE
 all: debug-all release-all FORCE
 clean: debug-clean release-clean FORCE
-	-$(DEL_FILE) Client.exp
 	-$(DEL_FILE) Client.ilk
 	-$(DEL_FILE) Client.idb
 distclean: debug-distclean release-distclean FORCE

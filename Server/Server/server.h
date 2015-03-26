@@ -28,6 +28,13 @@ typedef struct _SOCKET_INFORMATION {
    DWORD BytesRECV;
 } SOCKET_INFORMATION, * LPSOCKET_INFORMATION;
 
+typedef struct PLAYER_INFORMATION
+{
+    int index;
+    SOCKADDR_IN addrIn;
+
+} PLAYER_INFORMATION;
+
 void StartServer(int port, LPVOID app, QVector<QString> songList);
 void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred,LPWSAOVERLAPPED Overlapped, DWORD InFlags);
 DWORD WINAPI ListenThread(LPVOID lpParameter);
@@ -36,7 +43,7 @@ DWORD WriteToSocket(SOCKET *sock, WSABUF *buf, DWORD fl, WSAOVERLAPPED *ol);
 DWORD ReadSocket(SOCKET *sock, WSABUF *buf, DWORD fl,  WSAOVERLAPPED *ol);
 DWORD WINAPI MulticastThread(LPVOID lpParameter);
 void StartMulticast();
-
+DWORD WINAPI StartStream(LPVOID param);
 
 #endif // SERVER
 
