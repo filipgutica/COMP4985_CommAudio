@@ -1,17 +1,19 @@
 
 #include "server.h"
 
-SOCKET AcceptSocket, ListenSocket, MulticastSocket;
+SOCKET AcceptSocket, ListenSocket, MulticastSocket, PlayerSocket;
 QTextBrowser *Log;
 WSAEVENT AcceptEvent;
 Application *mainWindow;
 QVector<QString> SongList;
 CRITICAL_SECTION critSection;
+SOCKADDR_IN InternetAddr;
+ PLAYER_INFORMATION *playerInfo;
 
 void StartServer(int port, LPVOID app, QVector<QString> songList)
 {
    WSADATA wsaData;
-   SOCKADDR_IN InternetAddr;
+
    INT Ret;
    HANDLE ThreadHandle;
    HANDLE ThreadListenHandle;
@@ -304,10 +306,7 @@ DWORD WINAPI WorkerThread(LPVOID lpParameter)
         strInfo = QString("Accepted connection: %1").arg(AcceptSocket);
         mainWindow->appendToLog(strInfo);
 
-
-
     }
-
     return TRUE;
 }
 
@@ -377,6 +376,34 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
             tok = strtok(NULL, ":");
             qDebug() << "received " << tok;
             memset(tok, 0, sizeof(tok));
+
+            //find the index'th song in the vector
+            QString filepath = SongList.at(atoi(tok));
+
+            //get the file Qfile
+            QFile file(filepath);
+
+            //get the file size
+            int filesize = file.size();
+
+            //put info in the buffer
+            sprintf(temp, "Size of song:" + file.size());
+
+            SI->DataBuf.buf = temp;
+            SI->DataBuf.len = 1024;
+
+            //write metadata to the TCP control line
+            WriteToSocket(&SI->Socket, &SI->DataBuf, 0, &SI->Overlapped);
+
+            //put data into structure to establish UDP socket
+
+
+            playerInfo->index = atoi(tok);
+            playerInfo->addrIn = InternetAddr;
+
+            //stream song
+
+
         }
 
         QRegExp rxdown("download: *");
@@ -388,8 +415,6 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
             qDebug() << "received " << tok;
             memset(tok, 0, sizeof(tok));
         }
-
-
 
         if (strcmp(SI->Buffer, "tcp") == 0)
         {
@@ -496,4 +521,76 @@ DWORD ReadSocket(SOCKET *sock, WSABUF *buf, DWORD fl,  WSAOVERLAPPED *ol)
     return rb;
 }
 
+/*-------------------------------------------------------------------------------
+-- FUNCTION: StartStream()
+--
+--
+-- NOTES:
+--
+--------------------------------------------------------------------------------*/
+DWORD WINAPI StartStream(LPVOID param)
+{
+    SOCKADDR_IN dest_addr;
+    QString send;
+    WSABUF *buf;
+    WSABUF *filesize;
+    DWORD sent;
+    DWORD flags;
+    OVERLAPPED *ol;
+    char temp[AUDIO_BUFFER];
+    int i = 0;
 
+    PLAYER_INFORMATION *info = (PLAYER_INFORMATION*) param;
+
+    buf = (WSABUF*) malloc(sizeof(WSABUF));
+
+    /* Assign our destination address */
+    dest_addr.sin_family =      AF_INET;
+    dest_addr.sin_addr.s_addr = info->addrIn.sin_addr.s_addr;
+    dest_addr.sin_port =        info->addrIn.sin_port;
+
+    QFile file(SongList.at(info->index));
+
+    //open the file for reading
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        qDebug() << "cannot find file";
+        return 0;
+    }
+
+    //create the new UDP socket
+    if ((PlayerSocket = WSASocket(AF_INET, SOCK_DGRAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED)) == INVALID_SOCKET)
+    {
+       qDebug() << "Failed to get a socket " << WSAGetLastError() << endl;
+       return 0;
+    }
+
+    //go into a loop and read the file chunk by chunk
+    while(TRUE)
+    {
+        if ((file.read(temp, AUDIO_BUFFER)))
+        {
+            buf->buf = temp;
+            buf->len = AUDIO_BUFFER;
+            ZeroMemory((&ol), sizeof(ol));
+
+            i+= AUDIO_BUFFER;
+            Sleep(DELAY);
+            if(int ret = WSASendTo(PlayerSocket, buf, 1, &sent, 0, (struct sockaddr*)&dest_addr,sizeof(dest_addr), ol, NULL) < 0 )
+            {
+                qDebug() << "Sendto failed error: " << WSAGetLastError();
+                return 1;
+            }
+
+
+            file.seek(i);
+            memset(temp, 0, sizeof(temp));
+        }
+        else
+        {
+            file.seek(0);
+        }
+    }
+
+    return 0;
+}
