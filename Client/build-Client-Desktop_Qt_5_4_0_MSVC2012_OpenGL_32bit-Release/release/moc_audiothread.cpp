@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'audiothread.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.4.0)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.3.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'audiothread.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.4.0. It"
+#error "This file was generated using the moc from 5.3.1. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -29,8 +29,7 @@ struct qt_meta_stringdata_AudioThread_t {
     )
 static const qt_meta_stringdata_AudioThread_t qt_meta_stringdata_AudioThread = {
     {
-QT_MOC_LITERAL(0, 0, 11) // "AudioThread"
-
+QT_MOC_LITERAL(0, 0, 11)
     },
     "AudioThread"
 };
@@ -62,7 +61,7 @@ void AudioThread::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
 
 const QMetaObject AudioThread::staticMetaObject = {
     { &QThread::staticMetaObject, qt_meta_stringdata_AudioThread.data,
-      qt_meta_data_AudioThread,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
+      qt_meta_data_AudioThread,  qt_static_metacall, 0, 0}
 };
 
 
@@ -73,7 +72,7 @@ const QMetaObject *AudioThread::metaObject() const
 
 void *AudioThread::qt_metacast(const char *_clname)
 {
-    if (!_clname) return Q_NULLPTR;
+    if (!_clname) return 0;
     if (!strcmp(_clname, qt_meta_stringdata_AudioThread.stringdata))
         return static_cast<void*>(const_cast< AudioThread*>(this));
     return QThread::qt_metacast(_clname);

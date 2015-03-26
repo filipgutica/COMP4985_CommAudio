@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'audioplayer.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.4.0)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.3.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,15 +12,15 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'audioplayer.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.4.0. It"
+#error "This file was generated using the moc from 5.3.1. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_AudioPlayer_t {
-    QByteArrayData data[18];
-    char stringdata[272];
+    QByteArrayData data[17];
+    char stringdata[262];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -29,25 +29,23 @@ struct qt_meta_stringdata_AudioPlayer_t {
     )
 static const qt_meta_stringdata_AudioPlayer_t qt_meta_stringdata_AudioPlayer = {
     {
-QT_MOC_LITERAL(0, 0, 11), // "AudioPlayer"
-QT_MOC_LITERAL(1, 12, 10), // "audioReady"
-QT_MOC_LITERAL(2, 23, 0), // ""
-QT_MOC_LITERAL(3, 24, 1), // "d"
-QT_MOC_LITERAL(4, 26, 18), // "on_btnPlay_clicked"
-QT_MOC_LITERAL(5, 45, 19), // "on_btnPause_clicked"
-QT_MOC_LITERAL(6, 65, 29), // "on_sliderProgress_sliderMoved"
-QT_MOC_LITERAL(7, 95, 8), // "position"
-QT_MOC_LITERAL(8, 104, 27), // "on_sliderVolume_sliderMoved"
-QT_MOC_LITERAL(9, 132, 18), // "on_positionChanged"
-QT_MOC_LITERAL(10, 151, 18), // "on_durationChanged"
-QT_MOC_LITERAL(11, 170, 20), // "on_btnResume_clicked"
-QT_MOC_LITERAL(12, 191, 23), // "processPendingDatagrams"
-QT_MOC_LITERAL(13, 215, 8), // "playData"
-QT_MOC_LITERAL(14, 224, 17), // "audioStateChanged"
-QT_MOC_LITERAL(15, 242, 13), // "QAudio::State"
-QT_MOC_LITERAL(16, 256, 5), // "state"
-QT_MOC_LITERAL(17, 262, 9) // "onTimeout"
-
+QT_MOC_LITERAL(0, 0, 11),
+QT_MOC_LITERAL(1, 12, 10),
+QT_MOC_LITERAL(2, 23, 0),
+QT_MOC_LITERAL(3, 24, 1),
+QT_MOC_LITERAL(4, 26, 18),
+QT_MOC_LITERAL(5, 45, 19),
+QT_MOC_LITERAL(6, 65, 29),
+QT_MOC_LITERAL(7, 95, 8),
+QT_MOC_LITERAL(8, 104, 27),
+QT_MOC_LITERAL(9, 132, 18),
+QT_MOC_LITERAL(10, 151, 18),
+QT_MOC_LITERAL(11, 170, 20),
+QT_MOC_LITERAL(12, 191, 23),
+QT_MOC_LITERAL(13, 215, 8),
+QT_MOC_LITERAL(14, 224, 17),
+QT_MOC_LITERAL(15, 242, 13),
+QT_MOC_LITERAL(16, 256, 5)
     },
     "AudioPlayer\0audioReady\0\0d\0on_btnPlay_clicked\0"
     "on_btnPause_clicked\0on_sliderProgress_sliderMoved\0"
@@ -55,7 +53,7 @@ QT_MOC_LITERAL(17, 262, 9) // "onTimeout"
     "on_positionChanged\0on_durationChanged\0"
     "on_btnResume_clicked\0processPendingDatagrams\0"
     "playData\0audioStateChanged\0QAudio::State\0"
-    "state\0onTimeout"
+    "state"
 };
 #undef QT_MOC_LITERAL
 
@@ -65,7 +63,7 @@ static const uint qt_meta_data_AudioPlayer[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -73,20 +71,19 @@ static const uint qt_meta_data_AudioPlayer[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   74,    2, 0x06 /* Public */,
+       1,    1,   69,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       4,    0,   77,    2, 0x08 /* Private */,
-       5,    0,   78,    2, 0x08 /* Private */,
-       6,    1,   79,    2, 0x08 /* Private */,
-       8,    1,   82,    2, 0x08 /* Private */,
-       9,    1,   85,    2, 0x08 /* Private */,
-      10,    1,   88,    2, 0x08 /* Private */,
-      11,    0,   91,    2, 0x08 /* Private */,
-      12,    0,   92,    2, 0x08 /* Private */,
-      13,    1,   93,    2, 0x08 /* Private */,
-      14,    1,   96,    2, 0x08 /* Private */,
-      17,    0,   99,    2, 0x08 /* Private */,
+       4,    0,   72,    2, 0x08 /* Private */,
+       5,    0,   73,    2, 0x08 /* Private */,
+       6,    1,   74,    2, 0x08 /* Private */,
+       8,    1,   77,    2, 0x08 /* Private */,
+       9,    1,   80,    2, 0x08 /* Private */,
+      10,    1,   83,    2, 0x08 /* Private */,
+      11,    0,   86,    2, 0x08 /* Private */,
+      12,    0,   87,    2, 0x08 /* Private */,
+      13,    1,   88,    2, 0x08 /* Private */,
+      14,    1,   91,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QByteArray,    3,
@@ -102,7 +99,6 @@ static const uint qt_meta_data_AudioPlayer[] = {
     QMetaType::Void,
     QMetaType::Void, QMetaType::QByteArray,    3,
     QMetaType::Void, 0x80000000 | 15,   16,
-    QMetaType::Void,
 
        0        // eod
 };
@@ -123,7 +119,6 @@ void AudioPlayer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 8: _t->processPendingDatagrams(); break;
         case 9: _t->playData((*reinterpret_cast< QByteArray(*)>(_a[1]))); break;
         case 10: _t->audioStateChanged((*reinterpret_cast< QAudio::State(*)>(_a[1]))); break;
-        case 11: _t->onTimeout(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -151,7 +146,7 @@ void AudioPlayer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
 
 const QMetaObject AudioPlayer::staticMetaObject = {
     { &QDialog::staticMetaObject, qt_meta_stringdata_AudioPlayer.data,
-      qt_meta_data_AudioPlayer,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
+      qt_meta_data_AudioPlayer,  qt_static_metacall, 0, 0}
 };
 
 
@@ -162,7 +157,7 @@ const QMetaObject *AudioPlayer::metaObject() const
 
 void *AudioPlayer::qt_metacast(const char *_clname)
 {
-    if (!_clname) return Q_NULLPTR;
+    if (!_clname) return 0;
     if (!strcmp(_clname, qt_meta_stringdata_AudioPlayer.stringdata))
         return static_cast<void*>(const_cast< AudioPlayer*>(this));
     return QDialog::qt_metacast(_clname);
@@ -174,13 +169,13 @@ int AudioPlayer::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 12)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 12)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 11;
     }
     return _id;
 }
@@ -188,7 +183,7 @@ int AudioPlayer::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 // SIGNAL 0
 void AudioPlayer::audioReady(QByteArray _t1)
 {
-    void *_a[] = { Q_NULLPTR, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_END_MOC_NAMESPACE

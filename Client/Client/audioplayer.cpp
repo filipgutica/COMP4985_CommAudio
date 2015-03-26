@@ -26,7 +26,7 @@ QAudioOutput *audioOutput;
 QIODevice *ioOutput;
 QBuffer *buffer;
 
-QSemaphore sem1(100);
+QSemaphore sem1(HIGH_WATERMARK/44100);
 QSemaphore sem2(0);
 
 /*------------------------------------------------------------------------------
@@ -66,7 +66,7 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 
     // Setup the audioOuput address with the desired format
     audioOutput = new QAudioOutput(format, this);
-    audioOutput->setBufferSize(AUDIO_BUFFSIZE);
+    audioOutput->setBufferSize(BYTES_PER_SECOND);
 
     bytecount = 0;
     nBytes = 0;
@@ -99,7 +99,10 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 /*-----------------------------------------------------------------------------*/
 AudioPlayer::~AudioPlayer()
 {
+    thrd->terminate();
     buffer->close();
+    ioOutput->close();
+    audioOutput->stop();
     udpSocket->close();
     delete ui;
 }
@@ -270,8 +273,9 @@ void AudioPlayer::processPendingDatagrams()
         udpSocket->readDatagram(datagram.data(), datagram.size());
     }
 
-    //Signal that there is audio ready to be played.
+
     emit audioReady(datagram);
+
 }
 
 /*------------------------------------------------------------------------------
@@ -284,74 +288,25 @@ void AudioPlayer::processPendingDatagrams()
 --
 --	DESIGNERS:		Filip Gutica
 --
---	PROGRAMMER:		Filip Gutica
+--	PROGRAMMER:		Filip Gutica & Sanders Lee
 /*-----------------------------------------------------------------------------*/
 void AudioPlayer::playData(QByteArray d)
 {
-    // buffering component... work in progress
-<<<<<<< HEAD
     static int bytesWritten = 0;
 
-=======
-   /* static int lastWritten = 0;
-    // sem1.acquire();
-    buffer->seek(lastWritten);
->>>>>>> adfcf645b906b91f0979528328b95f19eb9ac94a
+  //  sem1.acquire();
     buffer->open(QIODevice::ReadWrite);
     buffer->seek(bytesWritten);
     buffer->write(d.data(), d.size());
     buffer->waitForBytesWritten(10);
-    //qDebug() << "Socket side: " << bytecount;
+  //  sem2.release();
+   qDebug() << "Socket positionL " << buffer->pos();
 
-<<<<<<< HEAD
     if (bytecount >= AUDIO_BUFFSIZE)
         bytecount = 0;
+
     bytesWritten = bytecount;
-=======
-
-    //data.append(d.data(), d.size());
-
-    qDebug() << "Socket side: " << bytecount;
-
-   // if (bytecount >= MAX_BUFFSIZE)
-    //{
-       //bytecount = 0;
-       // buffer->seek(0);
-    }//*/
-  //  lastWritten = bytecount;
-   // sem2.release();
-
-   // For now, play bytes as they come in.. works for localhost or very fast networks
-    qDebug() << "Socket side: " << bytecount;
-   ioOutput->write(d.data(), d.size());
->>>>>>> adfcf645b906b91f0979528328b95f19eb9ac94a
 }
-
-// Don't really need this anymore
-void AudioPlayer::onTimerEvent()
-{
-    if (buffer->size() > 0)
-    {
-        buffer->open(QIODevice::ReadOnly);
-
-        nBytes += ioOutput->write(buffer->data().constData(), 512);
-        qDebug() << "Audio side: " << nBytes;
-        ioOutput->waitForBytesWritten(1000);
-        buffer->seek(nBytes);
-
-
-        if (nBytes >= BufferSize)
-        {
-            nBytes = 0;
-            buffer->seek(0);
-        }
-    }
-
-    if (!data->isEmpty())
-    {
-        ioOutput->write(*data);
-    }
-}//*/
 
 /*------------------------------------------------------------------------------
 --	FUNCTION: audioStateChanged(QAudio::State)

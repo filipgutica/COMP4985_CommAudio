@@ -42,9 +42,9 @@ void Application::on_actionAudio_Stream_triggered()
 
 void Application::on_actionRadio_triggered()
 {
-    AudioPlayer audPlayer;
+    AudioPlayer *audPlayer = new AudioPlayer();
 
-    audPlayer.exec();
+    audPlayer->show();
 }
 
 void Application::on_actionVOIP_triggered()

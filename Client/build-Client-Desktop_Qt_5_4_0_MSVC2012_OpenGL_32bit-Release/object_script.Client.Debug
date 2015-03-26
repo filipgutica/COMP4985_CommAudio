@@ -1,0 +1,13 @@
+INPUT(
+./debug\main.o
+./debug\application.o
+./debug\audioplayer.o
+./debug\client.o
+./debug\audiothread.o
+./debug\configure.o
+./debug\client_plugin_import.o
+./debug\moc_application.o
+./debug\moc_audioplayer.o
+./debug\moc_audiothread.o
+./debug\moc_configure.o
+);

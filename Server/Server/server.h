@@ -16,7 +16,8 @@
 #define TIMECAST_ADDR   "234.5.6.7"
 #define TIMECAST_PORT   7575
 #define TIMECAST_TTL    2
-#define AUDIO_BUFFER    44100
+#define AUDIO_BUFFER    8820
+#define DELAY           32
 
 typedef struct _SOCKET_INFORMATION {
    OVERLAPPED Overlapped;

@@ -1,9 +1,7 @@
 
 #include "server.h"
 
-SOCKET AcceptSocket;
-SOCKET ListenSocket;
-SOCKET MulticastSocket;
+SOCKET AcceptSocket, ListenSocket, MulticastSocket;
 QTextBrowser *Log;
 WSAEVENT AcceptEvent;
 Application *mainWindow;
@@ -97,12 +95,16 @@ void StartMulticast()
     HANDLE hThread;
     DWORD threadID;
     struct ip_mreq stMreq;
+    struct timeval timeout;
     SOCKADDR_IN stLclAddr, stDstAddr;
     char MCAddr[64] = TIMECAST_ADDR;
     u_short nPort = TIMECAST_PORT;
     u_long lTTL = TIMECAST_TTL;
     int ret;
     bool flag;
+
+    timeout.tv_sec = 0;
+    timeout.tv_usec = 32000;
 
     if ((MulticastSocket = WSASocket(AF_INET, SOCK_DGRAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED)) == INVALID_SOCKET)
     {
@@ -142,6 +144,11 @@ void StartMulticast()
         return;
     }
 
+    if ((ret = setsockopt(MulticastSocket, SOL_SOCKET, SO_SNDTIMEO, (char*)&timeout, sizeof(timeout))) == SOCKET_ERROR)
+    {
+        qDebug() << "SO_SENDTIMEO failed: " << WSAGetLastError();
+        return;
+    }
 
 
     if ((hThread = CreateThread(NULL, 0, MulticastThread, (LPVOID) &stDstAddr, 0, &threadID)) == NULL)
@@ -176,7 +183,7 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
       stDstAddr.sin_port =        htons(TIMECAST_PORT);
 
     int ret;
-    QFile file("../Music/Avicii_-_Levels.wav");
+    QFile file("../Music/Yo_Gotti_-_I_Don_39_t_Like_CM7_-_5_[1_.wav");
 
     if (!file.open(QIODevice::ReadOnly))
     {
@@ -193,8 +200,7 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
             ZeroMemory((&ol), sizeof(ol));
 
             i+= AUDIO_BUFFER;
-
-            Sleep(225);
+            Sleep(DELAY);
             if(ret = WSASendTo(MulticastSocket, buf, 1, &sent, 0, (struct sockaddr*)&stDstAddr,sizeof(stDstAddr), ol, NULL) < 0 )
             {
                 qDebug() << "Sendto failed error: " << WSAGetLastError();

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'application.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.4.0)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.3.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'application.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.4.0. It"
+#error "This file was generated using the moc from 5.3.1. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -29,17 +29,16 @@ struct qt_meta_stringdata_Application_t {
     )
 static const qt_meta_stringdata_Application_t qt_meta_stringdata_Application = {
     {
-QT_MOC_LITERAL(0, 0, 11), // "Application"
-QT_MOC_LITERAL(1, 12, 31), // "on_actionAudio_Stream_triggered"
-QT_MOC_LITERAL(2, 44, 0), // ""
-QT_MOC_LITERAL(3, 45, 23), // "on_actionVOIP_triggered"
-QT_MOC_LITERAL(4, 69, 24), // "on_actionRadio_triggered"
-QT_MOC_LITERAL(5, 94, 7), // "ReadTCP"
-QT_MOC_LITERAL(6, 102, 26), // "on_listMusic_doubleClicked"
-QT_MOC_LITERAL(7, 129, 5), // "index"
-QT_MOC_LITERAL(8, 135, 39), // "on_listMusic_customContextMen..."
-QT_MOC_LITERAL(9, 175, 3) // "pos"
-
+QT_MOC_LITERAL(0, 0, 11),
+QT_MOC_LITERAL(1, 12, 31),
+QT_MOC_LITERAL(2, 44, 0),
+QT_MOC_LITERAL(3, 45, 23),
+QT_MOC_LITERAL(4, 69, 24),
+QT_MOC_LITERAL(5, 94, 7),
+QT_MOC_LITERAL(6, 102, 26),
+QT_MOC_LITERAL(7, 129, 5),
+QT_MOC_LITERAL(8, 135, 39),
+QT_MOC_LITERAL(9, 175, 3)
     },
     "Application\0on_actionAudio_Stream_triggered\0"
     "\0on_actionVOIP_triggered\0"
@@ -100,7 +99,7 @@ void Application::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
 
 const QMetaObject Application::staticMetaObject = {
     { &QMainWindow::staticMetaObject, qt_meta_stringdata_Application.data,
-      qt_meta_data_Application,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
+      qt_meta_data_Application,  qt_static_metacall, 0, 0}
 };
 
 
@@ -111,7 +110,7 @@ const QMetaObject *Application::metaObject() const
 
 void *Application::qt_metacast(const char *_clname)
 {
-    if (!_clname) return Q_NULLPTR;
+    if (!_clname) return 0;
     if (!strcmp(_clname, qt_meta_stringdata_Application.stringdata))
         return static_cast<void*>(const_cast< Application*>(this));
     return QMainWindow::qt_metacast(_clname);
