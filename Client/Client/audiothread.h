@@ -15,7 +15,7 @@ public:
 private:
     int nBytes;
     bool streamMode = false;
-    int maxBytes = std::numeric_limits<qint8>::max();
+    int maxBytes = 10000000;
     int totalBytes = 0;
 };
 

@@ -60,7 +60,8 @@ void AudioThread::run()
 
 void AudioThread::setMaxBytes(int x)
 {
-    maxBytes = x;
+    qDebug() << "oooooooh myyyy ghat";
+   // maxBytes = x;
     streamMode = true;
 }
 

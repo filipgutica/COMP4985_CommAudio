@@ -1,25 +1,25 @@
 
 #include "server.h"
 
-SOCKET AcceptSocket, ListenSocket, MulticastSocket, PlayerSocket;
+SOCKET AcceptSocket, ListenSocket, MulticastSocket;
 QTextBrowser *Log;
 WSAEVENT AcceptEvent;
 Application *mainWindow;
 QVector<QString> SongList;
 CRITICAL_SECTION critSection;
-SOCKADDR_IN InternetAddr;
- PLAYER_INFORMATION *playerInfo;
+PLAYER_INFORMATION *playerInfo;
+SOCKADDR_IN client_addr;
 
 void StartServer(int port, LPVOID app, QVector<QString> songList)
 {
    WSADATA wsaData;
-
    INT Ret;
    HANDLE ThreadHandle;
    HANDLE ThreadListenHandle;
    DWORD ThreadId;
    DWORD ThreadIdListen;
    QString strInfo;
+   SOCKADDR_IN InternetAddr;
 
    playerInfo = (PLAYER_INFORMATION*)malloc(sizeof(PLAYER_INFORMATION));
 
@@ -235,7 +235,10 @@ DWORD WINAPI ListenThread(LPVOID lpParameter)
 {
     while(TRUE)
     {
+        int client_size = sizeof(client_addr);
         AcceptSocket = accept(ListenSocket, NULL, NULL);
+
+        getsockname(AcceptSocket, (PSOCKADDR) &client_addr, &client_size);
 
         if (WSASetEvent(AcceptEvent) == FALSE)
         {
@@ -290,7 +293,6 @@ DWORD WINAPI WorkerThread(LPVOID lpParameter)
         }
 
         // Fill in the details of our accepted socket.
-
         SocketInfo->Socket = AcceptSocket;
         ZeroMemory(&(SocketInfo->Overlapped), sizeof(WSAOVERLAPPED));
         SocketInfo->BytesSEND = 0;
@@ -322,6 +324,8 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
     DWORD SendBytes, RecvBytes;
     DWORD Flags;
     QString strInfo;
+    HANDLE ThreadStream;
+    DWORD ThreadStreamId;
 
     char temp[1024];
 
@@ -388,28 +392,25 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
             //get the file size
             int filesize = file.size();
 
-            qDebug() << "got the file size: " << filesize;
             //put info in the buffer
-
             sprintf(temp, "size:%d", file.size());
 
             SI->DataBuf.buf = temp;
             SI->DataBuf.len = 1024;
 
-            //qDebug() << "before WriteToSocket";
             //write metadata to the TCP control line
             WriteToSocket(&SI->Socket, &SI->DataBuf, 0, &SI->Overlapped);
-            //qDebug() << "done WriteToSocket";
 
             //put data into structure to establish UDP socket
-
-
             playerInfo->index = atoi(tok);
-            playerInfo->addrIn = InternetAddr;
+            playerInfo->addrIn = client_addr;
 
-            qDebug() << "about to stream song";
             //stream song
-
+            if ((ThreadStream = CreateThread(NULL, 0, StreamThread, (LPVOID) playerInfo, 0, &ThreadStreamId)) == NULL)
+            {
+               qDebug() << "CreateThread failed with error " << GetLastError() << endl;
+               return;
+            }
 
         }
 
@@ -535,8 +536,9 @@ DWORD ReadSocket(SOCKET *sock, WSABUF *buf, DWORD fl,  WSAOVERLAPPED *ol)
 -- NOTES:
 --
 --------------------------------------------------------------------------------*/
-DWORD WINAPI StartStream(LPVOID param)
+DWORD WINAPI StreamThread(LPVOID param)
 {
+    SOCKET PlayerSocket;
     SOCKADDR_IN dest_addr;
     QString send;
     WSABUF *buf;
@@ -546,6 +548,7 @@ DWORD WINAPI StartStream(LPVOID param)
     OVERLAPPED *ol;
     char temp[AUDIO_BUFFER];
     int i = 0;
+    int ret;
 
     PLAYER_INFORMATION *info = (PLAYER_INFORMATION*) param;
 
@@ -555,6 +558,8 @@ DWORD WINAPI StartStream(LPVOID param)
     dest_addr.sin_family =      AF_INET;
     dest_addr.sin_addr.s_addr = info->addrIn.sin_addr.s_addr;
     dest_addr.sin_port =        info->addrIn.sin_port;
+
+    qDebug() << "Destination addr: " << inet_ntoa(dest_addr.sin_addr);
 
     QFile file(SongList.at(info->index));
 
@@ -583,6 +588,8 @@ DWORD WINAPI StartStream(LPVOID param)
 
             i+= AUDIO_BUFFER;
             Sleep(DELAY);
+
+
             if(int ret = WSASendTo(PlayerSocket, buf, 1, &sent, 0, (struct sockaddr*)&dest_addr,sizeof(dest_addr), ol, NULL) < 0 )
             {
                 qDebug() << "Sendto failed error: " << WSAGetLastError();
@@ -590,6 +597,7 @@ DWORD WINAPI StartStream(LPVOID param)
             }
 
 
+            //qDebug() << i;
             file.seek(i);
             memset(temp, 0, sizeof(temp));
         }

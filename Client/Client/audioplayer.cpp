@@ -93,7 +93,7 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 --
 --	PURPOSE:		Constructor, initializes the Ui object containing al ui elemnets
 --
---	DESIGNERS:		Alex Lam
+--	DESIGNERS:		Alex Lam lol
 --
 --	PROGRAMMER:		Alex Lam
 /*-----------------------------------------------------------------------------*/
@@ -107,11 +107,11 @@ AudioPlayer::AudioPlayer(QString ga, QWidget *parent) : QDialog(parent), ui(new 
 
     // Hardcoded multicast address
     //groupAddress = QHostAddress("234.5.6.7");
-    groupAddress = ga;
+    groupAddress = QHostAddress(ga);
 
     // Setup the muticast socket
     udpSocket = new QUdpSocket(this);
-    udpSocket->bind(QHostAddress::AnyIPv4, 7000);
+    udpSocket->bind(groupAddress, 7000);
     udpSocket->setReadBufferSize(AUDIO_BUFFSIZE);
 
     // Set the audio format
@@ -373,7 +373,7 @@ void AudioPlayer::playData(QByteArray d)
     buffer->write(d.data(), d.size());
     buffer->waitForBytesWritten(10);
   //  sem2.release();
-   qDebug() << "Socket positionL " << buffer->pos();
+   qDebug() << "Socket position " << buffer->pos();
 
     if (bytecount >= AUDIO_BUFFSIZE)
         bytecount = 0;

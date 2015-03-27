@@ -43,7 +43,7 @@ DWORD WriteToSocket(SOCKET *sock, WSABUF *buf, DWORD fl, WSAOVERLAPPED *ol);
 DWORD ReadSocket(SOCKET *sock, WSABUF *buf, DWORD fl,  WSAOVERLAPPED *ol);
 DWORD WINAPI MulticastThread(LPVOID lpParameter);
 void StartMulticast();
-DWORD WINAPI StartStream(LPVOID param);
+DWORD WINAPI StreamThread(LPVOID param);
 
 #endif // SERVER
 
