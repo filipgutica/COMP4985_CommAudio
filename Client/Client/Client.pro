@@ -19,17 +19,20 @@ SOURCES += main.cpp\
     audioplayer.cpp \
     client.cpp \
     audiothread.cpp \
-    configure.cpp
+    configure.cpp \
+    downloader.cpp
 
 HEADERS  += application.h \
     audioplayer.h \
     client.h \
     audiothread.h \
     globals.h \
-    configure.h
+    configure.h \
+    downloader.h
 
 FORMS    += application.ui \
     audioplayer.ui \
-    configure.ui
+    configure.ui \
+    downloader.ui
 
 CONFIG += static
