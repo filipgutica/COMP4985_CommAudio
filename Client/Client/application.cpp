@@ -144,40 +144,57 @@ void Application::on_listMusic_doubleClicked(const QModelIndex &index)
 
 /***
  * Right clicking the song opens up the download option.
+ *
+ * Designer:    Filip Gutica
+ *              Sanders Lee
+ *
+ * Programmer:  Filip Gutica
+ *              Sanders Lee
  */
 void Application::on_listMusic_customContextMenuRequested(const QPoint &pos)
 {
     QModelIndex index = ui->listMusic->indexAt(pos);
-    QMenu myMenu;
-    QAction *myAction = myMenu.addAction("Download");
 
-    if ( index.isValid())
+    if ( index.isValid() )
     {
-        myMenu.exec(ui->listMusic->mapToGlobal(pos));
-        QSignalMapper mapper((QObject *) &myMenu);
-        mapper.setMapping(myAction, (QObject *) &index);
-        connect(&mapper, SIGNAL(mapped(QModelIndex)), this, SLOT(SaveNew(QModelIndex)));
+        QMenu * myMenu = new QMenu();
+        QAction * myAction = new QAction("Download", this);
+        myMenu->addAction(myAction);
+
+        // map the action of clicking on "Download" to calling SaveNew()
+        QSignalMapper * mapper = new QSignalMapper((QObject *) myMenu);
+        mapper->setMapping(myAction, (QObject *) &index);   // associate index object with "Download"
+        connect(myAction, SIGNAL(triggered()), mapper, SLOT(map()));
+        connect(mapper, SIGNAL(mapped(QObject *)), this, SLOT(SaveNew(QObject *)));
+
+        myMenu->exec(ui->listMusic->mapToGlobal(pos));
     }
 }
 
 /***
  * Clicking on the download option starts the download
+ *
+ * Designer:    Sanders Lee
+ *
+ * Programmer:  Sanders Lee
  */
-void Application::SaveNew(QModelIndex index)
+void Application::SaveNew(QObject * i)
 {
-    if ( index.isValid())
+    QModelIndex * index = (QModelIndex *) i;
+
+    if ( index->isValid())
     {
-        qDebug() << "Download requested: " << index.row();
+        qDebug() << "Download requested: " << index->row();
 
         QString qs;
-        qs = QString("download: %1").arg(index.row());
-        qDebug() << index.row();
+        qs = QString("download: %1").arg(index->row());
+        qDebug() << index->row();
         qDebug() << qs;
         QByteArray tcpbytes;
         tcpbytes.append(qs);
         WriteTCP(tcpbytes);
 
-        QString song = index.data().toString();
+        QString song = index->data().toString();
 
     }
 }

@@ -163,7 +163,7 @@ dist:
 
 clean: compiler_clean 
 	-$(DEL_FILE) debug\main.obj debug\application.obj debug\audioplayer.obj debug\client.obj debug\audiothread.obj debug\configure.obj debug\moc_application.obj debug\moc_audioplayer.obj debug\moc_audiothread.obj debug\moc_configure.obj
-	-$(DEL_FILE) debug\Client.exp debug\Client.ilk debug\Client.idb
+	-$(DEL_FILE) debug\Client.ilk debug\Client.idb
 
 distclean: clean 
 	-$(DEL_FILE) debug\Client.pdb
@@ -460,8 +460,13 @@ debug\moc_application.cpp: C:\Qt\5.4\msvc2013_64\include\QtWidgets\QMainWindow \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QTimer \
 		..\Client\audiothread.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QThread \
+		..\Client\globals.h \
+		C:\Qt\5.4\msvc2013_64\include\QtCore\QBuffer \
+		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\QAudioOutput \
+		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\qaudiooutput.h \
+		C:\Qt\5.4\msvc2013_64\include\QtCore\QSemaphore \
 		..\Client\application.h
-	C:\Qt\5.4\msvc2013_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -IC:/Qt/5.4/msvc2013_64/mkspecs/win32-msvc2013 -IC:/Users/Alex/Documents/GitHub/COMP4985_CommAudio/Client/Client -IC:/Qt/5.4/msvc2013_64/include -IC:/Qt/5.4/msvc2013_64/include/QtMultimedia -IC:/Qt/5.4/msvc2013_64/include/QtWidgets -IC:/Qt/5.4/msvc2013_64/include/QtGui -IC:/Qt/5.4/msvc2013_64/include/QtANGLE -IC:/Qt/5.4/msvc2013_64/include/QtNetwork -IC:/Qt/5.4/msvc2013_64/include/QtCore -I. ..\Client\application.h -o debug\moc_application.cpp
+	C:\Qt\5.4\msvc2013_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -IC:/Qt/5.4/msvc2013_64/mkspecs/win32-msvc2013 -IC:/Users/Alex/Downloads/COMP4985_CommAudio/Client/Client -IC:/Qt/5.4/msvc2013_64/include -IC:/Qt/5.4/msvc2013_64/include/QtMultimedia -IC:/Qt/5.4/msvc2013_64/include/QtWidgets -IC:/Qt/5.4/msvc2013_64/include/QtGui -IC:/Qt/5.4/msvc2013_64/include/QtANGLE -IC:/Qt/5.4/msvc2013_64/include/QtNetwork -IC:/Qt/5.4/msvc2013_64/include/QtCore -I. ..\Client\application.h -o debug\moc_application.cpp
 
 debug\moc_audioplayer.cpp: C:\Qt\5.4\msvc2013_64\include\QtWidgets\QDialog \
 		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qdialog.h \
@@ -734,8 +739,13 @@ debug\moc_audioplayer.cpp: C:\Qt\5.4\msvc2013_64\include\QtWidgets\QDialog \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QTimer \
 		..\Client\audiothread.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QThread \
+		..\Client\globals.h \
+		C:\Qt\5.4\msvc2013_64\include\QtCore\QBuffer \
+		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\QAudioOutput \
+		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\qaudiooutput.h \
+		C:\Qt\5.4\msvc2013_64\include\QtCore\QSemaphore \
 		..\Client\audioplayer.h
-	C:\Qt\5.4\msvc2013_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -IC:/Qt/5.4/msvc2013_64/mkspecs/win32-msvc2013 -IC:/Users/Alex/Documents/GitHub/COMP4985_CommAudio/Client/Client -IC:/Qt/5.4/msvc2013_64/include -IC:/Qt/5.4/msvc2013_64/include/QtMultimedia -IC:/Qt/5.4/msvc2013_64/include/QtWidgets -IC:/Qt/5.4/msvc2013_64/include/QtGui -IC:/Qt/5.4/msvc2013_64/include/QtANGLE -IC:/Qt/5.4/msvc2013_64/include/QtNetwork -IC:/Qt/5.4/msvc2013_64/include/QtCore -I. ..\Client\audioplayer.h -o debug\moc_audioplayer.cpp
+	C:\Qt\5.4\msvc2013_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -IC:/Qt/5.4/msvc2013_64/mkspecs/win32-msvc2013 -IC:/Users/Alex/Downloads/COMP4985_CommAudio/Client/Client -IC:/Qt/5.4/msvc2013_64/include -IC:/Qt/5.4/msvc2013_64/include/QtMultimedia -IC:/Qt/5.4/msvc2013_64/include/QtWidgets -IC:/Qt/5.4/msvc2013_64/include/QtGui -IC:/Qt/5.4/msvc2013_64/include/QtANGLE -IC:/Qt/5.4/msvc2013_64/include/QtNetwork -IC:/Qt/5.4/msvc2013_64/include/QtCore -I. ..\Client\audioplayer.h -o debug\moc_audioplayer.cpp
 
 debug\moc_audiothread.cpp: C:\Qt\5.4\msvc2013_64\include\QtCore\QThread \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\qthread.h \
@@ -789,7 +799,7 @@ debug\moc_audiothread.cpp: C:\Qt\5.4\msvc2013_64\include\QtCore\QThread \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\qisenum.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\qobject_impl.h \
 		..\Client\audiothread.h
-	C:\Qt\5.4\msvc2013_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -IC:/Qt/5.4/msvc2013_64/mkspecs/win32-msvc2013 -IC:/Users/Alex/Documents/GitHub/COMP4985_CommAudio/Client/Client -IC:/Qt/5.4/msvc2013_64/include -IC:/Qt/5.4/msvc2013_64/include/QtMultimedia -IC:/Qt/5.4/msvc2013_64/include/QtWidgets -IC:/Qt/5.4/msvc2013_64/include/QtGui -IC:/Qt/5.4/msvc2013_64/include/QtANGLE -IC:/Qt/5.4/msvc2013_64/include/QtNetwork -IC:/Qt/5.4/msvc2013_64/include/QtCore -I. ..\Client\audiothread.h -o debug\moc_audiothread.cpp
+	C:\Qt\5.4\msvc2013_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -IC:/Qt/5.4/msvc2013_64/mkspecs/win32-msvc2013 -IC:/Users/Alex/Downloads/COMP4985_CommAudio/Client/Client -IC:/Qt/5.4/msvc2013_64/include -IC:/Qt/5.4/msvc2013_64/include/QtMultimedia -IC:/Qt/5.4/msvc2013_64/include/QtWidgets -IC:/Qt/5.4/msvc2013_64/include/QtGui -IC:/Qt/5.4/msvc2013_64/include/QtANGLE -IC:/Qt/5.4/msvc2013_64/include/QtNetwork -IC:/Qt/5.4/msvc2013_64/include/QtCore -I. ..\Client\audiothread.h -o debug\moc_audiothread.cpp
 
 debug\moc_configure.cpp: C:\Qt\5.4\msvc2013_64\include\QtWidgets\QDialog \
 		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qdialog.h \
@@ -895,7 +905,7 @@ debug\moc_configure.cpp: C:\Qt\5.4\msvc2013_64\include\QtWidgets\QDialog \
 		C:\Qt\5.4\msvc2013_64\include\QtGui\qvector2d.h \
 		C:\Qt\5.4\msvc2013_64\include\QtGui\qtouchdevice.h \
 		..\Client\configure.h
-	C:\Qt\5.4\msvc2013_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -IC:/Qt/5.4/msvc2013_64/mkspecs/win32-msvc2013 -IC:/Users/Alex/Documents/GitHub/COMP4985_CommAudio/Client/Client -IC:/Qt/5.4/msvc2013_64/include -IC:/Qt/5.4/msvc2013_64/include/QtMultimedia -IC:/Qt/5.4/msvc2013_64/include/QtWidgets -IC:/Qt/5.4/msvc2013_64/include/QtGui -IC:/Qt/5.4/msvc2013_64/include/QtANGLE -IC:/Qt/5.4/msvc2013_64/include/QtNetwork -IC:/Qt/5.4/msvc2013_64/include/QtCore -I. ..\Client\configure.h -o debug\moc_configure.cpp
+	C:\Qt\5.4\msvc2013_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -IC:/Qt/5.4/msvc2013_64/mkspecs/win32-msvc2013 -IC:/Users/Alex/Downloads/COMP4985_CommAudio/Client/Client -IC:/Qt/5.4/msvc2013_64/include -IC:/Qt/5.4/msvc2013_64/include/QtMultimedia -IC:/Qt/5.4/msvc2013_64/include/QtWidgets -IC:/Qt/5.4/msvc2013_64/include/QtGui -IC:/Qt/5.4/msvc2013_64/include/QtANGLE -IC:/Qt/5.4/msvc2013_64/include/QtNetwork -IC:/Qt/5.4/msvc2013_64/include/QtCore -I. ..\Client\configure.h -o debug\moc_configure.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -1201,6 +1211,11 @@ debug\main.obj: ..\Client\main.cpp ..\Client\application.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QTimer \
 		..\Client\audiothread.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QThread \
+		..\Client\globals.h \
+		C:\Qt\5.4\msvc2013_64\include\QtCore\QBuffer \
+		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\QAudioOutput \
+		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\qaudiooutput.h \
+		C:\Qt\5.4\msvc2013_64\include\QtCore\QSemaphore \
 		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QApplication \
 		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qapplication.h \
 		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qdesktopwidget.h \
@@ -1485,49 +1500,12 @@ debug\application.obj: ..\Client\application.cpp ..\Client\application.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QTimer \
 		..\Client\audiothread.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QThread \
+		..\Client\globals.h \
+		C:\Qt\5.4\msvc2013_64\include\QtCore\QBuffer \
+		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\QAudioOutput \
+		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\qaudiooutput.h \
+		C:\Qt\5.4\msvc2013_64\include\QtCore\QSemaphore \
 		ui_application.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QAction \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qaction.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qactiongroup.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QApplication \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qapplication.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qdesktopwidget.h \
-		C:\Qt\5.4\msvc2013_64\include\QtGui\qguiapplication.h \
-		C:\Qt\5.4\msvc2013_64\include\QtGui\qinputmethod.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QButtonGroup \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qbuttongroup.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QGridLayout \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qgridlayout.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qlayout.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qlayoutitem.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qboxlayout.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QHeaderView \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qheaderview.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qabstractitemview.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qabstractscrollarea.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qframe.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qabstractitemdelegate.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qstyleoption.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qabstractspinbox.h \
-		C:\Qt\5.4\msvc2013_64\include\QtGui\qvalidator.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qslider.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qabstractslider.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qstyle.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qtabbar.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qrubberband.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QLabel \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qlabel.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QListView \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qlistview.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QMenu \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qmenu.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QMenuBar \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qmenubar.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QStatusBar \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qstatusbar.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QToolBar \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qtoolbar.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QWidget \
 		..\Client\configure.h
 
 debug\audioplayer.obj: ..\Client\audioplayer.cpp ..\Client\audioplayer.h \
@@ -1802,52 +1780,12 @@ debug\audioplayer.obj: ..\Client\audioplayer.cpp ..\Client\audioplayer.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QTimer \
 		..\Client\audiothread.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QThread \
-		ui_audioplayer.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QAction \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qaction.h \
-		C:\Qt\5.4\msvc2013_64\include\QtGui\qicon.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qactiongroup.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QApplication \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qapplication.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qdesktopwidget.h \
-		C:\Qt\5.4\msvc2013_64\include\QtGui\qguiapplication.h \
-		C:\Qt\5.4\msvc2013_64\include\QtGui\qinputmethod.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QButtonGroup \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qbuttongroup.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QFormLayout \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qformlayout.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QLayout \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qlayout.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qlayoutitem.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qboxlayout.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qgridlayout.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QHeaderView \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qheaderview.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qabstractitemview.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qabstractscrollarea.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qframe.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qabstractitemdelegate.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qstyleoption.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qabstractspinbox.h \
-		C:\Qt\5.4\msvc2013_64\include\QtGui\qvalidator.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qslider.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qabstractslider.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qstyle.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qtabbar.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qtabwidget.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qrubberband.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QLabel \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qlabel.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QPushButton \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qpushbutton.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qabstractbutton.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QSlider \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QWidget \
 		..\Client\globals.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QBuffer \
 		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\QAudioOutput \
 		C:\Qt\5.4\msvc2013_64\include\QtMultimedia\qaudiooutput.h \
-		C:\Qt\5.4\msvc2013_64\include\QtCore\QSemaphore
+		C:\Qt\5.4\msvc2013_64\include\QtCore\QSemaphore \
+		ui_audioplayer.h
 
 debug\client.obj: ..\Client\client.cpp ..\Client\client.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QString \
@@ -2075,47 +2013,7 @@ debug\configure.obj: ..\Client\configure.cpp ..\Client\configure.h \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\qfiledevice.h \
 		C:\Qt\5.4\msvc2013_64\include\QtGui\qvector2d.h \
 		C:\Qt\5.4\msvc2013_64\include\QtGui\qtouchdevice.h \
-		ui_configure.h \
-		C:\Qt\5.4\msvc2013_64\include\QtCore\QVariant \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QAction \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qaction.h \
-		C:\Qt\5.4\msvc2013_64\include\QtGui\qicon.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qactiongroup.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QApplication \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qapplication.h \
-		C:\Qt\5.4\msvc2013_64\include\QtCore\qcoreapplication.h \
-		C:\Qt\5.4\msvc2013_64\include\QtCore\qeventloop.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qdesktopwidget.h \
-		C:\Qt\5.4\msvc2013_64\include\QtGui\qguiapplication.h \
-		C:\Qt\5.4\msvc2013_64\include\QtGui\qinputmethod.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QButtonGroup \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qbuttongroup.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QDialogButtonBox \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qdialogbuttonbox.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QHeaderView \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qheaderview.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qabstractitemview.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qabstractscrollarea.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qframe.h \
-		C:\Qt\5.4\msvc2013_64\include\QtCore\qabstractitemmodel.h \
-		C:\Qt\5.4\msvc2013_64\include\QtCore\qitemselectionmodel.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qabstractitemdelegate.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qstyleoption.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qabstractspinbox.h \
-		C:\Qt\5.4\msvc2013_64\include\QtGui\qvalidator.h \
-		C:\Qt\5.4\msvc2013_64\include\QtCore\qregularexpression.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qslider.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qabstractslider.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qstyle.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qtabbar.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qtabwidget.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qrubberband.h \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\QLineEdit \
-		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qlineedit.h \
-		C:\Qt\5.4\msvc2013_64\include\QtGui\qtextcursor.h \
-		C:\Qt\5.4\msvc2013_64\include\QtGui\qtextformat.h \
-		C:\Qt\5.4\msvc2013_64\include\QtGui\qpen.h \
-		C:\Qt\5.4\msvc2013_64\include\QtGui\qtextoption.h
+		ui_configure.h
 
 debug\moc_application.obj: debug\moc_application.cpp 
 

@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Application_t {
-    QByteArrayData data[8];
-    char stringdata[135];
+    QByteArrayData data[12];
+    char stringdata[189];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -36,13 +36,19 @@ QT_MOC_LITERAL(3, 45, 23), // "on_actionVOIP_triggered"
 QT_MOC_LITERAL(4, 69, 24), // "on_actionRadio_triggered"
 QT_MOC_LITERAL(5, 94, 7), // "ReadTCP"
 QT_MOC_LITERAL(6, 102, 26), // "on_listMusic_doubleClicked"
-QT_MOC_LITERAL(7, 129, 5) // "index"
+QT_MOC_LITERAL(7, 129, 5), // "index"
+QT_MOC_LITERAL(8, 135, 39), // "on_listMusic_customContextMen..."
+QT_MOC_LITERAL(9, 175, 3), // "pos"
+QT_MOC_LITERAL(10, 179, 7), // "SaveNew"
+QT_MOC_LITERAL(11, 187, 1) // "i"
 
     },
     "Application\0on_actionAudio_Stream_triggered\0"
     "\0on_actionVOIP_triggered\0"
     "on_actionRadio_triggered\0ReadTCP\0"
-    "on_listMusic_doubleClicked\0index"
+    "on_listMusic_doubleClicked\0index\0"
+    "on_listMusic_customContextMenuRequested\0"
+    "pos\0SaveNew\0i"
 };
 #undef QT_MOC_LITERAL
 
@@ -52,7 +58,7 @@ static const uint qt_meta_data_Application[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       5,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -60,11 +66,13 @@ static const uint qt_meta_data_Application[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   39,    2, 0x08 /* Private */,
-       3,    0,   40,    2, 0x08 /* Private */,
-       4,    0,   41,    2, 0x08 /* Private */,
-       5,    0,   42,    2, 0x08 /* Private */,
-       6,    1,   43,    2, 0x08 /* Private */,
+       1,    0,   49,    2, 0x08 /* Private */,
+       3,    0,   50,    2, 0x08 /* Private */,
+       4,    0,   51,    2, 0x08 /* Private */,
+       5,    0,   52,    2, 0x08 /* Private */,
+       6,    1,   53,    2, 0x08 /* Private */,
+       8,    1,   56,    2, 0x08 /* Private */,
+      10,    1,   59,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
@@ -72,6 +80,8 @@ static const uint qt_meta_data_Application[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QModelIndex,    7,
+    QMetaType::Void, QMetaType::QPoint,    9,
+    QMetaType::Void, QMetaType::QObjectStar,   11,
 
        0        // eod
 };
@@ -86,6 +96,8 @@ void Application::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 2: _t->on_actionRadio_triggered(); break;
         case 3: _t->ReadTCP(); break;
         case 4: _t->on_listMusic_doubleClicked((*reinterpret_cast< const QModelIndex(*)>(_a[1]))); break;
+        case 5: _t->on_listMusic_customContextMenuRequested((*reinterpret_cast< const QPoint(*)>(_a[1]))); break;
+        case 6: _t->SaveNew((*reinterpret_cast< QObject*(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -116,13 +128,13 @@ int Application::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 5)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 5;
+        _id -= 7;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 5)
+        if (_id < 7)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 5;
+        _id -= 7;
     }
     return _id;
 }

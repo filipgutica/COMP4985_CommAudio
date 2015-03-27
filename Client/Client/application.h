@@ -35,7 +35,7 @@ private slots:
 
     void on_listMusic_customContextMenuRequested(const QPoint &pos);
 
-    void SaveNew(QModelIndex index);
+    void SaveNew(QObject * i);
 
 private:
     Ui::Application *ui;
