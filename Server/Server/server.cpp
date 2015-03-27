@@ -381,7 +381,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
             char *tok = strtok(SI->Buffer, ":");
             tok = strtok(NULL, ":");
             qDebug() << "received " << tok;
-            memset(tok, 0, sizeof(tok));
+
 
             //find the index'th song in the vector
             QString filepath = SongList.at(atoi(tok));
@@ -401,7 +401,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
             //write metadata to the TCP control line
             WriteToSocket(&SI->Socket, &SI->DataBuf, 0, &SI->Overlapped);
 
-            //put data into structure to establish UDP socket
+            //put data into structure to be sent to the thread
             playerInfo->index = atoi(tok);
             playerInfo->addrIn = client_addr;
 
@@ -412,6 +412,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
                return;
             }
 
+            memset(tok, 0, sizeof(tok));
         }
 
         QRegExp rxdown("download: *");
@@ -563,6 +564,8 @@ DWORD WINAPI StreamThread(LPVOID param)
 
     QFile file(SongList.at(info->index));
 
+    qDebug() << "Opening file: " << SongList.at(info->index);
+
     //open the file for reading
     if (!file.open(QIODevice::ReadOnly))
     {
@@ -588,8 +591,6 @@ DWORD WINAPI StreamThread(LPVOID param)
 
             i+= AUDIO_BUFFER;
             Sleep(DELAY);
-
-
             if(int ret = WSASendTo(PlayerSocket, buf, 1, &sent, 0, (struct sockaddr*)&dest_addr,sizeof(dest_addr), ol, NULL) < 0 )
             {
                 qDebug() << "Sendto failed error: " << WSAGetLastError();
