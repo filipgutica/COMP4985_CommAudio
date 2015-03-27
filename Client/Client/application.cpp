@@ -1,6 +1,7 @@
 #include "application.h"
 #include "ui_application.h"
 #include "configure.h"
+#include "downloader.h"
 
 Application::Application(QWidget *parent) :
     QMainWindow(parent),
@@ -188,12 +189,6 @@ void Application::SaveNew(QObject * i)
 
         // open file for writing song into
         QString song = index->data().toString().split('/').last();
-        QFile file(song);
-        if(!file.open(QFile::WriteOnly))
-        {
-            qDebug() << "File open failed.";
-            return;
-        }
 
         // send over download request
         QString qs;
@@ -202,12 +197,14 @@ void Application::SaveNew(QObject * i)
         tcpbytes.append(qs);
         WriteTCP(tcpbytes);
 
-        /* create new dialog box, should open socket
-           and show progress there, should allow to
-           cancel, too */
+        // read number of bytes expected from server
+        int eb = msock->readAll().toInt();
 
-        // listen to stream and put bytes in file
-        ;
-
+        // open up dialog box for download progress
+        Downloader dl;
+        dl.SetFileName(song);
+        dl.SetBytesExpected(eb);
+        dl.StartDownload();
+        dl.exec();
     }
 }
