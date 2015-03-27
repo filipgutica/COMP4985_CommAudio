@@ -186,15 +186,28 @@ void Application::SaveNew(QObject * i)
     {
         qDebug() << "Download requested: " << index->row();
 
+        // open file for writing song into
+        QString song = index->data().toString().split('/').last();
+        QFile file(song);
+        if(!file.open(QFile::WriteOnly))
+        {
+            qDebug() << "File open failed.";
+            return;
+        }
+
+        // send over download request
         QString qs;
         qs = QString("download: %1").arg(index->row());
-        qDebug() << index->row();
-        qDebug() << qs;
         QByteArray tcpbytes;
         tcpbytes.append(qs);
         WriteTCP(tcpbytes);
 
-        QString song = index->data().toString();
+        /* create new dialog box, should open socket
+           and show progress there, should allow to
+           cancel, too */
+
+        // listen to stream and put bytes in file
+        ;
 
     }
 }
