@@ -12,6 +12,8 @@ Application::Application(QWidget *parent) :
 
     expectedSize = 0;
     currentSize = 0;
+
+    playlistReceived = false;
 }
 
 Application::~Application()

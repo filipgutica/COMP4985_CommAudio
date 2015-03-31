@@ -48,7 +48,7 @@ private:
 
     QString ip;
     QString port;
-    bool playlistReceived = false;
+    bool playlistReceived;
 };
 
 #endif // APPLICATION_H
