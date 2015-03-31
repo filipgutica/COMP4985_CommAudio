@@ -396,7 +396,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
             SI->DataBuf.len = 1024;
 
             int client_size = sizeof(client_addr);
-            getsockname(SI->Socket, (PSOCKADDR) &client_addr, &client_size);
+            getpeername(SI->Socket, (PSOCKADDR) &client_addr, &client_size);
 
             //write metadata to the TCP control line
             WriteToSocket(&SI->Socket, &SI->DataBuf, 0, &SI->Overlapped);
