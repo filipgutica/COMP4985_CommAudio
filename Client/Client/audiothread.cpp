@@ -20,7 +20,8 @@ AudioThread::~AudioThread()
 
 void AudioThread::run()
 {
-    bool keepPlaying = false;
+    bool firstTimeBufferFull = false;
+    int extendingWaitTime = 1000;
     buffer->open(QIODevice::ReadOnly);
 
     while (true)
@@ -28,22 +29,20 @@ void AudioThread::run()
         msleep(DELAY);
         if (audioOutput != NULL)
         {
-            if (buffer->pos() >= HIGH_WATERMARK
-                || (buffer->pos() >= 1 && keepPlaying))
-            {
-                keepPlaying = true;
+            // buffer filled to high watermark for the first time
+            if(buffer->pos() >= HIGH_WATERMARK)
+                firstTimeBufferFull = true;
 
-              //  sem2.acquire();
+            if((!firstTimeBufferFull && buffer->pos() >= HIGH_WATERMARK) ||
+               (firstTimeBufferFull && nBytes != bytesWritten))
+            {
                 buffer->seek(nBytes);
                 nBytes += ioOutput->write(buffer->read(BYTES_TO_WRITE), BYTES_TO_WRITE);
-
-             //   sem1.release();
-             //   qDebug() << " Audio pos: " << buffer->pos();
-
                 if (buffer->pos() >= AUDIO_BUFFSIZE)
                     nBytes = 0;
 
-                //If single stream mode is set, then check if you have recied the max size of the song, if reached, end thread
+                // If single stream mode is set, then check if you have received the max size of the song,
+                // if reached, end thread
                 if(streamMode == true)
                 {
                     totalBytes += BYTES_TO_WRITE;
@@ -54,10 +53,10 @@ void AudioThread::run()
                 }
 
             }
-            else if (nBytes == bytesWritten)
+            else
             {
-                msleep(250);
-                keepPlaying = false;
+                msleep(extendingWaitTime);
+                extendingWaitTime += 1000;
             }
         }
     }
