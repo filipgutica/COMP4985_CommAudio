@@ -13,7 +13,9 @@ AudioThread::AudioThread(QObject *parent) :
 
 AudioThread::~AudioThread()
 {
-
+    streamMode = false;
+    maxBytes = 10000000;
+    totalBytes = 0;
 }
 
 void AudioThread::run()
