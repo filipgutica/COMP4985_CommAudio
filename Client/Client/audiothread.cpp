@@ -36,6 +36,7 @@ void AudioThread::run()
 
             if (enoughBuffering && ((totalNBytes + LOW_WATERMARK) < totalBytesWritten)) // when we have at least 1s worth of music
             {
+
                 buffer->seek(nBytes);
                 nBytes += ioOutput->write(buffer->read(BYTES_TO_WRITE), BYTES_TO_WRITE);
 
@@ -60,6 +61,7 @@ void AudioThread::run()
                 enoughBuffering = false;
             }
         }
+
     }
 }
 
