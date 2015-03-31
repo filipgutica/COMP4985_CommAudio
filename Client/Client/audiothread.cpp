@@ -34,7 +34,7 @@ void AudioThread::run()
                 firstTimeBufferFull = true;
 
             if((!firstTimeBufferFull && buffer->pos() >= HIGH_WATERMARK) ||
-               (firstTimeBufferFull && nBytes != bytesWritten))
+               (firstTimeBufferFull && nBytes < bytesWritten))
             {
                 buffer->seek(nBytes);
                 nBytes += ioOutput->write(buffer->read(BYTES_TO_WRITE), BYTES_TO_WRITE);

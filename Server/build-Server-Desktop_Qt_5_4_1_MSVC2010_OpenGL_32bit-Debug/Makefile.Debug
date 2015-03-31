@@ -339,7 +339,7 @@ debug\moc_application.cpp: C:\Qt\5.4\msvc2010_opengl\include\QtWidgets\QMainWind
 		C:\Qt\5.4\msvc2010_opengl\include\QtCore\QBuffer \
 		C:\Qt\5.4\msvc2010_opengl\include\QtCore\qbuffer.h \
 		..\Server\application.h
-	C:\Qt\5.4\msvc2010_opengl\bin\moc.exe $(DEFINES) -D_MSC_VER=1600 -D_WIN32 -IC:/Qt/5.4/msvc2010_opengl/mkspecs/win32-msvc2010 -IC:/Users/Admin/Desktop/COMM_AUDIO/COMP4985_CommAudio/Server/Server -IC:/Qt/5.4/msvc2010_opengl/include -IC:/Qt/5.4/msvc2010_opengl/include/QtMultimedia -IC:/Qt/5.4/msvc2010_opengl/include/QtWidgets -IC:/Qt/5.4/msvc2010_opengl/include/QtGui -IC:/Qt/5.4/msvc2010_opengl/include/QtNetwork -IC:/Qt/5.4/msvc2010_opengl/include/QtCore -I. ..\Server\application.h -o debug\moc_application.cpp
+	C:\Qt\5.4\msvc2010_opengl\bin\moc.exe $(DEFINES) -D_MSC_VER=1600 -D_WIN32 -IC:/Qt/5.4/msvc2010_opengl/mkspecs/win32-msvc2010 -IC:/Users/Admin/COMM_AUDIO_SANDERS/COMP4985_CommAudio/Server/Server -IC:/Qt/5.4/msvc2010_opengl/include -IC:/Qt/5.4/msvc2010_opengl/include/QtMultimedia -IC:/Qt/5.4/msvc2010_opengl/include/QtWidgets -IC:/Qt/5.4/msvc2010_opengl/include/QtGui -IC:/Qt/5.4/msvc2010_opengl/include/QtNetwork -IC:/Qt/5.4/msvc2010_opengl/include/QtCore -I. ..\Server\application.h -o debug\moc_application.cpp
 
 debug\moc_configure.cpp: C:\Qt\5.4\msvc2010_opengl\include\QtWidgets\QDialog \
 		C:\Qt\5.4\msvc2010_opengl\include\QtWidgets\qdialog.h \
@@ -445,7 +445,7 @@ debug\moc_configure.cpp: C:\Qt\5.4\msvc2010_opengl\include\QtWidgets\QDialog \
 		C:\Qt\5.4\msvc2010_opengl\include\QtGui\qvector2d.h \
 		C:\Qt\5.4\msvc2010_opengl\include\QtGui\qtouchdevice.h \
 		..\Server\configure.h
-	C:\Qt\5.4\msvc2010_opengl\bin\moc.exe $(DEFINES) -D_MSC_VER=1600 -D_WIN32 -IC:/Qt/5.4/msvc2010_opengl/mkspecs/win32-msvc2010 -IC:/Users/Admin/Desktop/COMM_AUDIO/COMP4985_CommAudio/Server/Server -IC:/Qt/5.4/msvc2010_opengl/include -IC:/Qt/5.4/msvc2010_opengl/include/QtMultimedia -IC:/Qt/5.4/msvc2010_opengl/include/QtWidgets -IC:/Qt/5.4/msvc2010_opengl/include/QtGui -IC:/Qt/5.4/msvc2010_opengl/include/QtNetwork -IC:/Qt/5.4/msvc2010_opengl/include/QtCore -I. ..\Server\configure.h -o debug\moc_configure.cpp
+	C:\Qt\5.4\msvc2010_opengl\bin\moc.exe $(DEFINES) -D_MSC_VER=1600 -D_WIN32 -IC:/Qt/5.4/msvc2010_opengl/mkspecs/win32-msvc2010 -IC:/Users/Admin/COMM_AUDIO_SANDERS/COMP4985_CommAudio/Server/Server -IC:/Qt/5.4/msvc2010_opengl/include -IC:/Qt/5.4/msvc2010_opengl/include/QtMultimedia -IC:/Qt/5.4/msvc2010_opengl/include/QtWidgets -IC:/Qt/5.4/msvc2010_opengl/include/QtGui -IC:/Qt/5.4/msvc2010_opengl/include/QtNetwork -IC:/Qt/5.4/msvc2010_opengl/include/QtCore -I. ..\Server\configure.h -o debug\moc_configure.cpp
 
 debug\moc_audioplayer.cpp: C:\Qt\5.4\msvc2010_opengl\include\QtWidgets\QDialog \
 		C:\Qt\5.4\msvc2010_opengl\include\QtWidgets\qdialog.h \
@@ -580,7 +580,7 @@ debug\moc_audioplayer.cpp: C:\Qt\5.4\msvc2010_opengl\include\QtWidgets\QDialog \
 		C:\Qt\5.4\msvc2010_opengl\include\QtCore\QBuffer \
 		C:\Qt\5.4\msvc2010_opengl\include\QtCore\qbuffer.h \
 		..\Server\audioplayer.h
-	C:\Qt\5.4\msvc2010_opengl\bin\moc.exe $(DEFINES) -D_MSC_VER=1600 -D_WIN32 -IC:/Qt/5.4/msvc2010_opengl/mkspecs/win32-msvc2010 -IC:/Users/Admin/Desktop/COMM_AUDIO/COMP4985_CommAudio/Server/Server -IC:/Qt/5.4/msvc2010_opengl/include -IC:/Qt/5.4/msvc2010_opengl/include/QtMultimedia -IC:/Qt/5.4/msvc2010_opengl/include/QtWidgets -IC:/Qt/5.4/msvc2010_opengl/include/QtGui -IC:/Qt/5.4/msvc2010_opengl/include/QtNetwork -IC:/Qt/5.4/msvc2010_opengl/include/QtCore -I. ..\Server\audioplayer.h -o debug\moc_audioplayer.cpp
+	C:\Qt\5.4\msvc2010_opengl\bin\moc.exe $(DEFINES) -D_MSC_VER=1600 -D_WIN32 -IC:/Qt/5.4/msvc2010_opengl/mkspecs/win32-msvc2010 -IC:/Users/Admin/COMM_AUDIO_SANDERS/COMP4985_CommAudio/Server/Server -IC:/Qt/5.4/msvc2010_opengl/include -IC:/Qt/5.4/msvc2010_opengl/include/QtMultimedia -IC:/Qt/5.4/msvc2010_opengl/include/QtWidgets -IC:/Qt/5.4/msvc2010_opengl/include/QtGui -IC:/Qt/5.4/msvc2010_opengl/include/QtNetwork -IC:/Qt/5.4/msvc2010_opengl/include/QtCore -I. ..\Server\audioplayer.h -o debug\moc_audioplayer.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
