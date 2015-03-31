@@ -15,6 +15,7 @@
 #define DATA_BUFSIZE    64000
 #define TIMECAST_ADDR   "234.5.6.7"
 #define TIMECAST_PORT   7575
+#define UNICAST_PORT    7000
 #define TIMECAST_TTL    2
 #define AUDIO_BUFFER    8820
 #define DELAY           32

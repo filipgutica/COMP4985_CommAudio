@@ -374,6 +374,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
         QRegExp rx("index: *");
 
         if (rx.indexIn(SI->Buffer) != -1)
+
         {
             char *tok = strtok(SI->Buffer, ":");
             tok = strtok(NULL, ":");
@@ -396,7 +397,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
             SI->DataBuf.len = 1024;
 
             int client_size = sizeof(client_addr);
-            getsockname(SI->Socket, (PSOCKADDR) &client_addr, &client_size);
+            getpeername(SI->Socket, (PSOCKADDR) &client_addr, &client_size);
 
             //write metadata to the TCP control line
             WriteToSocket(&SI->Socket, &SI->DataBuf, 0, &SI->Overlapped);
@@ -558,9 +559,10 @@ DWORD WINAPI StreamThread(LPVOID param)
     /* Assign our destination address */
     dest_addr.sin_family =      AF_INET;
     dest_addr.sin_addr.s_addr = info->addrIn.sin_addr.s_addr;
-    dest_addr.sin_port =        info->addrIn.sin_port;
+    dest_addr.sin_port =        htons(UNICAST_PORT);
 
     qDebug() << "Destination addr: " << inet_ntoa(dest_addr.sin_addr);
+    qDebug() << "Destination port: " << ntohs(dest_addr.sin_port);
 
     QFile file(SongList.at(info->index));
 
@@ -591,7 +593,7 @@ DWORD WINAPI StreamThread(LPVOID param)
 
             i+= AUDIO_BUFFER;
             Sleep(DELAY);
-            if(int ret = WSASendTo(PlayerSocket, buf, 1, &sent, 0, (struct sockaddr*)&dest_addr,sizeof(dest_addr), ol, NULL) < 0 )
+            if(int ret = WSASendTo(PlayerSocket, buf, 1, &sent, 0, (struct sockaddr*)&dest_addr, sizeof(dest_addr), ol, NULL) < 0 )
             {
                 qDebug() << "Sendto failed error: " << WSAGetLastError();
                 return 1;
