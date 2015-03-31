@@ -4,6 +4,7 @@
 
 
 int nBytes = 0;
+int totalNBytes = 0;
 
 AudioThread::AudioThread(QObject *parent) :
     QThread(parent)
@@ -20,26 +21,27 @@ AudioThread::~AudioThread()
 
 void AudioThread::run()
 {
-    bool firstTimeBufferFull = false;
-    int extendingWaitTime = 1000;
+    bool enoughBuffering = false;
+    //int extendingWaitTime = 1000;
     buffer->open(QIODevice::ReadOnly);
 
     while (true)
     {
         msleep(DELAY);
+        // qDebug() << totalNBytes << " " << totalBytesWritten << " " << AUDIO_BUFFSIZE;
         if (audioOutput != NULL)
         {
-            // buffer filled to high watermark for the first time
-            if(buffer->pos() >= HIGH_WATERMARK)
-                firstTimeBufferFull = true;
+            if (totalNBytes + HIGH_WATERMARK < totalBytesWritten)   // when we have more than 5s worth of music
+                enoughBuffering = true;
 
-            if((!firstTimeBufferFull && buffer->pos() >= HIGH_WATERMARK) ||
-               (firstTimeBufferFull && nBytes < bytesWritten))
+            if (enoughBuffering && (totalNBytes + LOW_WATERMARK < totalBytesWritten)) // when we have at least 1s worth of music
             {
                 buffer->seek(nBytes);
                 nBytes += ioOutput->write(buffer->read(BYTES_TO_WRITE), BYTES_TO_WRITE);
+
                 if (buffer->pos() >= AUDIO_BUFFSIZE)
                     nBytes = 0;
+                totalNBytes += BYTES_TO_WRITE;
 
                 // If single stream mode is set, then check if you have received the max size of the song,
                 // if reached, end thread
@@ -55,8 +57,7 @@ void AudioThread::run()
             }
             else
             {
-                msleep(extendingWaitTime);
-                extendingWaitTime += 1000;
+                enoughBuffering = false;
             }
         }
     }

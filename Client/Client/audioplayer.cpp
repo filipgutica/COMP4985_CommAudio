@@ -29,6 +29,7 @@ QBuffer *buffer;
 QSemaphore sem1(HIGH_WATERMARK/44100);
 QSemaphore sem2(0);
 int bytesWritten = 0;
+int totalBytesWritten = 0;
 
 /*------------------------------------------------------------------------------
 --	FUNCTION: AudioPlayer()
@@ -360,7 +361,7 @@ void AudioPlayer::processPendingDatagrams()
 --	PARAMETERS:
 --		QByteArray d    - Bytes to be written
 --
---	DESIGNERS:		Filip Gutica
+--	DESIGNERS:		Filip Gutica & Sanders Lee
 --
 --	PROGRAMMER:		Filip Gutica & Sanders Lee
 /*-----------------------------------------------------------------------------*/
@@ -378,8 +379,8 @@ void AudioPlayer::playData(QByteArray d)
 
     if (bytecount >= AUDIO_BUFFSIZE)
         bytecount = 0;
-
     bytesWritten = bytecount;
+    totalBytesWritten += d.size();
 }
 
 /*------------------------------------------------------------------------------
