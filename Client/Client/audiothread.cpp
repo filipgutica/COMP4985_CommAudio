@@ -14,7 +14,7 @@ AudioThread::AudioThread(QObject *parent) :
 AudioThread::~AudioThread()
 {
     streamMode = false;
-    maxBytes = 10000000;
+    maxBytes = 1000000000;
     totalBytes = 0;
 }
 
@@ -44,14 +44,14 @@ void AudioThread::run()
                     nBytes = 0;
 
                 //If single stream mode is set, then check if you have recied the max size of the song, if reached, end thread
-                if(streamMode == true)
+              /*  if(streamMode == true)
                 {
                     totalBytes += BYTES_TO_WRITE;
                     if( totalBytes >= maxBytes)
                     {
                         break;
                     }
-                }
+                }*/
 
             }
             else if (nBytes == bytesWritten)

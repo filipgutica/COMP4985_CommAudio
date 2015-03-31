@@ -112,7 +112,7 @@ AudioPlayer::AudioPlayer(QString ga, QWidget *parent) : QDialog(parent), ui(new 
 
     // Setup the muticast socket
     udpSocket = new QUdpSocket(this);
-    udpSocket->bind(groupAddress, 7000);
+    udpSocket->bind(QHostAddress::AnyIPv4, 7000);
     udpSocket->setReadBufferSize(AUDIO_BUFFSIZE);
 
     // Set the audio format
@@ -374,7 +374,7 @@ void AudioPlayer::playData(QByteArray d)
     buffer->write(d.data(), d.size());
     buffer->waitForBytesWritten(10);
   //  sem2.release();
-  //  qDebug() << "Socket position " << buffer->pos();
+    qDebug() << "Socket position " << buffer->pos();
 
     if (bytecount >= AUDIO_BUFFSIZE)
         bytecount = 0;
