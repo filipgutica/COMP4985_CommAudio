@@ -28,6 +28,7 @@ QBuffer *buffer;
 
 QSemaphore sem1(HIGH_WATERMARK/44100);
 QSemaphore sem2(0);
+int bytesWritten = 0;
 
 /*------------------------------------------------------------------------------
 --	FUNCTION: AudioPlayer()
@@ -66,7 +67,7 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 
     // Setup the audioOuput address with the desired format
     audioOutput = new QAudioOutput(format, this);
-    audioOutput->setBufferSize(BYTES_PER_SECOND);
+    audioOutput->setBufferSize(AUDIO_BUFFSIZE);
 
     bytecount = 0;
     nBytes = 0;
@@ -87,6 +88,79 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 
     thrd->start();
 }
+
+/*------------------------------------------------------------------------------
+--	FUNCTION: AudioPlayer(QHostAddress ga, int songSize)
+--
+--	PURPOSE:		Constructor, initializes the Ui object containing al ui elemnets
+--
+--	DESIGNERS:		Alex Lam lol
+--
+--	PROGRAMMER:		Alex Lam
+/*-----------------------------------------------------------------------------*/
+AudioPlayer::AudioPlayer(QString ga, QWidget *parent) : QDialog(parent), ui(new Ui::AudioPlayer)
+{
+    ui->setupUi(this);
+
+    //buff = new QBuffer();
+    data = new QByteArray(AUDIO_BUFFSIZE, '\0');
+    buffer = new QBuffer(data);
+
+    // Hardcoded multicast address
+    //groupAddress = QHostAddress("234.5.6.7");
+    groupAddress = QHostAddress(ga);
+
+    // Setup the muticast socket
+    udpSocket = new QUdpSocket(this);
+    udpSocket->bind(groupAddress, 7000);
+    udpSocket->setReadBufferSize(AUDIO_BUFFSIZE);
+
+    // Set the audio format
+    format.setChannelCount(2);
+    format.setSampleRate(44100);
+    format.setSampleSize(16);
+    format.setCodec("audio/pcm");
+    format.setByteOrder(QAudioFormat::LittleEndian);
+    format.setSampleType(QAudioFormat::UnSignedInt);
+
+    // Setup the audioOuput address with the desired format
+    audioOutput = new QAudioOutput(format, this);
+    audioOutput->setBufferSize(AUDIO_BUFFSIZE);
+
+    bytecount = 0;
+    nBytes = 0;
+
+    // Connect the udp readyReady signal with the processPendingDatagrams slot
+    connect(udpSocket, SIGNAL(readyRead()),this, SLOT(processPendingDatagrams()));
+
+    // Connect our custom audioReady signal with the playData slot
+    connect(this, SIGNAL(audioReady(QByteArray)), this, SLOT(playData(QByteArray)));
+
+    // Connect audioOutput object's stateChanged signal with our audioStateChanged SLOT to handle state changes in the player
+    connect(audioOutput, SIGNAL(stateChanged(QAudio::State)), this, SLOT(audioStateChanged(QAudio::State)));
+
+    //For reading directly from the socket... no buferring
+    ioOutput = audioOutput->start();
+
+    thrd = new AudioThread(this);
+
+    thrd->start();
+}
+
+/*------------------------------------------------------------------------------
+--	FUNCTION:       void setMaxByte(int);
+--
+--	PURPOSE:		Constructor, initializes the Ui object containing al ui elemnets
+--
+--	DESIGNERS:		Alex Lam
+--
+--	PROGRAMMER:		Alex Lam
+/*-----------------------------------------------------------------------------*/
+void AudioPlayer::setMaxByte(int x)
+{
+    thrd->setMaxBytes(x);
+}
+
 
 /*------------------------------------------------------------------------------
 --	FUNCTION: ~Application()
@@ -292,7 +366,7 @@ void AudioPlayer::processPendingDatagrams()
 /*-----------------------------------------------------------------------------*/
 void AudioPlayer::playData(QByteArray d)
 {
-    static int bytesWritten = 0;
+
 
   //  sem1.acquire();
     buffer->open(QIODevice::ReadWrite);
@@ -300,7 +374,7 @@ void AudioPlayer::playData(QByteArray d)
     buffer->write(d.data(), d.size());
     buffer->waitForBytesWritten(10);
   //  sem2.release();
-   qDebug() << "Socket positionL " << buffer->pos();
+  //  qDebug() << "Socket position " << buffer->pos();
 
     if (bytecount >= AUDIO_BUFFSIZE)
         bytecount = 0;
