@@ -37,11 +37,31 @@ int Downloader::SetBytesExpected(int eb)
         return 0;
     }
     else
+    {
+        qDebug() << "Not a valid file size.";
         return -1;
+    }
 }
 
 void Downloader::StartDownload()
 {
-    // callback function to download
     // update the progress bar according to bytesReceived / bytesExpected * 100
+
+    // open up socket for listening with timeout of 3 seconds
+
+    // once connected, start downloading from socket and writing to file
+
+    // download complete, close socket and do other stuff
+
+
+}
+
+void Downloader::on_CancelButton_clicked()
+{
+    this->reject();
+}
+
+void Downloader::on_OKButton_clicked()
+{
+    this->accept();
 }

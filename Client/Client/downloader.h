@@ -19,6 +19,11 @@ public:
     int SetBytesExpected(int);
     void StartDownload();
 
+private slots:
+    void on_CancelButton_clicked();
+
+    void on_OKButton_clicked();
+
 private:
     Ui::Downloader *ui;
     QString filename;
