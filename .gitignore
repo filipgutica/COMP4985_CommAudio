@@ -1,2 +1,8 @@
 /Server/Server/Server.pro.user
 /Client/Client/Client.pro.user
+*.so
+*.o
+*.exe
+*.pdb
+*.ilk
+*.com
