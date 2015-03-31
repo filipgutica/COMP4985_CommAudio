@@ -187,7 +187,7 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
       stDstAddr.sin_port =        htons(TIMECAST_PORT);
 
     int ret;
-    QFile file("../Music/Yo_Gotti_-_I_Don_39_t_Like_CM7_-_5_[1_.wav");
+    QFile file(MULTICAST_FILE_PATH);
 
     if (!file.open(QIODevice::ReadOnly))
     {

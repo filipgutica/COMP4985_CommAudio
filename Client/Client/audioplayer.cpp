@@ -28,6 +28,7 @@ QBuffer *buffer;
 
 QSemaphore sem1(HIGH_WATERMARK/44100);
 QSemaphore sem2(0);
+int bytesWritten = 0;
 
 /*------------------------------------------------------------------------------
 --	FUNCTION: AudioPlayer()
@@ -66,7 +67,7 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 
     // Setup the audioOuput address with the desired format
     audioOutput = new QAudioOutput(format, this);
-    audioOutput->setBufferSize(BYTES_PER_SECOND);
+    audioOutput->setBufferSize(AUDIO_BUFFSIZE);
 
     bytecount = 0;
     nBytes = 0;
@@ -124,7 +125,7 @@ AudioPlayer::AudioPlayer(QString ga, QWidget *parent) : QDialog(parent), ui(new 
 
     // Setup the audioOuput address with the desired format
     audioOutput = new QAudioOutput(format, this);
-    audioOutput->setBufferSize(BYTES_PER_SECOND);
+    audioOutput->setBufferSize(AUDIO_BUFFSIZE);
 
     bytecount = 0;
     nBytes = 0;
@@ -365,7 +366,7 @@ void AudioPlayer::processPendingDatagrams()
 /*-----------------------------------------------------------------------------*/
 void AudioPlayer::playData(QByteArray d)
 {
-    static int bytesWritten = 0;
+
 
   //  sem1.acquire();
     buffer->open(QIODevice::ReadWrite);
@@ -373,7 +374,7 @@ void AudioPlayer::playData(QByteArray d)
     buffer->write(d.data(), d.size());
     buffer->waitForBytesWritten(10);
   //  sem2.release();
-   qDebug() << "Socket position " << buffer->pos();
+  //  qDebug() << "Socket position " << buffer->pos();
 
     if (bytecount >= AUDIO_BUFFSIZE)
         bytecount = 0;
