@@ -43,14 +43,8 @@ void AudioThread::run()
                     nBytes = 0;
                 totalNBytes += BYTES_TO_WRITE;
 
-<<<<<<< HEAD
-                // If single stream mode is set, then check if you have received the max size of the song,
-                // if reached, end thread
-                if(streamMode == true)
-=======
                 //If single stream mode is set, then check if you have recied the max size of the song, if reached, end thread
               /*  if(streamMode == true)
->>>>>>> f07df3cf111d2018ef2c1f11ff11d599bfba50d0
                 {
                     totalBytes += BYTES_TO_WRITE;
                     if( totalBytes >= maxBytes)
