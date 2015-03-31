@@ -35,6 +35,8 @@ private slots:
 
     void on_listMusic_customContextMenuRequested(const QPoint &pos);
 
+    void SaveNew(QObject * i);
+
 private:
     Ui::Application *ui;
     //QVector<QString> fileList;

@@ -326,7 +326,7 @@ release\moc_application.cpp: C:\Qt\5.4\msvc2013_64\include\QtWidgets\QMainWindow
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QBuffer \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\qbuffer.h \
 		..\Server\application.h
-	C:\Qt\5.4\msvc2013_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -IC:/Qt/5.4/msvc2013_64/mkspecs/win32-msvc2013 -IC:/Users/Alex/Documents/GitHub/COMP4985_CommAudio/Server/Server -IC:/Qt/5.4/msvc2013_64/include -IC:/Qt/5.4/msvc2013_64/include/QtMultimedia -IC:/Qt/5.4/msvc2013_64/include/QtWidgets -IC:/Qt/5.4/msvc2013_64/include/QtGui -IC:/Qt/5.4/msvc2013_64/include/QtANGLE -IC:/Qt/5.4/msvc2013_64/include/QtNetwork -IC:/Qt/5.4/msvc2013_64/include/QtCore -I. ..\Server\application.h -o release\moc_application.cpp
+	C:\Qt\5.4\msvc2013_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -IC:/Qt/5.4/msvc2013_64/mkspecs/win32-msvc2013 -IC:/Users/Alex/Downloads/COMP4985_CommAudio/Server/Server -IC:/Qt/5.4/msvc2013_64/include -IC:/Qt/5.4/msvc2013_64/include/QtMultimedia -IC:/Qt/5.4/msvc2013_64/include/QtWidgets -IC:/Qt/5.4/msvc2013_64/include/QtGui -IC:/Qt/5.4/msvc2013_64/include/QtANGLE -IC:/Qt/5.4/msvc2013_64/include/QtNetwork -IC:/Qt/5.4/msvc2013_64/include/QtCore -I. ..\Server\application.h -o release\moc_application.cpp
 
 release\moc_configure.cpp: C:\Qt\5.4\msvc2013_64\include\QtWidgets\QDialog \
 		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qdialog.h \
@@ -432,7 +432,7 @@ release\moc_configure.cpp: C:\Qt\5.4\msvc2013_64\include\QtWidgets\QDialog \
 		C:\Qt\5.4\msvc2013_64\include\QtGui\qvector2d.h \
 		C:\Qt\5.4\msvc2013_64\include\QtGui\qtouchdevice.h \
 		..\Server\configure.h
-	C:\Qt\5.4\msvc2013_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -IC:/Qt/5.4/msvc2013_64/mkspecs/win32-msvc2013 -IC:/Users/Alex/Documents/GitHub/COMP4985_CommAudio/Server/Server -IC:/Qt/5.4/msvc2013_64/include -IC:/Qt/5.4/msvc2013_64/include/QtMultimedia -IC:/Qt/5.4/msvc2013_64/include/QtWidgets -IC:/Qt/5.4/msvc2013_64/include/QtGui -IC:/Qt/5.4/msvc2013_64/include/QtANGLE -IC:/Qt/5.4/msvc2013_64/include/QtNetwork -IC:/Qt/5.4/msvc2013_64/include/QtCore -I. ..\Server\configure.h -o release\moc_configure.cpp
+	C:\Qt\5.4\msvc2013_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -IC:/Qt/5.4/msvc2013_64/mkspecs/win32-msvc2013 -IC:/Users/Alex/Downloads/COMP4985_CommAudio/Server/Server -IC:/Qt/5.4/msvc2013_64/include -IC:/Qt/5.4/msvc2013_64/include/QtMultimedia -IC:/Qt/5.4/msvc2013_64/include/QtWidgets -IC:/Qt/5.4/msvc2013_64/include/QtGui -IC:/Qt/5.4/msvc2013_64/include/QtANGLE -IC:/Qt/5.4/msvc2013_64/include/QtNetwork -IC:/Qt/5.4/msvc2013_64/include/QtCore -I. ..\Server\configure.h -o release\moc_configure.cpp
 
 release\moc_audioplayer.cpp: C:\Qt\5.4\msvc2013_64\include\QtWidgets\QDialog \
 		C:\Qt\5.4\msvc2013_64\include\QtWidgets\qdialog.h \
@@ -567,7 +567,7 @@ release\moc_audioplayer.cpp: C:\Qt\5.4\msvc2013_64\include\QtWidgets\QDialog \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\QBuffer \
 		C:\Qt\5.4\msvc2013_64\include\QtCore\qbuffer.h \
 		..\Server\audioplayer.h
-	C:\Qt\5.4\msvc2013_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -IC:/Qt/5.4/msvc2013_64/mkspecs/win32-msvc2013 -IC:/Users/Alex/Documents/GitHub/COMP4985_CommAudio/Server/Server -IC:/Qt/5.4/msvc2013_64/include -IC:/Qt/5.4/msvc2013_64/include/QtMultimedia -IC:/Qt/5.4/msvc2013_64/include/QtWidgets -IC:/Qt/5.4/msvc2013_64/include/QtGui -IC:/Qt/5.4/msvc2013_64/include/QtANGLE -IC:/Qt/5.4/msvc2013_64/include/QtNetwork -IC:/Qt/5.4/msvc2013_64/include/QtCore -I. ..\Server\audioplayer.h -o release\moc_audioplayer.cpp
+	C:\Qt\5.4\msvc2013_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -IC:/Qt/5.4/msvc2013_64/mkspecs/win32-msvc2013 -IC:/Users/Alex/Downloads/COMP4985_CommAudio/Server/Server -IC:/Qt/5.4/msvc2013_64/include -IC:/Qt/5.4/msvc2013_64/include/QtMultimedia -IC:/Qt/5.4/msvc2013_64/include/QtWidgets -IC:/Qt/5.4/msvc2013_64/include/QtGui -IC:/Qt/5.4/msvc2013_64/include/QtANGLE -IC:/Qt/5.4/msvc2013_64/include/QtNetwork -IC:/Qt/5.4/msvc2013_64/include/QtCore -I. ..\Server\audioplayer.h -o release\moc_audioplayer.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
