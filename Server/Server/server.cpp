@@ -374,7 +374,6 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
         QRegExp rx("index: *");
 
         if (rx.indexIn(SI->Buffer) != -1)
-
         {
             char *tok = strtok(SI->Buffer, ":");
             tok = strtok(NULL, ":");
@@ -416,26 +415,43 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
             memset(tok, 0, sizeof(tok));
         }
 
+        /***
+         *
+         * sends requested music file to the client via tcp
+         *
+         ***/
         QRegExp rxdown("download: *");
-
         if (rxdown.indexIn(SI->Buffer) != -1)
         {
             char *tok = strtok(SI->Buffer, ":");
             tok = strtok(NULL, ":");
             qDebug() << "received " << tok;
+
+            // take the tok and find corresponding file
+            int index = atoi( tok );
+
+            // connect to client
+
+            // start uploading
+            // SendBytes = WriteToSocket(&SI->Socket, &SI->DataBuf, 0, &SI->Overlapped);
+
             memset(tok, 0, sizeof(tok));
         }
 
+        /***
+         *
+         * sends the music list to the client
+         *
+         ***/
         if (strcmp(SI->Buffer, "tcp") == 0)
         {
             for (int i = 0; i < SongList.size(); i++)
             {
                 strcat(temp, (char*)SongList.at(i).toUtf8().constData());
                 strcat(temp, "\n");
-
             }
             SI->DataBuf.buf = temp;
-//            SI->DataBuf.len = strlen(temp);
+            // SI->DataBuf.len = strlen(temp);
             SI->DataBuf.len = 1024;
 
             qDebug() << SI->DataBuf.len;

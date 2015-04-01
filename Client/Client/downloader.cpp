@@ -52,6 +52,7 @@ void Downloader::StartDownload()
     ui->ProgressBar->setMaximum(bytesExpected);
 
     // start tcp server listening
+    tcpServer->listen(QHostAddress::Any, 7575);
     connect(tcpServer, SIGNAL(newConnection()), this, SLOT(tcpReady()));
 
     // once connected, start downloading from socket and writing to file
