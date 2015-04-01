@@ -4,10 +4,10 @@
 #include <QDialog>
 #include <QDebug>
 #include <QUdpSocket>
-#include <QAudioRecorder>
-#include <QAudioProbe>
+#include <QAudioInput>
 #include <QAudioBuffer>
 #include <QByteArray>
+#include <QBuffer>
 
 namespace Ui {
 class Voip;
@@ -25,15 +25,16 @@ public:
 private slots:
     void on_makeCallBtn_clicked();
     void on_acceptCallBtn_clicked();
-    void processBuffer(QAudioBuffer buffer);
+    void processBuffer();
 
 private:
     Ui::Voip *ui;
     QString ip;
     QString port;
-    QAudioRecorder* audioRecorder;
-    QAudioProbe* audioProbe;
+    QAudioInput* audioInput;
     QUdpSocket *udpSocket;
+    QAudioFormat format;
+    QBuffer *voice_buffer;
 };
 
 #endif // VOIP_H

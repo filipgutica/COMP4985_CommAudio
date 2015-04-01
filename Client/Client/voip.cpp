@@ -33,30 +33,41 @@ void Voip::on_makeCallBtn_clicked()
 
     AudioPlayer* ap = new AudioPlayer(udpSocket);
     ap->show();
+
+    recordAudio(udpSocket);
 }
 
 void Voip::recordAudio(QUdpSocket *udpSocket)
 {
-    audioRecorder = new QAudioRecorder(this);
-    audioProbe = new QAudioProbe();
 
-    connect(audioProbe, SIGNAL(audioBufferProbed(QAudioBuffer)), this, SLOT(processBuffer(QAudioBuffer)));
+    voice_buffer = new QBuffer();
+    qDebug() << "probe and recorder made";
 
-    QAudioEncoderSettings settings;
+    format.setSampleRate(44100);
+    format.setChannelCount(2);
+    format.setSampleSize(16);
+    format.setCodec("audio/pcm");
+    format.setByteOrder(QAudioFormat::LittleEndian);
+    format.setSampleType(QAudioFormat::UnSignedInt);
 
-    settings.setSampleRate(44100);
-    settings.setChannelCount(2);
-    settings.setBitRate(16);
-    settings.setCodec("audio/pcm");
-    //settings.setByteOrder(QAudioFormat::LittleEndian);
-    //settings.setSampleType(QAudioFormat::UnSignedInt);
+    QAudioDeviceInfo info(QAudioDeviceInfo::defaultInputDevice());
+    if (!info.isFormatSupported(format)) {
+        qWarning() << "Default format not supported - trying to use nearest";
+        format = info.nearestFormat(format);
+    }
 
-    audioRecorder->setEncodingSettings(settings, QVideoEncoderSettings(), NULL);
-    audioRecorder->record();
+    //audioInput->setEncodingSettings(settings, QVideoEncoderSettings(), NULL);
+    audioInput = new QAudioInput(format, this);
+
+
+    voice_buffer->open(QIODevice::ReadWrite);
+    audioInput->start(voice_buffer);
+    connect(voice_buffer, SIGNAL(readyRead()), SLOT (processBuffer()));
+
+
+    qDebug() << "after start called";
 
     //read data into a QByteArray
-
-
 
     //shove the contents of the QByteArray into the UDP socket
 
@@ -68,10 +79,20 @@ void Voip::on_acceptCallBtn_clicked()
     qDebug() << "Call Received";
 }
 
-void Voip::processBuffer(QAudioBuffer buffer)
+void Voip::processBuffer()
 {
-    QByteArray *audioByteArray;
-    *audioByteArray = audioByteArray->fromRawData((char*) buffer.data(), buffer.byteCount());
+    qDebug()<< "got stuff in my buff " << voice_buffer->size();
 
-    udpSocket->writeDatagram((const QByteArray&)audioByteArray, (const QHostAddress&)(ip), (quint16)(port.toInt()));
+    //QBuffer* temp = voice_buffer;
+
+    voice_buffer->seek(0);
+
+    //QByteArray audioByteArray;
+
+    //audioByteArray = temp->data();
+
+    //qDebug() << "audio byte array " << audioByteArray;
+    qDebug() << voice_buffer->data();
+    udpSocket->writeDatagram((const QByteArray&)voice_buffer->data(), (const QHostAddress&)(ip), (quint16)(port.toInt()));
+    voice_buffer->seek(0);
 }
