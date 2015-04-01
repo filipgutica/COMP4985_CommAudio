@@ -14,7 +14,7 @@ Downloader::~Downloader()
     delete ui;
 }
 
-int Downloader::SetFileName(QString fname)
+bool Downloader::SetFileName(QString fname)
 {
     filename = fname;
 
@@ -22,23 +22,23 @@ int Downloader::SetFileName(QString fname)
     if(!file->open(QFile::WriteOnly))
     {
         qDebug() << "File open failed.";
-        return -1;
+        return false;
     }
 
-    return 0;
+    return true;
 }
 
-int Downloader::SetBytesExpected(int eb)
+bool Downloader::SetBytesExpected(int eb)
 {
     if (eb > 0)
     {
         bytesExpected = eb;
-        return 0;
+        return true;
     }
     else
     {
         qDebug() << "Not a valid file size.";
-        return -1;
+        return false;
     }
 }
 

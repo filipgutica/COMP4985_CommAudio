@@ -17,8 +17,8 @@ class Downloader : public QDialog
 public:
     explicit Downloader(QWidget *parent = 0);
     ~Downloader();
-    int SetFileName(QString);
-    int SetBytesExpected(int);
+    bool SetFileName(QString);
+    bool SetBytesExpected(int);
     void StartDownload();
 
 private slots:
