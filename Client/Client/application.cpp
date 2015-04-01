@@ -2,6 +2,7 @@
 #include "ui_application.h"
 #include "configure.h"
 #include "downloader.h"
+#include "voip.h"
 
 Application::Application(QWidget *parent) :
     QMainWindow(parent),
@@ -49,8 +50,12 @@ void Application::on_actionRadio_triggered()
 
 void Application::on_actionVOIP_triggered()
 {
+    Voip call;
+    call.setModal(true);
 
+    call.exec();
 }
+
 
 
 void Application::ConnectTCP(QString ip, QString port)
