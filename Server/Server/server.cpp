@@ -42,7 +42,7 @@ void StartServer(int port, LPVOID app, QVector<QString> songList)
       return;
    }
 
-   StartMulticast();
+  // StartMulticast();
 
    InternetAddr.sin_family = AF_INET;
    InternetAddr.sin_addr.s_addr = htonl(INADDR_ANY);

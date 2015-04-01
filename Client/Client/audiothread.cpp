@@ -28,7 +28,7 @@ void AudioThread::run()
     while (true)
     {
         msleep(DELAY);
-        // qDebug() << totalNBytes << " " << totalBytesWritten << " " << AUDIO_BUFFSIZE;
+        qDebug() << totalNBytes << " " << totalBytesWritten << " " << HIGH_WATERMARK << " " << totalBytesWritten - totalNBytes;
         if (audioOutput != NULL)
         {
             if (totalNBytes + HIGH_WATERMARK < totalBytesWritten)   // when we have more than 5s worth of music
