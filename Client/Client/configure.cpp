@@ -6,6 +6,8 @@ Configure::Configure(QWidget *parent) :
     ui(new Ui::Configure)
 {
     ui->setupUi(this);
+
+    ui->lineEdit_ip->setFocus();
 }
 
 Configure::~Configure()

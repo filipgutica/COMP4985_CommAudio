@@ -1,4 +1,4 @@
-/*---------------------------------------------------------------------------------------
+  /*---------------------------------------------------------------------------------------
 --	SOURCE FILE:		audiplayer.cpp -   Audi player window for controlling audio.
 --
 --	PROGRAM:			Server.exe
@@ -26,7 +26,7 @@ QAudioOutput *audioOutput;
 QIODevice *ioOutput;
 QBuffer *buffer;
 
-QSemaphore sem1(HIGH_WATERMARK/44100);
+QSemaphore sem1(HIGH_WATERMARK/512);
 QSemaphore sem2(0);
 int bytesWritten = 0;
 int totalBytesWritten = 0;
@@ -367,13 +367,21 @@ void AudioPlayer::processPendingDatagrams()
 /*-----------------------------------------------------------------------------*/
 void AudioPlayer::playData(QByteArray d)
 {
+<<<<<<< HEAD
   //  sem1.acquire();
+=======
+
+>>>>>>> a9a682c144d5f3356d26f5a6c342ab6e54b5e9aa
     buffer->open(QIODevice::ReadWrite);
     buffer->seek(bytesWritten);
     buffer->write(d.data(), d.size());
     buffer->waitForBytesWritten(10);
+<<<<<<< HEAD
   //  sem2.release();
   //  qDebug() << "Socket position " << buffer->pos();
+=======
+    //qDebug() << "Socket position " << buffer->pos();
+>>>>>>> a9a682c144d5f3356d26f5a6c342ab6e54b5e9aa
 
     if (bytecount >= AUDIO_BUFFSIZE)
         bytecount = 0;
