@@ -367,7 +367,6 @@ void AudioPlayer::processPendingDatagrams()
 /*-----------------------------------------------------------------------------*/
 void AudioPlayer::playData(QByteArray d)
 {
-
     buffer->open(QIODevice::ReadWrite);
     buffer->seek(bytesWritten);
     buffer->write(d.data(), d.size());
