@@ -16,6 +16,7 @@ Application::Application(QWidget *parent) :
     currentSize = 0;
 
     playlistReceived = false;
+    downloadRequested = false;
 }
 
 Application::~Application()
@@ -70,30 +71,61 @@ void Application::ConnectTCP(QString ip, QString port)
     WriteTCP(tcpbytes);
 }
 
+/***
+ *
+ * DESIGNER:    Filip Gutica
+ *              Sanders Lee
+ *
+ * PROGRAMMER:  Filip Gutica
+ *              Sanders Lee
+ *
+ ***/
 void Application::ReadTCP()
 {
     QByteArray data = msock->readAll();
-    if(expectedSize == 0) // First read
+    if(!downloadRequested)
     {
-        expectedSize = 1024;
-    }
-    playlist.insert(currentSize, data);//might need to read data out and then append it
-    currentSize = playlist.size();
+        if(expectedSize == 0) // First read
+        {
+            expectedSize = 1024;
+        }
+        playlist.insert(currentSize, data);//might need to read data out and then append it
+        currentSize = playlist.size();
 
-    if(playlistReceived)
-    {
-        char* s = data.data();
-        audPlayer->setMaxByte((int)*s);
+        if(playlistReceived)
+        {
+            char* s = data.data();
+            audPlayer->setMaxByte((int)*s);
+        }
+        else
+        {
+            if(currentSize == expectedSize)
+            {
+                UpdatePlaylist();
+                expectedSize = 0;
+                currentSize = 0;
+                playlistReceived = true;
+            }
+        }
     }
     else
     {
-        if(currentSize == expectedSize)
+        // read number of bytes expected from server
+        char *tok = strtok(data.data(), ":");
+        tok = strtok(NULL, ":");
+        int eb = atoi(tok);
+        qDebug() << "got song size:" << eb;
+
+        // open up dialog box for download progress
+        Downloader dl;
+        if( dl.SetFileName(song) &&
+            dl.SetBytesExpected(eb) )
         {
-            UpdatePlaylist();
-            expectedSize = 0;
-            currentSize = 0;
-            playlistReceived = true;
+            dl.StartDownload();
+            dl.exec();
         }
+
+        downloadRequested = false;
     }
 }
 
@@ -147,7 +179,7 @@ void Application::on_listMusic_doubleClicked(const QModelIndex &index)
  *
  * Programmer:  Filip Gutica
  *              Sanders Lee
- */
+ ***/
 void Application::on_listMusic_customContextMenuRequested(const QPoint &pos)
 {
     QModelIndex index = ui->listMusic->indexAt(pos);
@@ -174,7 +206,7 @@ void Application::on_listMusic_customContextMenuRequested(const QPoint &pos)
  * Designer:    Sanders Lee
  *
  * Programmer:  Sanders Lee
- */
+ ***/
 void Application::SaveNew(QObject * i)
 {
     QModelIndex * index = (QModelIndex *) i;
@@ -182,27 +214,14 @@ void Application::SaveNew(QObject * i)
     if ( index->isValid())
     {
         qDebug() << "Download requested: " << index->row();
-
-        // open file for writing song into
-        QString song = index->data().toString().split('/').last();
+        song = index->data().toString().split('/').last();
 
         // send over download request
         QString qs;
         qs = QString("download: %1").arg(index->row());
         QByteArray tcpbytes;
         tcpbytes.append(qs);
+        downloadRequested = true;
         WriteTCP(tcpbytes);
-
-        // read number of bytes expected from server
-        int eb = msock->readAll().toInt();
-
-        // open up dialog box for download progress
-        Downloader dl;
-        if( dl.SetFileName(song) &&
-            dl.SetBytesExpected(eb) )
-        {
-            dl.exec();
-            dl.StartDownload();
-        }
     }
 }

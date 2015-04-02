@@ -7,6 +7,8 @@ Downloader::Downloader(QWidget *parent) :
 {
     ui->setupUi(this);
     tcpServer = new QTcpServer(this);
+    tcpSocket = NULL;
+    totalRBytes = 0;
 }
 
 Downloader::~Downloader()
@@ -23,7 +25,8 @@ bool Downloader::SetFileName(QString fname)
     {
         qDebug() << "File open failed.";
         return false;
-    }
+    }    
+    qDebug() << "File" << fname << "ready for write";
 
     return true;
 }
@@ -54,12 +57,14 @@ void Downloader::StartDownload()
     // start tcp server listening
     tcpServer->listen(QHostAddress::Any, 7575);
     connect(tcpServer, SIGNAL(newConnection()), this, SLOT(tcpReady()));
+    qDebug() << "TCP connection ready for download";
 
     // once connected, start downloading from socket and writing to file
     while (!tcpServer->isListening() && !tcpServer->listen())
     {
+        qDebug() << "I'm not listening";
         return;
-    }
+    }//*/
 }
 
 void Downloader::tcpReady()
@@ -70,31 +75,38 @@ void Downloader::tcpReady()
 }
 
 void Downloader::tcpUpdate()
-{
-    static int totalRBytes = 0;
+{    
     int rBytes = (int)tcpSocket->bytesAvailable();
     totalRBytes += rBytes;
     file->write(tcpSocket->readAll(), rBytes);
+    ui->ProgressBar->setValue(totalRBytes);
+    qDebug() << "bytes received:" << totalRBytes << "/" << bytesExpected;
 
     // download complete, close socket and do other stuff
-    if (rBytes == bytesExpected)
+    if (totalRBytes == bytesExpected)
     {
+        totalRBytes = 0;
         file->close();
         tcpSocket->close();
         ui->OKButton->setEnabled(true);
         ui->CancelButton->setEnabled(false);
+        qDebug() << "download complete";
     }
 }
 
 
 void Downloader::on_CancelButton_clicked()
 {
+    totalRBytes = 0;
     // download cancelled, close socket and do other stuff
-    file->close();
-    file->deleteLater();
+    if(file != NULL)
+    {
+        file->close();
+        file->deleteLater();
+    }
     if (tcpSocket != NULL)
         tcpSocket->close();
-    this->reject();
+    this->accept();
 }
 
 void Downloader::on_OKButton_clicked()

@@ -16,6 +16,7 @@
 #define TIMECAST_ADDR   "234.5.6.7"
 #define TIMECAST_PORT   7575
 #define UNICAST_PORT    7000
+#define FILE_TRANSFER_PORT  7575
 #define TIMECAST_TTL    2
 #define AUDIO_BUFFER    8820
 #define DELAY           32
@@ -46,6 +47,7 @@ DWORD ReadSocket(SOCKET *sock, WSABUF *buf, DWORD fl,  WSAOVERLAPPED *ol);
 DWORD WINAPI MulticastThread(LPVOID lpParameter);
 void StartMulticast();
 DWORD WINAPI StreamThread(LPVOID param);
+DWORD WINAPI DownloadThread(LPVOID param);
 
 #endif // SERVER
 

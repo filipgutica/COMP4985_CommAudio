@@ -315,6 +315,11 @@ DWORD WINAPI WorkerThread(LPVOID lpParameter)
  *
  * Completion routine
  *
+ * DESIGNER:    Filip Gutica
+ *
+ * PROGRAMMER:  Filip Gutica
+ *              Sanders Lee
+ *
  ******************************************************************/
 void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED Overlapped, DWORD InFlags)
 {
@@ -322,7 +327,9 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
     DWORD Flags;
     QString strInfo;
     HANDLE ThreadStream;
+    HANDLE ThreadDownload;
     DWORD ThreadStreamId;
+    DWORD ThreadDownloadId;
 
     char temp[1024];
 
@@ -371,14 +378,17 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
 
          //qDebug() << "before regex: " << SI->Buffer;
 
+        /***
+         *
+         * Single stream to client
+         *
+         ***/
         QRegExp rx("index: *");
-
         if (rx.indexIn(SI->Buffer) != -1)
         {
             char *tok = strtok(SI->Buffer, ":");
             tok = strtok(NULL, ":");
             qDebug() << "received " << tok;
-
 
             //find the index'th song in the vector
             QString filepath = SongList.at(atoi(tok));
@@ -390,7 +400,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
             int filesize = file.size();
 
             //put info in the buffer
-            sprintf(temp, "size:%d", file.size());
+            sprintf(temp, "size:%d", filesize);
 
             SI->DataBuf.buf = temp;
             SI->DataBuf.len = 1024;
@@ -417,7 +427,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
 
         /***
          *
-         * sends requested music file to the client via tcp
+         * Send requested music file to the client via TCP
          *
          ***/
         QRegExp rxdown("download: *");
@@ -425,16 +435,42 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
         {
             char *tok = strtok(SI->Buffer, ":");
             tok = strtok(NULL, ":");
-            qDebug() << "received " << tok;
+            qDebug() << "request to send song #" << tok;
 
-            // take the tok and find corresponding file
-            int index = atoi( tok );
+            //find the index'th song in the vector
+            QString filepath = SongList.at(atoi(tok));
 
-            // connect to client
+            //get the file Qfile
+            QFile file(filepath);
 
-            // start uploading
-            // SendBytes = WriteToSocket(&SI->Socket, &SI->DataBuf, 0, &SI->Overlapped);
+            //get the file size
+            int filesize = file.size();
+            qDebug() << "song filesize:" << filesize;
 
+            //put info in the buffer
+            sprintf(temp, "size:%d", filesize);
+
+            SI->DataBuf.buf = temp;
+            SI->DataBuf.len = 1024;
+
+            int client_size = sizeof(client_addr);
+            getpeername(SI->Socket, (PSOCKADDR) &client_addr, &client_size);
+
+            //write metadata to the TCP control line
+            WriteToSocket(&SI->Socket, &SI->DataBuf, 0, &SI->Overlapped);
+            qDebug() << "successfully wrote song metadata";
+
+            //put data into structure to be sent to the thread
+            playerInfo->index = atoi(tok);
+            playerInfo->addrIn = client_addr;
+
+            //send song file
+            if ((ThreadDownload = CreateThread(NULL, 0, DownloadThread, (LPVOID) playerInfo, 0, &ThreadDownloadId)) == NULL)
+            {
+               qDebug() << "CreateThread failed with error " << GetLastError() << endl;
+               return;
+            }
+            //*/
             memset(tok, 0, sizeof(tok));
         }
 
@@ -624,6 +660,74 @@ DWORD WINAPI StreamThread(LPVOID param)
         {
             file.seek(0);
         }
+    }
+
+    return 0;
+}
+
+/*-------------------------------------------------------------------------------
+-- FUNCTION: DownloadThread()
+--
+-- DESIGNER: Filip Gutica
+--
+-- PROGRAMMER: Sanders Lee
+--
+-- NOTES:
+--
+--------------------------------------------------------------------------------*/
+DWORD WINAPI DownloadThread(LPVOID param)
+{
+    SOCKET PlayerSocket;
+    SOCKADDR_IN dest_addr;
+    WSABUF *buf;
+    OVERLAPPED *ol;
+    char temp[AUDIO_BUFFER];
+
+    PLAYER_INFORMATION *info = (PLAYER_INFORMATION*) param;
+
+    buf = (WSABUF*) malloc(sizeof(WSABUF));
+
+    /* Assign our destination address */
+    dest_addr.sin_family =      AF_INET;
+    dest_addr.sin_addr.s_addr = info->addrIn.sin_addr.s_addr;
+    dest_addr.sin_port =        htons(FILE_TRANSFER_PORT);
+
+    qDebug() << "Destination addr: " << inet_ntoa(dest_addr.sin_addr);
+    qDebug() << "Destination port: " << ntohs(dest_addr.sin_port);
+
+    QFile file(SongList.at(info->index));
+
+    qDebug() << "Opening file: " << SongList.at(info->index);
+
+    //open the file for reading
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        qDebug() << "cannot find file";
+        return 0;
+    }
+
+    //create the new TCP socket
+    if ((PlayerSocket = WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED)) == INVALID_SOCKET)
+    {
+       qDebug() << "Failed to get a socket " << WSAGetLastError() << endl;
+       return 0;
+    }
+
+    //connect socket to port
+    if (connect(PlayerSocket , (struct sockaddr *)&dest_addr , sizeof(dest_addr)) < 0)
+    {
+        qDebug() << "connection error";
+        return 1;
+    }
+
+    //go into a loop and read the file chunk by chunk
+    while(!file.atEnd())
+    {
+        buf->len = file.read(temp, AUDIO_BUFFER);
+        buf->buf = temp;
+        ZeroMemory((&ol), sizeof(ol));
+        WriteToSocket(&PlayerSocket, buf, 0, ol);
+        qDebug() << "packet sent";
     }
 
     return 0;
