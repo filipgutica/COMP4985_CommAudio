@@ -13,7 +13,6 @@ AudioThread::AudioThread(QObject *parent) :
     QThread(parent)
 {
 
-
 }
 
 AudioThread::~AudioThread()
@@ -31,6 +30,8 @@ void AudioThread::setType(int t)
         HIGH_WATERMARK = BYTES_PER_SECOND;
     else if (type == STREAM)
         HIGH_WATERMARK = BYTES_PER_SECOND * 5;
+    else
+        HIGH_WATERMARK = BYTES_PER_SECOND * 5;
 
     qDebug() << "Buffer set at: " << HIGH_WATERMARK;
 }
@@ -43,18 +44,18 @@ void AudioThread::run()
 
     while (true)
     {
-        msleep(DELAY);
         //qDebug() << totalNBytes << " " << totalBytesWritten << " " << HIGH_WATERMARK << " " << totalBytesWritten - totalNBytes;
         if (audioOutput != NULL)
         {
             if ((totalNBytes + HIGH_WATERMARK) < totalBytesWritten)   // when we have more than 5s worth of music
                 enoughBuffering = true;
 
-            if (enoughBuffering && ((totalNBytes + LOW_WATERMARK) < totalBytesWritten)) // when we have at least 1s worth of music
+            if (enoughBuffering && ((totalNBytes) <= totalBytesWritten + BYTES_TO_WRITE)) // when we have at least 1s worth of music
             {
 
                 buffer->seek(nBytes);
                 nBytes += ioOutput->write(buffer->read(BYTES_TO_WRITE), BYTES_TO_WRITE);
+
 
                 if (buffer->pos() >= AUDIO_BUFFSIZE)
                     nBytes = 0;
@@ -77,7 +78,7 @@ void AudioThread::run()
                 enoughBuffering = false;
             }
         }
-
+        msleep(DELAY);
     }
 }
 
