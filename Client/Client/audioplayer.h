@@ -22,7 +22,9 @@ class AudioPlayer : public QDialog
 
 public:
     explicit AudioPlayer(QWidget *parent = 0);
-    AudioPlayer(QString ga,QWidget *parent = 0);
+    //AudioPlayer(QString ga,QWidget *parent = 0);
+    AudioPlayer(QUdpSocket* udpSocket, QWidget *parent = 0);
+    AudioPlayer(QString ga, QWidget *parent = 0, bool voipFlag = false);
     ~AudioPlayer();
     void setAudio(QString);
     void setMaxByte(int x);

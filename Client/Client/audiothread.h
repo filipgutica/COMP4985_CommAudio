@@ -11,12 +11,15 @@ public:
     ~AudioThread();
     void run();
     void setMaxBytes(int);
+    void setType(int);
 
 private:
 
     bool streamMode;
     int maxBytes;
     int totalBytes;
+    int type;
+
 };
 
 #endif // AUDIOTHREAD_H
