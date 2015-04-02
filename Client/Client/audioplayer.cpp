@@ -99,7 +99,7 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 --
 --	PROGRAMMER:		Alex Lam
 /*-----------------------------------------------------------------------------*/
-AudioPlayer::AudioPlayer(QString ga, QWidget *parent) : QDialog(parent), ui(new Ui::AudioPlayer)
+AudioPlayer::AudioPlayer(QString ga, QWidget *parent, bool voipFlag) : QDialog(parent), ui(new Ui::AudioPlayer)
 {
     ui->setupUi(this);
 
@@ -144,6 +144,15 @@ AudioPlayer::AudioPlayer(QString ga, QWidget *parent) : QDialog(parent), ui(new 
     ioOutput = audioOutput->start();
 
     thrd = new AudioThread(this);
+
+    if(voipFlag)
+    {
+        thrd->setType(VOIP);
+    }
+    else
+    {
+        thrd->setType(STREAM);
+    }
 
     thrd->start();
 }

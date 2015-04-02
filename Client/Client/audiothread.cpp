@@ -12,10 +12,7 @@ int HIGH_WATERMARK = BYTES_PER_SECOND * 5;
 AudioThread::AudioThread(QObject *parent) :
     QThread(parent)
 {
-    if (type == VOIP)
-        HIGH_WATERMARK = BYTES_PER_SECOND;
-    else if (type == STREAM)
-        HIGH_WATERMARK = BYTES_PER_SECOND * 5;
+
 
 }
 
@@ -29,6 +26,13 @@ AudioThread::~AudioThread()
 void AudioThread::setType(int t)
 {
     type = t;
+
+    if (type == VOIP)
+        HIGH_WATERMARK = BYTES_PER_SECOND;
+    else if (type == STREAM)
+        HIGH_WATERMARK = BYTES_PER_SECOND * 5;
+
+    qDebug() << "Buffer set at: " << HIGH_WATERMARK;
 }
 
 void AudioThread::run()
