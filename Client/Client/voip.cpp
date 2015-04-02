@@ -31,7 +31,12 @@ void Voip::on_makeCallBtn_clicked()
     udpSocket = new QUdpSocket(this);
     udpSocket->bind(QHostAddress(ip), port.toInt());
 
-    AudioPlayer* ap = new AudioPlayer(udpSocket);
+    QHostAddress testAddress = QHostAddress(ip);
+
+    qDebug() << "bind ip: " << testAddress;
+    qDebug() << "plain ip: " << ip;
+
+    AudioPlayer* ap = new AudioPlayer(ip);
     ap->show();
 
     recordAudio(udpSocket);
@@ -81,18 +86,17 @@ void Voip::on_acceptCallBtn_clicked()
 
 void Voip::processBuffer()
 {
-    qDebug()<< "got stuff in my buff " << voice_buffer->size();
+ //   voice_buffer->seek(0);
 
-    //QBuffer* temp = voice_buffer;
+    QByteArray audioByteArray;
 
-    voice_buffer->seek(0);
-
-    //QByteArray audioByteArray;
-
-    //audioByteArray = temp->data();
+    audioByteArray = voice_buffer->buffer();
 
     //qDebug() << "audio byte array " << audioByteArray;
-    qDebug() << voice_buffer->data();
-    udpSocket->writeDatagram((const QByteArray&)voice_buffer->data(), (const QHostAddress&)(ip), (quint16)(port.toInt()));
+
+    //qDebug() << "Audio data" <<  audioByteArray.data();
+    //qDebug() << "IP: " << QHostAddress(ip);
+    //qDebug() << "Port: " << (quint16)(port.toInt());
+    udpSocket->writeDatagram((const QByteArray&)voice_buffer->data(), QHostAddress(ip), (quint16)(port.toInt()));
     voice_buffer->seek(0);
 }
