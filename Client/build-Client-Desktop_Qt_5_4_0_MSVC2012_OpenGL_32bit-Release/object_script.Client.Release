@@ -6,10 +6,12 @@ INPUT(
 ./release\audiothread.o
 ./release\configure.o
 ./release\downloader.o
+./release\voip.o
 ./release\client_plugin_import.o
 ./release\moc_application.o
 ./release\moc_audioplayer.o
 ./release\moc_audiothread.o
 ./release\moc_configure.o
 ./release\moc_downloader.o
+./release\moc_voip.o
 );

@@ -1,16 +1,16 @@
 /****************************************************************************
-** Meta object code from reading C++ file 'downloader.h'
+** Meta object code from reading C++ file 'voip.h'
 **
 ** Created by: The Qt Meta Object Compiler version 67 (Qt 5.3.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../Client/downloader.h"
+#include "../../Client/voip.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)
-#error "The header file 'downloader.h' doesn't include <QObject>."
+#error "The header file 'voip.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
 #error "This file was generated using the moc from 5.3.1. It"
 #error "cannot be used with the include files from this version of Qt."
@@ -18,36 +18,35 @@
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
-struct qt_meta_stringdata_Downloader_t {
-    QByteArrayData data[6];
-    char stringdata[75];
+struct qt_meta_stringdata_Voip_t {
+    QByteArrayData data[5];
+    char stringdata[68];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
-    qptrdiff(offsetof(qt_meta_stringdata_Downloader_t, stringdata) + ofs \
+    qptrdiff(offsetof(qt_meta_stringdata_Voip_t, stringdata) + ofs \
         - idx * sizeof(QByteArrayData)) \
     )
-static const qt_meta_stringdata_Downloader_t qt_meta_stringdata_Downloader = {
+static const qt_meta_stringdata_Voip_t qt_meta_stringdata_Voip = {
     {
-QT_MOC_LITERAL(0, 0, 10),
-QT_MOC_LITERAL(1, 11, 23),
-QT_MOC_LITERAL(2, 35, 0),
-QT_MOC_LITERAL(3, 36, 19),
-QT_MOC_LITERAL(4, 56, 8),
-QT_MOC_LITERAL(5, 65, 9)
+QT_MOC_LITERAL(0, 0, 4),
+QT_MOC_LITERAL(1, 5, 22),
+QT_MOC_LITERAL(2, 28, 0),
+QT_MOC_LITERAL(3, 29, 24),
+QT_MOC_LITERAL(4, 54, 13)
     },
-    "Downloader\0on_CancelButton_clicked\0\0"
-    "on_OKButton_clicked\0tcpReady\0tcpUpdate"
+    "Voip\0on_makeCallBtn_clicked\0\0"
+    "on_acceptCallBtn_clicked\0processBuffer"
 };
 #undef QT_MOC_LITERAL
 
-static const uint qt_meta_data_Downloader[] = {
+static const uint qt_meta_data_Voip[] = {
 
  // content:
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       4,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -55,13 +54,11 @@ static const uint qt_meta_data_Downloader[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   34,    2, 0x08 /* Private */,
-       3,    0,   35,    2, 0x08 /* Private */,
-       4,    0,   36,    2, 0x08 /* Private */,
-       5,    0,   37,    2, 0x08 /* Private */,
+       1,    0,   29,    2, 0x08 /* Private */,
+       3,    0,   30,    2, 0x08 /* Private */,
+       4,    0,   31,    2, 0x08 /* Private */,
 
  // slots: parameters
-    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -69,53 +66,52 @@ static const uint qt_meta_data_Downloader[] = {
        0        // eod
 };
 
-void Downloader::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+void Voip::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
 {
     if (_c == QMetaObject::InvokeMetaMethod) {
-        Downloader *_t = static_cast<Downloader *>(_o);
+        Voip *_t = static_cast<Voip *>(_o);
         switch (_id) {
-        case 0: _t->on_CancelButton_clicked(); break;
-        case 1: _t->on_OKButton_clicked(); break;
-        case 2: _t->tcpReady(); break;
-        case 3: _t->tcpUpdate(); break;
+        case 0: _t->on_makeCallBtn_clicked(); break;
+        case 1: _t->on_acceptCallBtn_clicked(); break;
+        case 2: _t->processBuffer(); break;
         default: ;
         }
     }
     Q_UNUSED(_a);
 }
 
-const QMetaObject Downloader::staticMetaObject = {
-    { &QDialog::staticMetaObject, qt_meta_stringdata_Downloader.data,
-      qt_meta_data_Downloader,  qt_static_metacall, 0, 0}
+const QMetaObject Voip::staticMetaObject = {
+    { &QDialog::staticMetaObject, qt_meta_stringdata_Voip.data,
+      qt_meta_data_Voip,  qt_static_metacall, 0, 0}
 };
 
 
-const QMetaObject *Downloader::metaObject() const
+const QMetaObject *Voip::metaObject() const
 {
     return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
 }
 
-void *Downloader::qt_metacast(const char *_clname)
+void *Voip::qt_metacast(const char *_clname)
 {
     if (!_clname) return 0;
-    if (!strcmp(_clname, qt_meta_stringdata_Downloader.stringdata))
-        return static_cast<void*>(const_cast< Downloader*>(this));
+    if (!strcmp(_clname, qt_meta_stringdata_Voip.stringdata))
+        return static_cast<void*>(const_cast< Voip*>(this));
     return QDialog::qt_metacast(_clname);
 }
 
-int Downloader::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+int Voip::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
     _id = QDialog::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 4)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 3;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 4)
+        if (_id < 3)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 4;
+        _id -= 3;
     }
     return _id;
 }

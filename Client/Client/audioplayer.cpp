@@ -99,7 +99,7 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 --
 --	PROGRAMMER:		Alex Lam
 /*-----------------------------------------------------------------------------*/
-AudioPlayer::AudioPlayer(QString ga, QWidget *parent, bool voipFlag) : QDialog(parent), ui(new Ui::AudioPlayer)
+AudioPlayer::AudioPlayer(QString ga, bool voipFlag, QWidget *parent) : QDialog(parent), ui(new Ui::AudioPlayer)
 {
     ui->setupUi(this);
 
