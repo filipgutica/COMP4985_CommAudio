@@ -464,7 +464,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
             playerInfo->index = atoi(tok);
             playerInfo->addrIn = client_addr;
 
-            /*//stream song
+            //send song file
             if ((ThreadDownload = CreateThread(NULL, 0, DownloadThread, (LPVOID) playerInfo, 0, &ThreadDownloadId)) == NULL)
             {
                qDebug() << "CreateThread failed with error " << GetLastError() << endl;
@@ -660,6 +660,74 @@ DWORD WINAPI StreamThread(LPVOID param)
         {
             file.seek(0);
         }
+    }
+
+    return 0;
+}
+
+/*-------------------------------------------------------------------------------
+-- FUNCTION: DownloadThread()
+--
+-- DESIGNER: Filip Gutica
+--
+-- PROGRAMMER: Sanders Lee
+--
+-- NOTES:
+--
+--------------------------------------------------------------------------------*/
+DWORD WINAPI DownloadThread(LPVOID param)
+{
+    SOCKET PlayerSocket;
+    SOCKADDR_IN dest_addr;
+    WSABUF *buf;
+    OVERLAPPED *ol;
+    char temp[AUDIO_BUFFER];
+
+    PLAYER_INFORMATION *info = (PLAYER_INFORMATION*) param;
+
+    buf = (WSABUF*) malloc(sizeof(WSABUF));
+
+    /* Assign our destination address */
+    dest_addr.sin_family =      AF_INET;
+    dest_addr.sin_addr.s_addr = info->addrIn.sin_addr.s_addr;
+    dest_addr.sin_port =        htons(FILE_TRANSFER_PORT);
+
+    qDebug() << "Destination addr: " << inet_ntoa(dest_addr.sin_addr);
+    qDebug() << "Destination port: " << ntohs(dest_addr.sin_port);
+
+    QFile file(SongList.at(info->index));
+
+    qDebug() << "Opening file: " << SongList.at(info->index);
+
+    //open the file for reading
+    if (!file.open(QIODevice::ReadOnly))
+    {
+        qDebug() << "cannot find file";
+        return 0;
+    }
+
+    //create the new TCP socket
+    if ((PlayerSocket = WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED)) == INVALID_SOCKET)
+    {
+       qDebug() << "Failed to get a socket " << WSAGetLastError() << endl;
+       return 0;
+    }
+
+    //connect socket to port
+    if (connect(PlayerSocket , (struct sockaddr *)&dest_addr , sizeof(dest_addr)) < 0)
+    {
+        qDebug() << "connection error";
+        return 1;
+    }
+
+    //go into a loop and read the file chunk by chunk
+    while(!file.atEnd())
+    {
+        buf->len = file.read(temp, AUDIO_BUFFER);
+        buf->buf = temp;
+        ZeroMemory((&ol), sizeof(ol));
+        WriteToSocket(&PlayerSocket, buf, 0, ol);
+        qDebug() << "packet sent";
     }
 
     return 0;

@@ -66,11 +66,20 @@ void Application::ConnectTCP(QString ip, QString port)
     WriteTCP(tcpbytes);
 }
 
+/***
+ *
+ * DESIGNER:    Filip Gutica
+ *              Sanders Lee
+ *
+ * PROGRAMMER:  Filip Gutica
+ *              Sanders Lee
+ *
+ ***/
 void Application::ReadTCP()
 {
+    QByteArray data = msock->readAll();
     if(!downloadRequested)
     {
-        QByteArray data = msock->readAll();
         if(expectedSize == 0) // First read
         {
             expectedSize = 1024;
@@ -97,7 +106,6 @@ void Application::ReadTCP()
     else
     {
         // read number of bytes expected from server
-        QByteArray data = msock->readAll();
         char *tok = strtok(data.data(), ":");
         tok = strtok(NULL, ":");
         int eb = atoi(tok);
@@ -108,8 +116,8 @@ void Application::ReadTCP()
         if( dl.SetFileName(song) &&
             dl.SetBytesExpected(eb) )
         {
-            dl.exec();
             dl.StartDownload();
+            dl.exec();
         }
 
         downloadRequested = false;
@@ -166,7 +174,7 @@ void Application::on_listMusic_doubleClicked(const QModelIndex &index)
  *
  * Programmer:  Filip Gutica
  *              Sanders Lee
- */
+ ***/
 void Application::on_listMusic_customContextMenuRequested(const QPoint &pos)
 {
     QModelIndex index = ui->listMusic->indexAt(pos);
@@ -193,7 +201,7 @@ void Application::on_listMusic_customContextMenuRequested(const QPoint &pos)
  * Designer:    Sanders Lee
  *
  * Programmer:  Sanders Lee
- */
+ ***/
 void Application::SaveNew(QObject * i)
 {
     QModelIndex * index = (QModelIndex *) i;
@@ -201,8 +209,6 @@ void Application::SaveNew(QObject * i)
     if ( index->isValid())
     {
         qDebug() << "Download requested: " << index->row();
-
-        // open file for writing song into
         song = index->data().toString().split('/').last();
 
         // send over download request

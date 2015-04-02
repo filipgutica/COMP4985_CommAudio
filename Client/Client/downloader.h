@@ -35,6 +35,7 @@ private:
     QTcpServer *tcpServer;
     int bytesExpected;
     int bytesReceived;
+    int totalRBytes;
 };
 
 #endif // DOWNLOADER_H
