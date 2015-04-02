@@ -50,7 +50,9 @@ private:
 
     QString ip;
     QString port;
+    QString song;
     bool playlistReceived;
+    bool downloadRequested;
 };
 
 #endif // APPLICATION_H

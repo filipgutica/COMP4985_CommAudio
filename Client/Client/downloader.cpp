@@ -7,6 +7,7 @@ Downloader::Downloader(QWidget *parent) :
 {
     ui->setupUi(this);
     tcpServer = new QTcpServer(this);
+    tcpSocket = NULL;
 }
 
 Downloader::~Downloader()
@@ -23,7 +24,8 @@ bool Downloader::SetFileName(QString fname)
     {
         qDebug() << "File open failed.";
         return false;
-    }
+    }    
+    qDebug() << "File" << fname << "ready for write";
 
     return true;
 }
@@ -51,7 +53,7 @@ void Downloader::StartDownload()
     ui->ProgressBar->setValue(0);
     ui->ProgressBar->setMaximum(bytesExpected);
 
-    // start tcp server listening
+    /*// start tcp server listening
     tcpServer->listen(QHostAddress::Any, 7575);
     connect(tcpServer, SIGNAL(newConnection()), this, SLOT(tcpReady()));
 
@@ -59,7 +61,7 @@ void Downloader::StartDownload()
     while (!tcpServer->isListening() && !tcpServer->listen())
     {
         return;
-    }
+    }//*/
 }
 
 void Downloader::tcpReady()
@@ -90,11 +92,14 @@ void Downloader::tcpUpdate()
 void Downloader::on_CancelButton_clicked()
 {
     // download cancelled, close socket and do other stuff
-    file->close();
-    file->deleteLater();
+    if(file != NULL)
+    {
+        file->close();
+        file->deleteLater();
+    }
     if (tcpSocket != NULL)
         tcpSocket->close();
-    this->reject();
+    this->accept();
 }
 
 void Downloader::on_OKButton_clicked()
