@@ -26,7 +26,7 @@ QAudioOutput *audioOutput;
 QIODevice *ioOutput;
 QBuffer *buffer;
 
-QSemaphore sem1(HIGH_WATERMARK/512);
+QSemaphore sem1(BYTES_PER_SECOND * 5/512);
 QSemaphore sem2(0);
 int bytesWritten = 0;
 int totalBytesWritten = 0;

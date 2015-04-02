@@ -6,9 +6,16 @@
 int nBytes = 0;
 int totalNBytes = 0;
 
+int HIGH_WATERMARK = BYTES_PER_SECOND * 5;
+
+
 AudioThread::AudioThread(QObject *parent) :
     QThread(parent)
 {
+    if (type == VOIP)
+        HIGH_WATERMARK = BYTES_PER_SECOND;
+    else if (type == STREAM)
+        HIGH_WATERMARK = BYTES_PER_SECOND * 5;
 
 }
 
@@ -17,6 +24,11 @@ AudioThread::~AudioThread()
     streamMode = false;
     maxBytes = 1000000000;
     totalBytes = 0;
+}
+
+void AudioThread::setType(int t)
+{
+    type = t;
 }
 
 void AudioThread::run()
