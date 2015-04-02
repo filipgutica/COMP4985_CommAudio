@@ -26,7 +26,7 @@ QAudioOutput *audioOutput;
 QIODevice *ioOutput;
 QBuffer *buffer;
 
-QSemaphore sem1(HIGH_WATERMARK/44100);
+QSemaphore sem1(HIGH_WATERMARK/512);
 QSemaphore sem2(0);
 int bytesWritten = 0;
 int totalBytesWritten = 0;
@@ -425,15 +425,11 @@ void AudioPlayer::processPendingDatagrams()
 /*-----------------------------------------------------------------------------*/
 void AudioPlayer::playData(QByteArray d)
 {
-
-
-  //  sem1.acquire();
     buffer->open(QIODevice::ReadWrite);
     buffer->seek(bytesWritten);
     buffer->write(d.data(), d.size());
     buffer->waitForBytesWritten(10);
-  //  sem2.release();
-    qDebug() << "Socket position " << buffer->pos();
+    //qDebug() << "Socket position " << buffer->pos();
 
     if (bytecount >= AUDIO_BUFFSIZE)
         bytecount = 0;

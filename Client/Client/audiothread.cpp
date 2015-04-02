@@ -28,7 +28,7 @@ void AudioThread::run()
     while (true)
     {
         msleep(DELAY);
-        //qDebug() << totalNBytes << " " << totalBytesWritten << " " << AUDIO_BUFFSIZE;
+        qDebug() << totalNBytes << " " << totalBytesWritten << " " << HIGH_WATERMARK << " " << totalBytesWritten - totalNBytes;
         if (audioOutput != NULL)
         {
             if ((totalNBytes + HIGH_WATERMARK) < totalBytesWritten)   // when we have more than 5s worth of music
@@ -36,6 +36,7 @@ void AudioThread::run()
 
             if (enoughBuffering && ((totalNBytes + LOW_WATERMARK) < totalBytesWritten)) // when we have at least 1s worth of music
             {
+
                 buffer->seek(nBytes);
                 nBytes += ioOutput->write(buffer->read(BYTES_TO_WRITE), BYTES_TO_WRITE);
 
@@ -60,6 +61,7 @@ void AudioThread::run()
                 enoughBuffering = false;
             }
         }
+
     }
 }
 

@@ -198,9 +198,11 @@ void Application::SaveNew(QObject * i)
 
         // open up dialog box for download progress
         Downloader dl;
-        dl.SetFileName(song);
-        dl.SetBytesExpected(eb);
-        dl.StartDownload();
-        dl.exec();
+        if( dl.SetFileName(song) &&
+            dl.SetBytesExpected(eb) )
+        {
+            dl.exec();
+            dl.StartDownload();
+        }
     }
 }
