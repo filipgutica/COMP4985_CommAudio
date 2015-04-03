@@ -13,13 +13,14 @@
 
 #define PORT                    5150
 #define DATA_BUFSIZE            64000
+#define TEMP_BUFFSIZE           256
 #define TIMECAST_ADDR           "234.5.6.7"
 #define TIMECAST_PORT           7575
 #define UNICAST_PORT            7000
 #define FILE_TRANSFER_PORT      7575
 #define TIMECAST_TTL            2
 #define AUDIO_BUFFER            8820
-#define DELAY                   30
+#define DELAY                   32
 #define MULTICAST_FILE_PATH     "../Music/Guns_And_Roses-Paradise_City.wav"
 
 typedef struct _SOCKET_INFORMATION {
@@ -48,6 +49,8 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter);
 void StartMulticast();
 DWORD WINAPI StreamThread(LPVOID param);
 DWORD WINAPI DownloadThread(LPVOID param);
+void ProcessSongRequest(char*, LPSOCKET_INFORMATION);
+void ProcessDownloadRequest(char*, LPSOCKET_INFORMATION);
 
 #endif // SERVER
 
