@@ -222,7 +222,7 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
 
         }
 
-        file->close();
+        delete file;
 
     }
 
@@ -364,7 +364,6 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
 
    /***
     * We will process client requests here
-    * Check for requested songs, start UDP thread etc...
     ***/
     if (SI->BytesRECV == 0)
     {

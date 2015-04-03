@@ -336,7 +336,7 @@ void AudioPlayer::on_sliderProgress_sliderMoved(int position)
 /*-----------------------------------------------------------------------------*/
 void AudioPlayer::on_sliderVolume_sliderMoved(int position)
 {
-    //player->setVolume(position);
+    audioOutput->setVolume(position);
 }
 
 /*------------------------------------------------------------------------------
