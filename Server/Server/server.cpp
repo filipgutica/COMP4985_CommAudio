@@ -1,4 +1,3 @@
-
 #include "server.h"
 
 SOCKET AcceptSocket, ListenSocket, MulticastSocket;
@@ -42,7 +41,7 @@ void StartServer(int port, LPVOID app, QVector<QString> songList)
       return;
    }
 
-   //StartMulticast();
+   StartMulticast();
 
    InternetAddr.sin_family = AF_INET;
    InternetAddr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -176,28 +175,34 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
     DWORD sent;
     DWORD flags;
     OVERLAPPED *ol;
+    QFile *file;
     char temp[AUDIO_BUFFER];
     int i = 0;
 
     buf = (WSABUF*) malloc(sizeof(WSABUF));
 
     /* Assign our destination address */
-      stDstAddr.sin_family =      AF_INET;
-      stDstAddr.sin_addr.s_addr = inet_addr(TIMECAST_ADDR);
-      stDstAddr.sin_port =        htons(TIMECAST_PORT);
+    stDstAddr.sin_family =      AF_INET;
+    stDstAddr.sin_addr.s_addr = inet_addr(TIMECAST_ADDR);
+    stDstAddr.sin_port =        htons(TIMECAST_PORT);
 
     int ret;
-    QFile file(MULTICAST_FILE_PATH);
 
-    if (!file.open(QIODevice::ReadOnly))
-    {
-        qDebug() << "cannot find file";
-        return 0;
-    }
 
-    while(TRUE)
+    for (int j = 0; j < SongList.size(); j++)
     {
-        if ((file.read(temp, AUDIO_BUFFER)))
+
+        file  = new QFile(SongList.at(j));
+
+        if (!file->open(QIODevice::ReadOnly))
+        {
+            qDebug() << "cannot find file";
+            return 0;
+        }
+
+        qDebug() << "Streaming: " << SongList.at(j);
+
+        while ((file->read(temp, AUDIO_BUFFER)))
         {
             buf->buf = temp;
             buf->len = AUDIO_BUFFER;
@@ -212,14 +217,15 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
             }
 
 
-            file.seek(i);
+            file->seek(i);
             memset(temp, 0, sizeof(temp));
+
         }
-        else
-        {
-            file.seek(0);
-        }
+
+        file->close();
+
     }
+
 
     return 0;
 }

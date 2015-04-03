@@ -163,7 +163,7 @@ void Application::appendToLog(QString str)
 /*-----------------------------------------------------------------------------*/
 void Application::loadPlaylist()
 {
-    QDirIterator dirIter("../Music", QDirIterator::Subdirectories);
+    QDirIterator dirIter("../../../Music", QDirIterator::Subdirectories);
     QString curFile;
 
     while (dirIter.hasNext())

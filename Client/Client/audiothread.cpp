@@ -50,7 +50,7 @@ void AudioThread::run()
             if ((totalNBytes + HIGH_WATERMARK) < totalBytesWritten)   // when we have more than 5s worth of music
                 enoughBuffering = true;
 
-            if (enoughBuffering && ((totalNBytes) <= totalBytesWritten + BYTES_TO_WRITE)) // when we have at least 1s worth of music
+            if (enoughBuffering && ((totalNBytes) <= totalBytesWritten)) // when we have at least 1s worth of music
             {
 
                 buffer->seek(nBytes);
@@ -73,10 +73,7 @@ void AudioThread::run()
                 }*/
 
             }
-            else
-            {
-                enoughBuffering = false;
-            }
+
         }
         msleep(DELAY);
     }

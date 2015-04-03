@@ -1,0 +1,12 @@
+INPUT(
+./debug\main.o
+./debug\application.o
+./debug\configure.o
+./debug\server.o
+./debug\audioplayer.o
+./debug\streamer.o
+./debug\moc_application.o
+./debug\moc_configure.o
+./debug\moc_audioplayer.o
+./debug\moc_streamer.o
+);

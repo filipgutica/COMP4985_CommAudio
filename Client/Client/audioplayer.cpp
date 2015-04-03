@@ -54,7 +54,7 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 
     // Setup the muticast socket
     udpSocket = new QUdpSocket(this);
-    udpSocket->bind(QHostAddress::AnyIPv4, 7575);
+    udpSocket->bind(QHostAddress::AnyIPv4, MULTICAST_PORT);
     udpSocket->joinMulticastGroup(groupAddress);
     udpSocket->setReadBufferSize(AUDIO_BUFFSIZE);
 

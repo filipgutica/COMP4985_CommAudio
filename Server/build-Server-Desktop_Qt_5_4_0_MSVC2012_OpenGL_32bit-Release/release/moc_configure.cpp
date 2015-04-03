@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'configure.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.3.1)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.4.0)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,7 +12,7 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'configure.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.3.1. It"
+#error "This file was generated using the moc from 5.4.0. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
@@ -29,10 +29,11 @@ struct qt_meta_stringdata_Configure_t {
     )
 static const qt_meta_stringdata_Configure_t qt_meta_stringdata_Configure = {
     {
-QT_MOC_LITERAL(0, 0, 9),
-QT_MOC_LITERAL(1, 10, 21),
-QT_MOC_LITERAL(2, 32, 0),
-QT_MOC_LITERAL(3, 33, 21)
+QT_MOC_LITERAL(0, 0, 9), // "Configure"
+QT_MOC_LITERAL(1, 10, 21), // "on_buttonBox_accepted"
+QT_MOC_LITERAL(2, 32, 0), // ""
+QT_MOC_LITERAL(3, 33, 21) // "on_buttonBox_rejected"
+
     },
     "Configure\0on_buttonBox_accepted\0\0"
     "on_buttonBox_rejected"
@@ -78,7 +79,7 @@ void Configure::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
 
 const QMetaObject Configure::staticMetaObject = {
     { &QDialog::staticMetaObject, qt_meta_stringdata_Configure.data,
-      qt_meta_data_Configure,  qt_static_metacall, 0, 0}
+      qt_meta_data_Configure,  qt_static_metacall, Q_NULLPTR, Q_NULLPTR}
 };
 
 
@@ -89,7 +90,7 @@ const QMetaObject *Configure::metaObject() const
 
 void *Configure::qt_metacast(const char *_clname)
 {
-    if (!_clname) return 0;
+    if (!_clname) return Q_NULLPTR;
     if (!strcmp(_clname, qt_meta_stringdata_Configure.stringdata))
         return static_cast<void*>(const_cast< Configure*>(this));
     return QDialog::qt_metacast(_clname);
