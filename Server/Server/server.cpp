@@ -188,7 +188,6 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
 
     for (int j = 0; j < SongList.size(); j++)
     {
-
         file  = new QFile(SongList.at(j));
 
         if (!file->open(QIODevice::ReadOnly))
@@ -213,13 +212,12 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
                 return 1;
             }
 
-
             file->seek(i);
             memset(temp, 0, sizeof(temp));
-
         }
 
-        file->seek(0);
+        file->close();
+        delete file;
 
     }
 

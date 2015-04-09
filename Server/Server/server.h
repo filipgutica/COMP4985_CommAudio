@@ -20,7 +20,7 @@
 #define FILE_TRANSFER_PORT      7575
 #define TIMECAST_TTL            2
 #define AUDIO_BUFFER            8820
-#define DELAY                   32
+#define DELAY                   30
 #define MULTICAST_FILE_PATH     "../Music/Guns_And_Roses-Paradise_City.wav"
 
 typedef struct _SOCKET_INFORMATION {
