@@ -30,7 +30,7 @@ int totalNBytes = 0;
 int HIGH_WATERMARK = BYTES_PER_SECOND * 5;
 
 /*------------------------------------------------------------------------------
---	FUNCTION:       AudioThread(QObject *parent
+--	FUNCTION:       AudioThread(QObject *parent)
 --
 --	PURPOSE:		Constructor for the audiothread
 --
@@ -86,7 +86,7 @@ void AudioThread::setType(int t)
 }
 
 /*------------------------------------------------------------------------------
---	FUNCTION:       setRunning()
+--	FUNCTION:       setRunning(bool r)
 --
 --	PURPOSE:		 Set the running boolean to false
 --
@@ -144,18 +144,5 @@ void AudioThread::run()
         msleep(DELAY); // Wait for bytes to finish writing to the audio device
     }
 }
-
-/*------------------------------------------------------------------------------
---	FUNCTION:       setMaxBytes(int x)
---
---	PURPOSE:        sets the Maximum number of bytes
---
---	DESIGNERS:		Alex Lam & Sebastian Pelka
---
---	PROGRAMMER:		Alex Lam & Sebastian Pelka
---
---  NOTES:          THIS FUNCTION HAS BEEN RETIRED; WE ARE KEEPING IT HERE FOR
---                  REFERENCE IN CASE IT IS NEEDED LATER.
-/*-----------------------------------------------------------------------------*/
 
 

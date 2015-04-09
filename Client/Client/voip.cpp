@@ -150,7 +150,7 @@ void Voip::recordAudio(QUdpSocket *udpSocket)
 /*-----------------------------------------------------------------------------*/
 void Voip::processBuffer()
 {
- //   voice_buffer->seek(0);
+    //voice_buffer->seek(0);
 
     QByteArray audioByteArray;
 

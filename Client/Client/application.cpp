@@ -17,7 +17,7 @@
 --                      SaveNew(QObject * i)
 --
 --
---	DATE:				March 19 2015
+--	DATE:				March 18 2015
 --
 --	DESIGNERS:			Alex Lam & Sebastian Pelka
 --
@@ -79,6 +79,14 @@ Application::~Application()
 --
 --	PURPOSE:        Creates a configure dialog to retrieve user IP and Port input
 --
+--  DATE:			March 18 2015
+--
+--  REVISIONS:      (Date and Description)
+--
+--  INTERFACE:      Application::on_actionAudio_Stream_triggered()
+--
+--  RETURNS:        void
+--
 --	DESIGNERS:		Alex Lam & Sebastian Pelka
 --
 --	PROGRAMMER:		Alex Lam & Sebastian Pelka
@@ -107,6 +115,14 @@ void Application::on_actionAudio_Stream_triggered()
 --
 --	PURPOSE:        Generates audio player dialog
 --
+--  DATE:			March 18 2015
+--
+--  REVISIONS:      (Date and Description)
+--
+--  INTERFACE:      Application::on_actionRadio_triggered()
+--
+--  RETURNS:        void
+--
 --	DESIGNERS:		Alex Lam & Sebastian Pelka
 --
 --	PROGRAMMER:		Alex Lam & Sebastian Pelka
@@ -125,6 +141,14 @@ void Application::on_actionRadio_triggered()
 --
 --	PURPOSE:        Generates the voice chat dialog
 --
+--  DATE:			March 18 2015
+--
+--  REVISIONS:      (Date and Description)
+--
+--  INTERFACE:      Application::on_actionVOIP_triggered()
+--
+--  RETURNS:        void
+--
 --	DESIGNERS:		Alex Lam & Sebastian Pelka
 --
 --	PROGRAMMER:		Alex Lam & Sebastian Pelka
@@ -141,6 +165,16 @@ void Application::on_actionVOIP_triggered()
 --	FUNCTION:       ConnectTCP(QString ip, QString port)
 --
 --	PURPOSE:        creates a TCP socket with the specified ip and port
+--
+--  DATE:			March 18 2015
+--
+--  REVISIONS:      (Date and Description)
+--
+--  INTERFACE:      Application::ConnectTCP(QString ip, QString port)
+--                  param: ip: the IP address to be assigned to the socket
+--                  param: port: the port to be assigned to the socket
+--
+--  RETURNS:        void
 --
 --	DESIGNERS:		Alex Lam & Sebastian Pelka
 --
@@ -162,6 +196,14 @@ void Application::ConnectTCP(QString ip, QString port)
 --	FUNCTION:       ReadTCP()
 --
 --	PURPOSE:        read data from the TCP Control Line
+--
+--  DATE:			March 18 2015
+--
+--  REVISIONS:      (Date and Description)
+--
+--  INTERFACE:      Application::ReadTCP()
+--
+--  RETURNS:        void
 --
 --	DESIGNERS:		Alex Lam & Sebastian Pelka
 --
@@ -220,6 +262,15 @@ void Application::ReadTCP()
 --
 --	PURPOSE:        Writes binary data to a TCP socket
 --
+--  DATE:			March 18 2015
+--
+--  REVISIONS:      (Date and Description)
+--
+--  INTERFACE:      Application::WriteTCP(QByteArray data)
+--                  param: data: the binary data to be written to the socket
+--
+--  RETURNS:        void
+--
 --	DESIGNERS:		Alex Lam & Sebastian Pelka
 --
 --	PROGRAMMER:		Alex Lam & Sebastian Pelka
@@ -235,6 +286,14 @@ void Application::WriteTCP(QByteArray data)
 --	FUNCTION:       UpdatePlaylist()
 --
 --	PURPOSE:        Updates the client side playlist with the server song library
+--
+--  DATE:			March 18 2015
+--
+--  REVISIONS:      (Date and Description)
+--
+--  INTERFACE:      Application::UpdatePlaylist()
+--
+--  RETURNS:        void
 --
 --	DESIGNERS:		Alex Lam & Sebastian Pelka
 --
@@ -257,6 +316,15 @@ void Application::UpdatePlaylist()
 --
 --	PURPOSE:        handles a double click on a song in the song list; sends the
 --                  song index to the server.
+--
+--  DATE:			March 18 2015
+--
+--  REVISIONS:      (Date and Description)
+--
+--  INTERFACE:      Application::on_listMusic_doubleClicked(const QModelIndex &index)
+--                  param: &index: the address of an integer index of the song list
+--
+--  RETURNS:        void
 --
 --	DESIGNERS:		Alex Lam & Sebastian Pelka
 --
