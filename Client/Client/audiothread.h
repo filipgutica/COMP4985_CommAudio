@@ -12,10 +12,12 @@ public:
     void run();
     void setMaxBytes(int);
     void setType(int);
+    void setRunning(bool);
 
 private:
 
     bool streamMode;
+    bool running;
     int maxBytes;
     int totalBytes;
     int type;

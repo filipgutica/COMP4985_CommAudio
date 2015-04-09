@@ -17,6 +17,7 @@ Application::Application(QWidget *parent) :
 
     playlistReceived = false;
     downloadRequested = false;
+
 }
 
 Application::~Application()
@@ -46,7 +47,12 @@ void Application::on_actionRadio_triggered()
 {
     AudioPlayer *audPlayer = new AudioPlayer();
 
-    audPlayer->show();
+    if (audPlayer->exec() == QDialog::Rejected)
+    {
+        audPlayer->close();
+    }
+
+
 }
 
 void Application::on_actionVOIP_triggered()
@@ -73,11 +79,10 @@ void Application::ConnectTCP(QString ip, QString port)
 
 /***
  *
- * DESIGNER:    Filip Gutica
+ * DESIGNER:
  *              Sanders Lee
  *
- * PROGRAMMER:  Filip Gutica
- *              Sanders Lee
+ * PROGRAMMER:  Sanders Lee
  *
  ***/
 void Application::ReadTCP()
@@ -164,7 +169,16 @@ void Application::on_listMusic_doubleClicked(const QModelIndex &index)
     //start listening to udp socket on pre-agreed port
     audPlayer = new AudioPlayer(ip);
 
-    audPlayer->show();
+    if (audPlayer->exec() == QDialog::Rejected)
+    {
+        char* bytes = "stop";
+        QByteArray data(bytes, sizeof(bytes));
+        WriteTCP(data);
+    }
+
+
+
+    //audPlayer->show();
 
     //Expect file size over tcp from server
 

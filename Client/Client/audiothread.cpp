@@ -12,14 +12,15 @@ int HIGH_WATERMARK = BYTES_PER_SECOND * 5;
 AudioThread::AudioThread(QObject *parent) :
     QThread(parent)
 {
-
+    running = true;
+    streamMode = false;
+    maxBytes = 1000000000;
+    totalBytes = 0;
 }
 
 AudioThread::~AudioThread()
 {
-    streamMode = false;
-    maxBytes = 1000000000;
-    totalBytes = 0;
+    running = false;
 }
 
 void AudioThread::setType(int t)
@@ -36,13 +37,18 @@ void AudioThread::setType(int t)
     qDebug() << "Buffer set at: " << HIGH_WATERMARK;
 }
 
+void AudioThread::setRunning(bool r)
+{
+    running = r;
+}
+
 void AudioThread::run()
 {
     bool enoughBuffering = false;
     //int extendingWaitTime = 1000;
     buffer->open(QIODevice::ReadOnly);
 
-    while (true)
+    while (running)
     {
         qDebug() << totalNBytes << " " << totalBytesWritten << " " << HIGH_WATERMARK << " " << totalBytesWritten - totalNBytes;
         if (audioOutput != NULL)
