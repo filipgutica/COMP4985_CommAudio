@@ -4,8 +4,6 @@
 --
 --	PROGRAM:		Client
 --
---	REVISIONS:		(Date and Description)
---
 --	DESIGNERS:		Filip Gutica
 --
 --	PROGRAMMER:		Filip Gutica
@@ -37,6 +35,7 @@ extern QAudioOutput *audioOutput;
 extern int nBytes;
 extern int bytesWritten;
 extern int totalBytesWritten;
+extern int totalNBytes;
 
 #endif // GLOBALS
 

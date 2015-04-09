@@ -27,6 +27,7 @@ public:
     AudioPlayer(QString ga,  bool voipFlag = false, QWidget *parent = 0);
     ~AudioPlayer();
     void setMaxByte(int x);
+    void clearBuffers();
 
 private slots:
 

@@ -173,13 +173,6 @@ AudioPlayer::AudioPlayer(QUdpSocket* udpSocket, QWidget *parent) : QDialog(paren
     data = new QByteArray(AUDIO_BUFFSIZE, '\0');
     buffer = new QBuffer(data);
 
-    // Hardcoded multicast address
-    //groupAddress = QHostAddress("234.5.6.7");
-    //groupAddress = QHostAddress(ga);
-
-    // Setup the muticast socket
-    //udpSocket = new QUdpSocket(this);
-    //udpSocket->bind(QHostAddress::AnyIPv4, 7000);
     udpSocket->setReadBufferSize(AUDIO_BUFFSIZE);
 
     // Set the audio format
@@ -317,4 +310,23 @@ void AudioPlayer::audioStateChanged(QAudio::State state)
 {
     qDebug() << "AudioDevice State changed state: " << state;
 
+}
+
+/*------------------------------------------------------------------------------
+--	FUNCTION: clearBuffers()
+--
+--	PURPOSE:		Clear the audio buffers
+--
+--	PARAMETERS:
+--		void
+--
+--	DESIGNERS:		Filip Gutica
+--
+--	PROGRAMMER:		Filip Gutica
+/*-----------------------------------------------------------------------------*/
+void AudioPlayer::clearBuffers()
+{
+   buffer->seek(0);
+   totalNBytes = 0;
+   bytesWritten = 0;
 }

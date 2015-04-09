@@ -126,6 +126,7 @@ void AudioThread::run()
 
     while (running)
     {
+        qDebug() << totalNBytes;
         if (audioOutput != NULL)
         {
             if ((totalNBytes + HIGH_WATERMARK) < totalBytesWritten)   // when we have more than 5s worth of music
