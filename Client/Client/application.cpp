@@ -18,9 +18,6 @@ Application::Application(QWidget *parent) :
     playlistReceived = false;
     downloadRequested = false;
 
-    radioPlayer = new AudioPlayer();
-    radioPlayer->clearBuffers();
-
 }
 
 Application::~Application()
@@ -49,12 +46,10 @@ void Application::on_actionAudio_Stream_triggered()
 
 void Application::on_actionRadio_triggered()
 {
-    radioPlayer->startAudioThread();
+    AudioPlayer audPlayer;
 
-    if (radioPlayer->exec() == QDialog::Rejected)
-    {
-        radioPlayer->clearBuffers();
-    }
+    audPlayer.exec();
+
 
 }
 

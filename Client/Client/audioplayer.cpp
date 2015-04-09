@@ -327,7 +327,7 @@ void AudioPlayer::audioStateChanged(QAudio::State state)
 void AudioPlayer::clearBuffers()
 {
    QByteArray data;
-   buffer->setData(data);
+   buffer->setData(NULL);
    totalNBytes = 0;
    bytesWritten = 0;
    nBytes = 0;

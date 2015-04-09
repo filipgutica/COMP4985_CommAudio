@@ -47,7 +47,6 @@ private:
     int currentSize;
 
     AudioPlayer *audPlayer;
-    AudioPlayer *radioPlayer;
     QString ip;
     QString port;
     QString song;
