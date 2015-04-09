@@ -219,7 +219,7 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
 
         }
 
-        delete file;
+        file->seek(0);
 
     }
 

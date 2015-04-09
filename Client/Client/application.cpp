@@ -55,7 +55,6 @@ void Application::on_actionRadio_triggered()
 void Application::on_actionVOIP_triggered()
 {
     Voip call;
-    call.setModal(true);
 
     call.exec();
 }
