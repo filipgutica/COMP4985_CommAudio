@@ -32,7 +32,7 @@ public:
 
 private slots:
 
-    void on_sliderVolume_sliderMoved(int position);
+    void on_sliderVolume_sliderMoved(float position);
 
     void processPendingDatagrams();
 

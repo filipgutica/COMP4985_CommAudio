@@ -74,7 +74,7 @@ static const uint qt_meta_data_AudioPlayer[] = {
     QMetaType::Void, QMetaType::QByteArray,    3,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::Int,    5,
+    QMetaType::Void, QMetaType::Float,    5,
     QMetaType::Void,
     QMetaType::Void, QMetaType::QByteArray,    3,
     QMetaType::Void, 0x80000000 | 9,   10,
@@ -88,7 +88,7 @@ void AudioPlayer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         AudioPlayer *_t = static_cast<AudioPlayer *>(_o);
         switch (_id) {
         case 0: _t->audioReady((*reinterpret_cast< QByteArray(*)>(_a[1]))); break;
-        case 1: _t->on_sliderVolume_sliderMoved((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 1: _t->on_sliderVolume_sliderMoved((*reinterpret_cast< float(*)>(_a[1]))); break;
         case 2: _t->processPendingDatagrams(); break;
         case 3: _t->playData((*reinterpret_cast< QByteArray(*)>(_a[1]))); break;
         case 4: _t->audioStateChanged((*reinterpret_cast< QAudio::State(*)>(_a[1]))); break;

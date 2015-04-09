@@ -358,15 +358,19 @@ void Application::on_listMusic_doubleClicked(const QModelIndex &index)
     qDebug() << index.data().toString();
 }
 
-/***
- * Right clicking the song opens up the download option.
- *
- * Designer:    Filip Gutica
- *              Sanders Lee
- *
- * Programmer:  Filip Gutica
- *              Sanders Lee
- ***/
+/*------------------------------------------------------------------------------
+--	FUNCTION:       on_listMusic_customContextMenuRequested()
+--
+--	PURPOSE:        Right click on songs in the play list to request download
+--
+--  DATE:			March 18 2015
+--
+--  RETURNS:        void
+--
+--	DESIGNERS:		Filip Gutica & Sanders Lee
+--
+--	PROGRAMMER:		Filip Gutica & Sanders Lee
+/*-----------------------------------------------------------------------------*/
 void Application::on_listMusic_customContextMenuRequested(const QPoint &pos)
 {
     QModelIndex index = ui->listMusic->indexAt(pos);

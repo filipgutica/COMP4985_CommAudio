@@ -31,7 +31,7 @@ AudioStruct *audioStruct;
 --
 --	DESIGNERS:		Auto-generated
 --
---	PROGRAMMER:		Auto-generated
+--	PROGRAMMER:		Filip Gutica
 /*-----------------------------------------------------------------------------*/
 AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPlayer)
 {
@@ -39,7 +39,7 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 
     player = new QMediaPlayer;
 
-    /*** Connect the audio palyer to the progress slider so they are synchronized ***/
+    /*** Connect the audio player to the progress slider so they are synchronized ***/
     connect(player, &QMediaPlayer::positionChanged, this, &AudioPlayer::on_positionChanged);
     connect(player, &QMediaPlayer::durationChanged, this, &AudioPlayer::on_durationChanged);
 }
@@ -51,7 +51,7 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
 --
 --	DESIGNERS:		Auto-generated
 --
---	PROGRAMMER:		Auto-generated
+--	PROGRAMMER:		Filip Gutica
 /*-----------------------------------------------------------------------------*/
 AudioPlayer::~AudioPlayer()
 {

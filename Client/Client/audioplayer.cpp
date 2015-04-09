@@ -68,6 +68,7 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
     // Setup the audioOuput address with the desired format
     audioOutput = new QAudioOutput(format, this);
     audioOutput->setBufferSize(AUDIO_BUFFSIZE);
+    audioOutput->setVolume(1.0);
 
     bytecount = 0;
     nBytes = 0;
@@ -87,6 +88,7 @@ AudioPlayer::AudioPlayer(QWidget *parent) : QDialog(parent), ui(new Ui::AudioPla
     thrd = new AudioThread(this);
 
     thrd->start();
+
 }
 
 /*------------------------------------------------------------------------------
@@ -126,6 +128,7 @@ AudioPlayer::AudioPlayer(QString ga, bool voipFlag, QWidget *parent) : QDialog(p
     // Setup the audioOuput address with the desired format
     audioOutput = new QAudioOutput(format, this);
     audioOutput->setBufferSize(AUDIO_BUFFSIZE);
+    audioOutput->setVolume(1.0);
 
     bytecount = 0;
     nBytes = 0;
@@ -222,20 +225,20 @@ AudioPlayer::~AudioPlayer()
 }
 
 /*------------------------------------------------------------------------------
---	FUNCTION: on_sliderProgress_sliderMoved()
+--	FUNCTION: on_sliderVolume_sliderMoved()
 --
 --	PURPOSE:		set the volume of the player
 --
 --	PARAMETERS:
---		int position    Position of the slider
+--		qreal position    Position of the slider
 --
 --	DESIGNERS:		Filip Gutica
 --
 --	PROGRAMMER:		Filip Gutica
 /*-----------------------------------------------------------------------------*/
-void AudioPlayer::on_sliderVolume_sliderMoved(int position)
+void AudioPlayer::on_sliderVolume_sliderMoved(float position)
 {
-    audioOutput->setVolume(position);
+    audioOutput->setVolume(position/100);
 }
 
 
