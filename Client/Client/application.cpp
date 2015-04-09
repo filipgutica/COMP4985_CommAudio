@@ -45,12 +45,9 @@ void Application::on_actionAudio_Stream_triggered()
 
 void Application::on_actionRadio_triggered()
 {
-    AudioPlayer *audPlayer = new AudioPlayer();
+    AudioPlayer audPlayer;
 
-    if (audPlayer->exec() == QDialog::Rejected)
-    {
-        audPlayer->close();
-    }
+    audPlayer.exec();
 
 
 }

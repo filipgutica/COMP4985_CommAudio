@@ -241,13 +241,6 @@ void AudioPlayer::setMaxByte(int x)
 /*-----------------------------------------------------------------------------*/
 AudioPlayer::~AudioPlayer()
 {
-    thrd->setRunning(false);
-    thrd->quit();
-    thrd->wait(1000);
-    audioOutput->stop();
-    delete buffer;
-    delete ioOutput;
-    delete audioOutput;
     delete ui;
 }
 
