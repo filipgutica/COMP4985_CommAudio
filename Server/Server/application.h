@@ -7,8 +7,6 @@
 --
 --	DATE:			February 9, 2015
 --
---	REVISIONS:		(Date and Description)
---
 --	DESIGNERS:		Filip Gutica & Auto-generated
 --
 --	PROGRAMMER:		Filip Gutica & Auto-generated

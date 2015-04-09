@@ -61,7 +61,7 @@ public:
 
     void retranslateUi(QWidget *AudioPlayer)
     {
-        AudioPlayer->setWindowTitle(QApplication::translate("AudioPlayer", "Form", 0));
+        AudioPlayer->setWindowTitle(QApplication::translate("AudioPlayer", "Audio Player", 0));
         label_2->setText(QApplication::translate("AudioPlayer", "Volume", 0));
     } // retranslateUi
 

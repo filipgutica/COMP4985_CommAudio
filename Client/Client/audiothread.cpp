@@ -47,30 +47,77 @@ AudioThread::AudioThread(QObject *parent) :
     running = true;
 }
 
+/*------------------------------------------------------------------------------
+--	FUNCTION:       ~AudioThread()
+--
+--	PURPOSE:		Destructor sets running to false
+--
+--	DESIGNERS:		Auto-generated
+--
+--	PROGRAMMER:		Auto-generated
+/*-----------------------------------------------------------------------------*/
 AudioThread::~AudioThread()
 {
     running = false;
 }
 
+/*------------------------------------------------------------------------------
+--	FUNCTION:       setType()
+--
+--	PURPOSE:		Set the type of streaming the thread will be used for
+--
+--	PARAMETERS:
+--		int t       - Type of streaming
+--
+--	DESIGNERS:		Filip Gutica
+--
+--	PROGRAMMER:		Filip Gutica
+/*-----------------------------------------------------------------------------*/
 void AudioThread::setType(int t)
 {
     type = t;
 
-    if (type == VOIP)
+    if (type == VOIP)        // Voice chat
         HIGH_WATERMARK = BYTES_PER_SECOND;
-    else if (type == STREAM)
+    else if (type == STREAM) // Single stream
         HIGH_WATERMARK = BYTES_PER_SECOND * 5;
-    else
+    else                     // Default
         HIGH_WATERMARK = BYTES_PER_SECOND * 5;
 
     qDebug() << "Buffer set at: " << HIGH_WATERMARK;
 }
 
+/*------------------------------------------------------------------------------
+--	FUNCTION:       setRunning()
+--
+--	PURPOSE:		 Set the running boolean to false
+--
+--	PARAMETERS:
+--		int t       - Type of streaming
+--
+--	DESIGNERS:		Filip Gutica
+--
+--	PROGRAMMER:		Filip Gutica
+/*-----------------------------------------------------------------------------*/
 void AudioThread::setRunning(bool r)
 {
     running = r;
 }
 
+/*------------------------------------------------------------------------------
+--	FUNCTION:       run()
+--
+--	PURPOSE:		Worker function for the audio thread
+--
+--	PARAMETERS:
+--		int t       - Writes bytes from the circular buffer to our audio device
+--
+--	DESIGNERS:		Filip Gutica
+--                  Sanders Lee
+--
+--	PROGRAMMER:		Filip Gutica
+--                  Sanders Lee
+/*-----------------------------------------------------------------------------*/
 void AudioThread::run()
 {
     bool enoughBuffering = false;
@@ -79,26 +126,21 @@ void AudioThread::run()
 
     while (running)
     {
-        qDebug() << totalNBytes << " " << totalBytesWritten << " " << HIGH_WATERMARK << " " << totalBytesWritten - totalNBytes;
         if (audioOutput != NULL)
         {
             if ((totalNBytes + HIGH_WATERMARK) < totalBytesWritten)   // when we have more than 5s worth of music
                 enoughBuffering = true;
 
-            if (enoughBuffering && ((totalNBytes) <= totalBytesWritten)) // when we have at least 1s worth of music
+            if (enoughBuffering && ((totalNBytes) <= totalBytesWritten))
             {
-
                 buffer->seek(nBytes);
                 nBytes += ioOutput->write(buffer->read(BYTES_TO_WRITE), BYTES_TO_WRITE);
-
 
                 if (buffer->pos() >= AUDIO_BUFFSIZE)
                     nBytes = 0;
 
                 totalNBytes += BYTES_TO_WRITE;
-
             }
-
         }
         msleep(DELAY); // Wait for bytes to finish writing to the audio device
     }

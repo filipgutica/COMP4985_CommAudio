@@ -28,8 +28,6 @@ QAudioOutput *audioOutput;
 QIODevice *ioOutput;
 QBuffer *buffer;
 
-QSemaphore sem1(BYTES_PER_SECOND * 5/512);
-QSemaphore sem2(0);
 int bytesWritten = 0;
 int totalBytesWritten = 0;
 
@@ -217,7 +215,7 @@ AudioPlayer::AudioPlayer(QUdpSocket* udpSocket, QWidget *parent) : QDialog(paren
 }
 
 /*------------------------------------------------------------------------------
---	FUNCTION: ~Application()
+--	FUNCTION:       ~Application()
 --
 --	PURPOSE:		Destructor, cleans up the ui. Deletes the ui object
 --

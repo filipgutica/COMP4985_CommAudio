@@ -1,3 +1,18 @@
+/*---------------------------------------------------------------------------------------
+--	SOURCE FILE:	globals.h -         Header containing global declarations necesarry to our
+--                                      client application
+--
+--	PROGRAM:		Client
+--
+--	REVISIONS:		(Date and Description)
+--
+--	DESIGNERS:		Filip Gutica
+--
+--	PROGRAMMER:		Filip Gutica
+--
+--	NOTES:
+--
+---------------------------------------------------------------------------------------*/
 #ifndef GLOBALS
 #define GLOBALS
 
@@ -5,7 +20,7 @@
 #define LOW_WATERMARK BYTES_PER_SECOND
 #define AUDIO_BUFFSIZE BYTES_PER_SECOND * 30
 #define MAX_BUFFSIZE BYTES_PER_SECOND
-#define DELAY 30
+#define DELAY 32
 #define BYTES_TO_WRITE 8820
 #define VOIP 1
 #define STREAM 2
@@ -19,10 +34,6 @@
 extern QIODevice *ioOutput;
 extern QBuffer *buffer;
 extern QAudioOutput *audioOutput;
-extern qint64 audioPos;
-extern qint64 socketPos;
-extern QSemaphore sem1;
-extern QSemaphore sem2;
 extern int nBytes;
 extern int bytesWritten;
 extern int totalBytesWritten;
