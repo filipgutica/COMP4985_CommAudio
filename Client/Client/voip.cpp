@@ -37,7 +37,10 @@ void Voip::on_makeCallBtn_clicked()
     qDebug() << "plain ip: " << ip;
 
     AudioPlayer* ap = new AudioPlayer(ip, true);
-    ap->exec();
+    if (ap->exec() == QDialog::Rejected)
+    {
+        ap->~AudioPlayer();
+    }
 
     recordAudio(udpSocket);
 }
