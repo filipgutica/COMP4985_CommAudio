@@ -174,11 +174,7 @@ void Application::on_listMusic_doubleClicked(const QModelIndex &index)
     }
 
 
-
-    //audPlayer->show();
-
     //Expect file size over tcp from server
-
     qDebug() << index.data().toString();
 }
 
