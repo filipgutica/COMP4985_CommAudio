@@ -469,6 +469,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
 
         closesocket(SI->Socket);
         GlobalFree(SI);
+        TerminateThread(ThreadStream, 0);
         return;
     }
 

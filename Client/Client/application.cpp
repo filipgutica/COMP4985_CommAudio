@@ -344,7 +344,7 @@ void Application::on_listMusic_doubleClicked(const QModelIndex &index)
 
     //Call song interface
     //start listening to udp socket on pre-agreed port
-
+    audPlayer->startAudioThread();
     if (audPlayer->exec() == QDialog::Rejected)
     {
         char* bytes = "stop";
