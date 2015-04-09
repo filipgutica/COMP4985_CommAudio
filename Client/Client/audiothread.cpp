@@ -1,3 +1,24 @@
+/*---------------------------------------------------------------------------------------
+--	SOURCE FILE:		audiothread.cpp -   Class for the audio playing thread
+--
+--	PROGRAM:			Server.exe
+--
+--	FUNCTIONS:			AudioThread
+--						~AudioThread
+--						run()
+--						setType()
+--						setRunning()
+--
+--	DATE:				Febuary 19 2015
+--
+--	DESIGNERS:			Filip Gutica & Auto-generated
+--
+--	PROGRAMMERS:		Filip Gutica & Auto-generated
+--
+--	NOTES:
+--	Creates and instantiates the server gui. Has functions for loading songs into the playlist
+--  and interactions with the UI
+---------------------------------------------------------------------------------------*/
 #include "audiothread.h"
 #include "globals.h"
 #include <QDebug>
@@ -8,14 +29,22 @@ int totalNBytes = 0;
 
 int HIGH_WATERMARK = BYTES_PER_SECOND * 5;
 
-
+/*------------------------------------------------------------------------------
+--	FUNCTION: AudioThread()
+--
+--	PURPOSE:		Constructor for the audiothread
+--
+--	PARAMETERS:
+--		parent      - Parent to the calling class
+--
+--	DESIGNERS:		Filip Gutica
+--
+--	PROGRAMMER:		Filip Gutica
+/*-----------------------------------------------------------------------------*/
 AudioThread::AudioThread(QObject *parent) :
     QThread(parent)
 {
     running = true;
-    streamMode = false;
-    maxBytes = 1000000000;
-    totalBytes = 0;
 }
 
 AudioThread::~AudioThread()
@@ -68,28 +97,12 @@ void AudioThread::run()
 
                 totalNBytes += BYTES_TO_WRITE;
 
-                //If single stream mode is set, then check if you have recied the max size of the song, if reached, end thread
-              /*  if(streamMode == true)
-                {
-                    totalBytes += BYTES_TO_WRITE;
-                    if( totalBytes >= maxBytes)
-                    {
-                        break;
-                    }
-                }*/
-
             }
 
         }
-        msleep(DELAY);
+        msleep(DELAY); // Wait for bytes to finish writing to the audio device
     }
 }
 
-void AudioThread::setMaxBytes(int x)
-{
-    qDebug() << "oooooooh myyyy ghat";
-   // maxBytes = x;
-    streamMode = true;
-}
 
 

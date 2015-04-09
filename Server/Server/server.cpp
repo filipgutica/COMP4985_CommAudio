@@ -1,3 +1,33 @@
+/*---------------------------------------------------------------------------------------
+--	SOURCE FILE:		Server.cpp -   Source file for the server network class
+--
+--	PROGRAM:			Server.exe
+--
+--	FUNCTIONS:			StartServer
+--						WorkerRoutine
+--						ListenThread
+--						WorkerThread
+--						WriteToSocket
+--						ReadSocket
+--                      MulticastThread
+--                      StartMulticast
+--                      StreamThread
+--                      DownloadThread
+--                      ProcessSongRequest
+--                      ProcessDownloadRequest
+--
+--	DATE:				Febuary 19 2015
+--
+--	DESIGNERS:			Filip Gutica
+--
+--	PROGRAMMERS:		Filip Gutica
+--                      Sebastian Pelka
+--                      Alex Lam
+--                      Sanders Lee
+--
+--	NOTES:
+--	Provides the network functionality for our server application.
+---------------------------------------------------------------------------------------*/
 #include "server.h"
 
 SOCKET AcceptSocket, ListenSocket, MulticastSocket;
@@ -7,6 +37,27 @@ QVector<QString> SongList;
 CRITICAL_SECTION critSection;
 HANDLE ThreadStream;
 
+/*------------------------------------------------------------------------------
+--	FUNCTION: StartServer()
+--
+--	PURPOSE:		Starts and initializes the server. Starts the multicast,
+--                  creates the listening socket for the control line. Starts the
+--                  worker thread nd the listen thread
+--
+--	PARAMETERS:
+--		port        - port to listen on
+--      app         - Void pointer to the UI
+--      songList    - List of songs
+--
+--	DESIGNERS:		Filip Gutica
+--                  Aman Abdulla (Milliways notes)
+--
+--	PROGRAMMER:		Filip Gutica
+--                  Aman Abdulla (Milliways notes)
+--
+--  NOTES:
+--  Used example provided by Aman Abdulla for multicasting server.
+/*-----------------------------------------------------------------------------*/
 void StartServer(int port, LPVOID app, QVector<QString> songList)
 {
    WSADATA wsaData;
@@ -84,11 +135,25 @@ void StartServer(int port, LPVOID app, QVector<QString> songList)
 
 }
 
-/***********************************************************
- *
- * Set up the multicast socket
- *
- **********************************************************/
+/*------------------------------------------------------------------------------
+--	FUNCTION: StartMulticast()
+--
+--	PURPOSE:		Starts and initiliazes necesarry sockets and structs for multicasting.
+--                  Perform the required sock options on the Multicast socket.
+--                  Starts our multicast streaming thread.
+--
+--	PARAMETERS:
+--		void
+--
+--	DESIGNERS:		Filip Gutica
+--                  Aman Abdulla (Milliways notes)
+--
+--	PROGRAMMER:		Filip Gutica
+--                  Aman Abdulla (Milliways notes)
+--
+--  NOTES:
+--  Used example provided by Aman Abdulla for multicasting server.
+/*-----------------------------------------------------------------------------*/
 void StartMulticast()
 {
 
@@ -159,11 +224,20 @@ void StartMulticast()
 
 }
 
-/**********************************************************************
- *
- * Multicast thread for streaming songs to multicast group.
- *
- *********************************************************************/
+/*------------------------------------------------------------------------------
+--	FUNCTION: StartMulticast()
+--
+--	PURPOSE:		Streams each song in the song list on the multicast socket.
+--
+--	PARAMETERS:
+--		void
+--
+--	DESIGNERS:		Filip Gutica
+--
+--	PROGRAMMER:		Filip Gutica
+--
+--  NOTES:
+/*-----------------------------------------------------------------------------*/
 DWORD WINAPI MulticastThread(LPVOID lpParameter)
 {
     SOCKADDR_IN stDstAddr;
@@ -184,7 +258,6 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
     stDstAddr.sin_port =        htons(TIMECAST_PORT);
 
     int ret;
-
 
     for (int j = 0; j < SongList.size(); j++)
     {
@@ -227,11 +300,23 @@ DWORD WINAPI MulticastThread(LPVOID lpParameter)
 
 
 
-/**********************************************************************
- *
- * Listen for new connections
- *
- * *******************************************************************/
+/*------------------------------------------------------------------------------
+--	FUNCTION: ListenThread
+--
+--	PURPOSE:		Listens for connections. Create a new accept socket.
+--
+--	PARAMETERS:
+--		lpParameter     - Thread parameter
+--
+--	DESIGNERS:		Filip Gutica
+--                  Aman Abdulla (Milliways notes)
+--
+--	PROGRAMMER:		Filip Gutica
+--                  Aman Abdulla (Milliways notes)
+--
+--  NOTES:
+--  Used example provided by Aman Abdulla for multicasting server.
+/*-----------------------------------------------------------------------------*/
 DWORD WINAPI ListenThread(LPVOID lpParameter)
 {
     while(TRUE)
@@ -246,6 +331,25 @@ DWORD WINAPI ListenThread(LPVOID lpParameter)
     }
 }
 
+/*------------------------------------------------------------------------------
+--	FUNCTION: WorkerThread
+--
+--	PURPOSE:		Waits for the accept event to be set. Sets our new accepted socket.
+--                  Posts initial WSARecv on the socket in order to begin receiving data
+--                  on our socket.
+--
+--	PARAMETERS:
+--		lpParameter     - Thread parameter
+--
+--	DESIGNERS:		Filip Gutica
+--                  Aman Abdulla (Milliways notes)
+--
+--	PROGRAMMER:		Filip Gutica
+--                  Aman Abdulla (Milliways notes)
+--
+--  NOTES:
+--  Used example provided by Aman Abdulla for multicasting server.
+/*-----------------------------------------------------------------------------*/
 DWORD WINAPI WorkerThread(LPVOID lpParameter)
 {
    DWORD Flags;
@@ -312,33 +416,33 @@ DWORD WINAPI WorkerThread(LPVOID lpParameter)
     return TRUE;
 }
 
-/*******************************************************************
- * Function:    WorkerRoutine
- *
- * DESIGNER:    Filip Gutica
- *
- * PROGRAMMER:  Filip Gutica    - Wrote initial function, Handle initial
- *                                client connection
- *              Alex Lam        - Handled single stream request
- *              Sebastian Pelka - Handled single stream requests
- *              Sanders Lee     - Handle download requests
- *
- * Returns:
- *              - void
- *
- * Params:
- *              - Error
- *              - BytesTransferred
- *              - Overlapped
- *              - Inflags
- *
- * Notes:
- * Compuletion routine for the TCP control line of this application.
- * Check received data on our TCP control socket, and process client
- * requests.
- *
- * Based off in class completion routine example code by Aman Abdulla
- ******************************************************************/
+/*----------------------------------------------------------------------
+ -- Function:    WorkerRoutine
+ --
+ -- DESIGNER:    Filip Gutica
+ --
+ -- PROGRAMMER:  Filip Gutica    - Wrote initial function, Handle initial
+ --                                client connection
+ --              Alex Lam        - Handled single stream request
+ --              Sebastian Pelka - Handled single stream requests
+ --              Sanders Lee     - Handle download requests
+ --
+ -- Returns:
+ --              - void
+ --
+ -- Params:
+ --              - Error
+ --              - BytesTransferred
+ --              - Overlapped
+ --              - Inflags
+ --
+ -- Notes:
+ -- Compuletion routine for the TCP control line of this application.
+ -- Check received data on our TCP control socket, and process client
+ -- requests.
+ --
+ -- Based off in class completion routine example code by Aman Abdulla
+----------------------------------------------------------------------*/
 void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED Overlapped, DWORD InFlags)
 {
     DWORD SendBytes, RecvBytes;
@@ -417,9 +521,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
         }
 
         /***
-         *
          * Send requested music file to the client via TCP
-         *
          ***/
         if (rxStop.indexIn(SI->Buffer) != -1)
         {
@@ -427,9 +529,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
         }
 
         /***
-         *
          * sends the music list to the client
-         *
          ***/
         if (strcmp(SI->Buffer, "tcp") == 0)
         {
@@ -439,7 +539,6 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
                 strcat(temp, "\n");
             }
             SI->DataBuf.buf = temp;
-            // SI->DataBuf.len = strlen(temp);
             SI->DataBuf.len = 1024;
 
             qDebug() << SI->DataBuf.len;
@@ -537,13 +636,21 @@ DWORD ReadSocket(SOCKET *sock, WSABUF *buf, DWORD fl,  WSAOVERLAPPED *ol)
     return rb;
 }
 
-/*-------------------------------------------------------------------------------
--- FUNCTION: StartStream()
---
---
--- NOTES:
---
---------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------
+ -- Function:    StreamThread
+ --
+ --	PURPOSE:	 Stream a single requested song to the client.
+ --
+ -- DESIGNER:    Sebastian Pelka
+ --              Filip Gutica
+ --
+ -- PROGRAMMER:  Sebastian Pelka
+ --
+ -- Params:
+ --     param       - Thread parameter
+ --
+ -- Notes:
+----------------------------------------------------------------------*/
 DWORD WINAPI StreamThread(LPVOID param)
 {
     SOCKET PlayerSocket;
@@ -617,12 +724,16 @@ DWORD WINAPI StreamThread(LPVOID param)
 /*-------------------------------------------------------------------------------
 -- FUNCTION: DownloadThread()
 --
+-- PURPOSE:	 Send requested file over TCP to the client.
+--
 -- DESIGNER: Filip Gutica
 --
 -- PROGRAMMER: Sanders Lee
 --
--- NOTES:
+-- Params:
+--     param       - Thread parameter
 --
+-- NOTES:
 --------------------------------------------------------------------------------*/
 DWORD WINAPI DownloadThread(LPVOID param)
 {
@@ -682,6 +793,24 @@ DWORD WINAPI DownloadThread(LPVOID param)
     return 0;
 }
 
+/*-------------------------------------------------------------------------------
+-- FUNCTION: ProcessSongRequest()
+--
+-- PURPOSE:	 Process a single song stream request
+--
+-- DESIGNER: Sebastian Pelka
+--           Alex Lam
+--
+-- PROGRAMMER: Sebastian Pelka
+--             Alex Lam
+--             Filip Gutica     - Put into seperate function
+--
+-- Params:
+--     s       - requested song
+--     SI      - Socket Info song was requested on
+--
+-- NOTES:
+--------------------------------------------------------------------------------*/
 void ProcessSongRequest(char *s, LPSOCKET_INFORMATION SI)
 {
     SOCKADDR_IN client_addr;
@@ -723,6 +852,22 @@ void ProcessSongRequest(char *s, LPSOCKET_INFORMATION SI)
     }
 }
 
+/*-------------------------------------------------------------------------------
+-- FUNCTION: ProcessDownloadRequest()
+--
+-- PURPOSE:	 Process a single song stream request
+--
+-- DESIGNER:   Sanders Lee
+--
+-- PROGRAMMER: Sanders Lee
+--             Filip Gutica     - Put into seperate function
+--
+-- Params:
+--     s       - requested song
+--     SI      - Socket Info song was requested on
+--
+-- NOTES:
+--------------------------------------------------------------------------------*/
 void ProcessDownloadRequest(char* s, LPSOCKET_INFORMATION SI)
 {
     SOCKADDR_IN client_addr;
