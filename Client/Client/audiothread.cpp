@@ -30,7 +30,7 @@ int totalNBytes = 0;
 int HIGH_WATERMARK = BYTES_PER_SECOND * 5;
 
 /*------------------------------------------------------------------------------
---	FUNCTION: AudioThread()
+--	FUNCTION:       AudioThread(QObject *parent)
 --
 --	PURPOSE:		Constructor for the audiothread
 --
@@ -52,9 +52,9 @@ AudioThread::AudioThread(QObject *parent) :
 --
 --	PURPOSE:		Destructor sets running to false
 --
---	DESIGNERS:		Auto-generated
+--	DESIGNERS:		Alex Lam & Sebastian Pelka
 --
---	PROGRAMMER:		Auto-generated
+--	PROGRAMMER:		Alex Lam & Sebastian Pelka
 /*-----------------------------------------------------------------------------*/
 AudioThread::~AudioThread()
 {
@@ -62,7 +62,7 @@ AudioThread::~AudioThread()
 }
 
 /*------------------------------------------------------------------------------
---	FUNCTION:       setType()
+--	FUNCTION:       setType(int t)
 --
 --	PURPOSE:		Set the type of streaming the thread will be used for
 --
@@ -83,12 +83,10 @@ void AudioThread::setType(int t)
         HIGH_WATERMARK = BYTES_PER_SECOND * 5;
     else                     // Default
         HIGH_WATERMARK = BYTES_PER_SECOND * 5;
-
-    qDebug() << "Buffer set at: " << HIGH_WATERMARK;
 }
 
 /*------------------------------------------------------------------------------
---	FUNCTION:       setRunning()
+--	FUNCTION:       setRunning(bool r)
 --
 --	PURPOSE:		 Set the running boolean to false
 --
@@ -146,6 +144,5 @@ void AudioThread::run()
         msleep(DELAY); // Wait for bytes to finish writing to the audio device
     }
 }
-
 
 
