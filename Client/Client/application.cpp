@@ -99,6 +99,7 @@ void Application::on_actionAudio_Stream_triggered()
     qDebug() << "IP" + ip + "\nPORT" + port;
     ConnectTCP(ip, port);
 
+    audPlayer = new AudioPlayer(ip);
 }
 
 /*------------------------------------------------------------------------------
@@ -181,7 +182,6 @@ void Application::ReadTCP()
         if(playlistReceived)
         {
             char* s = data.data();
-            audPlayer->setMaxByte((int)*s);
         }
         else
         {
@@ -276,13 +276,13 @@ void Application::on_listMusic_doubleClicked(const QModelIndex &index)
 
     //Call song interface
     //start listening to udp socket on pre-agreed port
-    audPlayer = new AudioPlayer(ip);
 
     if (audPlayer->exec() == QDialog::Rejected)
     {
         char* bytes = "stop";
         QByteArray data(bytes, sizeof(bytes));
         WriteTCP(data);
+        audPlayer->clearBuffers();
     }
 
 

@@ -2273,9 +2273,6 @@ release\audioplayer.obj: ..\Client\audioplayer.cpp ..\Client\audioplayer.h \
 		C:\Qt\5.4\msvc2010_opengl\include\QtWidgets\qrubberband.h \
 		C:\Qt\5.4\msvc2010_opengl\include\QtWidgets\QLabel \
 		C:\Qt\5.4\msvc2010_opengl\include\QtWidgets\qlabel.h \
-		C:\Qt\5.4\msvc2010_opengl\include\QtWidgets\QPushButton \
-		C:\Qt\5.4\msvc2010_opengl\include\QtWidgets\qpushbutton.h \
-		C:\Qt\5.4\msvc2010_opengl\include\QtWidgets\qabstractbutton.h \
 		C:\Qt\5.4\msvc2010_opengl\include\QtWidgets\QSlider \
 		C:\Qt\5.4\msvc2010_opengl\include\QtWidgets\QWidget
 

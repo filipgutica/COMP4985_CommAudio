@@ -1,3 +1,18 @@
+/*---------------------------------------------------------------------------------------
+--	SOURCE FILE:		Server.h -   Header for server.cpp
+--
+--	PROGRAM:			Server.exe
+--
+--
+--	DATE:				Febuary 19 2015
+--
+--	DESIGNERS:			Filip Gutica
+--
+--	PROGRAMMERS:		Filip Gutica
+--
+--	NOTES:
+--	Structure definitions and function headers for our server file
+---------------------------------------------------------------------------------------*/
 #ifndef SERVER
 #define SERVER
 

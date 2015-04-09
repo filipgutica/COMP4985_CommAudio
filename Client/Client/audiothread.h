@@ -1,3 +1,18 @@
+/*---------------------------------------------------------------------------------------
+--	SOURCE FILE:	audiothread.h -		Headerfile for audiothread class
+--
+--	PROGRAM:		Server
+--
+--
+--	DATE:			February 9, 2015
+--
+--	DESIGNERS:		Filip Gutica & Auto-generated
+--
+--	PROGRAMMER:		Filip Gutica & Auto-generated
+--
+--	NOTES:
+--
+---------------------------------------------------------------------------------------*/
 #ifndef AUDIOTHREAD_H
 #define AUDIOTHREAD_H
 
@@ -10,16 +25,12 @@ public:
     AudioThread(QObject *parent = 0);
     ~AudioThread();
     void run();
-    void setMaxBytes(int);
     void setType(int);
     void setRunning(bool);
 
 private:
 
-    bool streamMode;
     bool running;
-    int maxBytes;
-    int totalBytes;
     int type;
 
 };

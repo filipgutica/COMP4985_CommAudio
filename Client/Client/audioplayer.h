@@ -26,30 +26,18 @@ public:
     AudioPlayer(QUdpSocket* udpSocket, QWidget *parent = 0);
     AudioPlayer(QString ga,  bool voipFlag = false, QWidget *parent = 0);
     ~AudioPlayer();
-    void setAudio(QString);
     void setMaxByte(int x);
+    void clearBuffers();
 
 private slots:
-    void on_btnPlay_clicked();
-
-    void on_btnPause_clicked();
-
-    void on_sliderProgress_sliderMoved(int position);
 
     void on_sliderVolume_sliderMoved(int position);
-
-    void on_positionChanged(qint64 position);
-
-    void on_durationChanged(qint64 position);
-
-    void on_btnResume_clicked();
 
     void processPendingDatagrams();
 
     void playData(QByteArray d);
 
     void audioStateChanged(QAudio::State state);
-
 
 signals:
     void audioReady(QByteArray d);

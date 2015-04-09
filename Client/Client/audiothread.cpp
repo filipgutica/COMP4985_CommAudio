@@ -1,3 +1,24 @@
+/*---------------------------------------------------------------------------------------
+--	SOURCE FILE:		audiothread.cpp -   Class for the audio playing thread
+--
+--	PROGRAM:			Server.exe
+--
+--	FUNCTIONS:			AudioThread
+--						~AudioThread
+--						run()
+--						setType()
+--						setRunning()
+--
+--	DATE:				Febuary 19 2015
+--
+--	DESIGNERS:			Filip Gutica & Auto-generated
+--
+--	PROGRAMMERS:		Filip Gutica & Auto-generated
+--
+--	NOTES:
+--	Creates and instantiates the server gui. Has functions for loading songs into the playlist
+--  and interactions with the UI
+---------------------------------------------------------------------------------------*/
 #include "audiothread.h"
 #include "globals.h"
 #include <QDebug>
@@ -11,25 +32,25 @@ int HIGH_WATERMARK = BYTES_PER_SECOND * 5;
 /*------------------------------------------------------------------------------
 --	FUNCTION:       AudioThread(QObject *parent
 --
---	PURPOSE:        Constructor for AudioThread
+--	PURPOSE:		Constructor for the audiothread
 --
---	DESIGNERS:		Alex Lam & Sebastian Pelka
+--	PARAMETERS:
+--		parent      - Parent to the calling class
 --
---	PROGRAMMER:		Alex Lam & Sebastian Pelka
+--	DESIGNERS:		Filip Gutica
+--
+--	PROGRAMMER:		Filip Gutica
 /*-----------------------------------------------------------------------------*/
 AudioThread::AudioThread(QObject *parent) :
     QThread(parent)
 {
     running = true;
-    streamMode = false;
-    maxBytes = 1000000000;
-    totalBytes = 0;
 }
 
 /*------------------------------------------------------------------------------
 --	FUNCTION:       ~AudioThread()
 --
---	PURPOSE:        Destructor for AudioThread
+--	PURPOSE:		Destructor sets running to false
 --
 --	DESIGNERS:		Alex Lam & Sebastian Pelka
 --
@@ -43,33 +64,38 @@ AudioThread::~AudioThread()
 /*------------------------------------------------------------------------------
 --	FUNCTION:       setType(int t)
 --
---	PURPOSE:        Allows the programmer to set the amount of data that will be
---                  buffered by the audio thread
+--	PURPOSE:		Set the type of streaming the thread will be used for
 --
---	DESIGNERS:		Alex Lam & Sebastian Pelka
+--	PARAMETERS:
+--		int t       - Type of streaming
 --
---	PROGRAMMER:		Alex Lam & Sebastian Pelka
+--	DESIGNERS:		Filip Gutica
+--
+--	PROGRAMMER:		Filip Gutica
 /*-----------------------------------------------------------------------------*/
 void AudioThread::setType(int t)
 {
     type = t;
 
-    if (type == VOIP)
+    if (type == VOIP)        // Voice chat
         HIGH_WATERMARK = BYTES_PER_SECOND;
-    else if (type == STREAM)
+    else if (type == STREAM) // Single stream
         HIGH_WATERMARK = BYTES_PER_SECOND * 5;
-    else
+    else                     // Default
         HIGH_WATERMARK = BYTES_PER_SECOND * 5;
 }
 
 /*------------------------------------------------------------------------------
---	FUNCTION:       setRunning(bool r)
+--	FUNCTION:       setRunning()
 --
---	PURPOSE:        sets the running boolean
+--	PURPOSE:		 Set the running boolean to false
 --
---	DESIGNERS:		Alex Lam & Sebastian Pelka
+--	PARAMETERS:
+--		int t       - Type of streaming
 --
---	PROGRAMMER:		Alex Lam & Sebastian Pelka
+--	DESIGNERS:		Filip Gutica
+--
+--	PROGRAMMER:		Filip Gutica
 /*-----------------------------------------------------------------------------*/
 void AudioThread::setRunning(bool r)
 {
@@ -79,11 +105,16 @@ void AudioThread::setRunning(bool r)
 /*------------------------------------------------------------------------------
 --	FUNCTION:       run()
 --
---	PURPOSE:        writes to the buffer from the UDP socket
+--	PURPOSE:		Worker function for the audio thread
 --
---	DESIGNERS:		Alex Lam & Sebastian Pelka
+--	PARAMETERS:
+--		int t       - Writes bytes from the circular buffer to our audio device
 --
---	PROGRAMMER:		Alex Lam & Sebastian Pelka
+--	DESIGNERS:		Filip Gutica
+--                  Sanders Lee
+--
+--	PROGRAMMER:		Filip Gutica
+--                  Sanders Lee
 /*-----------------------------------------------------------------------------*/
 void AudioThread::run()
 {
@@ -93,38 +124,24 @@ void AudioThread::run()
 
     while (running)
     {
-        qDebug() << totalNBytes << " " << totalBytesWritten << " " << HIGH_WATERMARK << " " << totalBytesWritten - totalNBytes;
+        qDebug() << totalNBytes;
         if (audioOutput != NULL)
         {
             if ((totalNBytes + HIGH_WATERMARK) < totalBytesWritten)   // when we have more than 5s worth of music
                 enoughBuffering = true;
 
-            if (enoughBuffering && ((totalNBytes) <= totalBytesWritten)) // when we have at least 1s worth of music
+            if (enoughBuffering && ((totalNBytes) <= totalBytesWritten))
             {
-
                 buffer->seek(nBytes);
                 nBytes += ioOutput->write(buffer->read(BYTES_TO_WRITE), BYTES_TO_WRITE);
-
 
                 if (buffer->pos() >= AUDIO_BUFFSIZE)
                     nBytes = 0;
 
                 totalNBytes += BYTES_TO_WRITE;
-
-                //If single stream mode is set, then check if you have recied the max size of the song, if reached, end thread
-              /*  if(streamMode == true)
-                {
-                    totalBytes += BYTES_TO_WRITE;
-                    if( totalBytes >= maxBytes)
-                    {
-                        break;
-                    }
-                }*/
-
             }
-
         }
-        msleep(DELAY);
+        msleep(DELAY); // Wait for bytes to finish writing to the audio device
     }
 }
 
@@ -140,11 +157,5 @@ void AudioThread::run()
 --  NOTES:          THIS FUNCTION HAS BEEN RETIRED; WE ARE KEEPING IT HERE FOR
 --                  REFERENCE IN CASE IT IS NEEDED LATER.
 /*-----------------------------------------------------------------------------*/
-void AudioThread::setMaxBytes(int x)
-{
-    qDebug() << "oooooooh myyyy ghat";
-   // maxBytes = x;
-    streamMode = true;
-}
 
 

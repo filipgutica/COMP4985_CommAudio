@@ -1,3 +1,18 @@
+/*---------------------------------------------------------------------------------------
+--	SOURCE FILE:		audioplayer.h -   Header for audioplayer.cpp
+--
+--	PROGRAM:			Server.exe
+--
+--
+--	DATE:				Febuary 19 2015
+--
+--	DESIGNERS:			Filip Gutica
+--
+--	PROGRAMMERS:		Filip Gutica
+--
+--	NOTES:
+--	Class definition for the local audioplayer for our server.
+---------------------------------------------------------------------------------------*/
 #ifndef AUDIOPLAYER_H
 #define AUDIOPLAYER_H
 

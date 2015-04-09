@@ -1,3 +1,16 @@
+/*---------------------------------------------------------------------------------------
+--	SOURCE FILE:	globals.h -         Header containing global declarations necesarry to our
+--                                      client application
+--
+--	PROGRAM:		Client
+--
+--	DESIGNERS:		Filip Gutica
+--
+--	PROGRAMMER:		Filip Gutica
+--
+--	NOTES:
+--
+---------------------------------------------------------------------------------------*/
 #ifndef GLOBALS
 #define GLOBALS
 
@@ -19,13 +32,10 @@
 extern QIODevice *ioOutput;
 extern QBuffer *buffer;
 extern QAudioOutput *audioOutput;
-extern qint64 audioPos;
-extern qint64 socketPos;
-extern QSemaphore sem1;
-extern QSemaphore sem2;
 extern int nBytes;
 extern int bytesWritten;
 extern int totalBytesWritten;
+extern int totalNBytes;
 
 #endif // GLOBALS
 

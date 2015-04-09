@@ -33,7 +33,7 @@
 --
 --	DESIGNERS:		Auto-generated
 --
---	PROGRAMMER:		Auto-generated
+--	PROGRAMMER:		Filip Gutica
 /*-----------------------------------------------------------------------------*/
 Application::Application(QWidget *parent) : QMainWindow(parent),ui(new Ui::Application)
 {
@@ -87,13 +87,6 @@ void Application::on_pushButton_clicked()
         //Update the playlist
         updatePlaylist();
     }
-
-    //Iterate through the list print out contents **debugging purposes**
-    for (int i = 0; i < fileList.size(); i++)
-    {
-        qDebug() << fileList.at(i) << endl;
-    }
-
 }
 
 /*------------------------------------------------------------------------------
@@ -151,8 +144,7 @@ void Application::appendToLog(QString str)
 /*------------------------------------------------------------------------------
 --	FUNCTION: loadPlaylist()
 --
---	PURPOSE:		Scans the Music directory one folder out from wherever the .exe is
---                  Adds any mp3 or wav files to the file list.
+--	PURPOSE:		Looks for music in the music directory.
 --
 --	PARAMETERS:
 --		void
@@ -201,7 +193,20 @@ void Application::updatePlaylist()
     ui->playList->setModel(new QStringListModel(QList<QString>::fromVector(fileList)));
 }
 
-
+/*------------------------------------------------------------------------------
+--	FUNCTION: on_playlist_doubleClicked()
+--
+--	PURPOSE:		Plays the selected song locally via a custon audio player.
+--                  I created this class test audio playing using QT before starting
+--                  on the streaming component of this project.
+--
+--	PARAMETERS:
+--		index       - Index of double clicked item
+--
+--	DESIGNERS:		Filip Gutica
+--
+--	PROGRAMMER:		Filip Gutica
+/*-----------------------------------------------------------------------------*/
 void Application::on_playList_doubleClicked(const QModelIndex &index)
 {
     QString song = index.data().toString();
@@ -211,6 +216,4 @@ void Application::on_playList_doubleClicked(const QModelIndex &index)
     audPlayer.setAudio(song);
 
     audPlayer.exec();
-
-    qDebug() << index.data().toString();
 }
