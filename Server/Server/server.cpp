@@ -5,7 +5,7 @@ WSAEVENT AcceptEvent;
 Application *mainWindow;
 QVector<QString> SongList;
 CRITICAL_SECTION critSection;
-
+HANDLE ThreadStream;
 
 void StartServer(int port, LPVOID app, QVector<QString> songList)
 {
@@ -91,11 +91,12 @@ void StartServer(int port, LPVOID app, QVector<QString> songList)
  **********************************************************/
 void StartMulticast()
 {
-    HANDLE hThread;
+
     DWORD threadID;
     struct ip_mreq stMreq;
     struct timeval timeout;
     SOCKADDR_IN stLclAddr, stDstAddr;
+    HANDLE ThreadMulti;
     char MCAddr[64] = TIMECAST_ADDR;
     u_short nPort = TIMECAST_PORT;
     u_long lTTL = TIMECAST_TTL;
@@ -150,7 +151,7 @@ void StartMulticast()
     }
 
 
-    if ((hThread = CreateThread(NULL, 0, MulticastThread, (LPVOID) &stDstAddr, 0, &threadID)) == NULL)
+    if ((ThreadMulti = CreateThread(NULL, 0, MulticastThread, (LPVOID) &stDstAddr, 0, &threadID)) == NULL)
     {
         qDebug() << "CreateThread failed with error " << GetLastError() << endl;
         return;
@@ -347,6 +348,7 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
     QString strInfo;
     QRegExp rx("index: *");
     QRegExp rxdown("download: *");
+    QRegExp rxStop("stop");
     char temp[TEMP_BUFFSIZE];
 
     // Reference the WSAOVERLAPPED structure as a SOCKET_INFORMATION structure
@@ -418,6 +420,16 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
 
         /***
          *
+         * Send requested music file to the client via TCP
+         *
+         ***/
+        if (rxStop.indexIn(SI->Buffer) != -1)
+        {
+            TerminateThread(ThreadStream, 0);
+        }
+
+        /***
+         *
          * sends the music list to the client
          *
          ***/
@@ -437,6 +449,8 @@ void CALLBACK WorkerRoutine(DWORD Error, DWORD BytesTransferred, LPWSAOVERLAPPED
             SendBytes = WriteToSocket(&SI->Socket, &SI->DataBuf, 0, &SI->Overlapped);
 
         }
+
+        memset(SI->Buffer, 0, sizeof(SI->Buffer));
     }
 
     /***
@@ -673,7 +687,6 @@ DWORD WINAPI DownloadThread(LPVOID param)
 void ProcessSongRequest(char *s, LPSOCKET_INFORMATION SI)
 {
     SOCKADDR_IN client_addr;
-    HANDLE ThreadStream;
     DWORD ThreadStreamId;
     PLAYER_INFORMATION *playerInfo;
     playerInfo = (PLAYER_INFORMATION*)malloc(sizeof(PLAYER_INFORMATION));
