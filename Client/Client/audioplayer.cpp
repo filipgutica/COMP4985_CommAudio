@@ -326,7 +326,29 @@ void AudioPlayer::audioStateChanged(QAudio::State state)
 /*-----------------------------------------------------------------------------*/
 void AudioPlayer::clearBuffers()
 {
-   buffer->seek(0);
+   QByteArray data;
+   buffer->setData(data);
    totalNBytes = 0;
    bytesWritten = 0;
+   nBytes = 0;
+   thrd->setRunning(false);
+}
+
+/*------------------------------------------------------------------------------
+--	FUNCTION: startAudioThread()
+--
+--	PURPOSE:		Restart the audio thread
+--
+--	PARAMETERS:
+--		void
+--
+--	DESIGNERS:		Filip Gutica
+--
+--	PROGRAMMER:		Filip Gutica
+/*-----------------------------------------------------------------------------*/
+void AudioPlayer::startAudioThread()
+{
+   thrd->setRunning(true);
+   if (!thrd->isRunning())
+    thrd->start();
 }

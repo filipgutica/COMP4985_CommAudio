@@ -18,6 +18,9 @@ Application::Application(QWidget *parent) :
     playlistReceived = false;
     downloadRequested = false;
 
+    radioPlayer = new AudioPlayer();
+    radioPlayer->clearBuffers();
+
 }
 
 Application::~Application()
@@ -46,10 +49,12 @@ void Application::on_actionAudio_Stream_triggered()
 
 void Application::on_actionRadio_triggered()
 {
-    AudioPlayer audPlayer;
+    radioPlayer->startAudioThread();
 
-    audPlayer.exec();
-
+    if (radioPlayer->exec() == QDialog::Rejected)
+    {
+        radioPlayer->clearBuffers();
+    }
 
 }
 
@@ -163,7 +168,7 @@ void Application::on_listMusic_doubleClicked(const QModelIndex &index)
 
     //Call song interface
     //start listening to udp socket on pre-agreed port
-
+    audPlayer->startAudioThread();
     if (audPlayer->exec() == QDialog::Rejected)
     {
         char* bytes = "stop";

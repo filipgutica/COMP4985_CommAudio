@@ -28,6 +28,7 @@ public:
     ~AudioPlayer();
     void setMaxByte(int x);
     void clearBuffers();
+    void startAudioThread();
 
 private slots:
 
