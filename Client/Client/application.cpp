@@ -96,7 +96,6 @@ void Application::ReadTCP()
         if(playlistReceived)
         {
             char* s = data.data();
-            audPlayer->setMaxByte((int)*s);
         }
         else
         {

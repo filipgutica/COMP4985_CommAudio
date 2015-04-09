@@ -230,8 +230,6 @@ AudioPlayer::~AudioPlayer()
     delete ui;
 }
 
-
-
 /*------------------------------------------------------------------------------
 --	FUNCTION: on_sliderProgress_sliderMoved()
 --
