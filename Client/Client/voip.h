@@ -24,7 +24,6 @@ public:
 
 private slots:
     void on_makeCallBtn_clicked();
-    void on_acceptCallBtn_clicked();
     void processBuffer();
 
 private:

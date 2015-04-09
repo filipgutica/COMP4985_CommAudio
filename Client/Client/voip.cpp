@@ -1,8 +1,39 @@
+/*---------------------------------------------------------------------------------------
+--	SOURCE FILE:		voip.cpp -   Provides functions for client to client voice chat
+--
+--	PROGRAM:			Client.exe
+--
+--	FUNCTIONS:			Voip(QWidget *parent)
+--						~Voip()
+--						on_makeCallBtn_clicked()
+--						recordAudio(QUdpSocket *udpSocket)
+--                      processBuffer()
+--
+--
+--	DATE:				March 22 2015
+--
+--	DESIGNERS:			Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMERS:		Alex Lam & Sebastian Pelka
+--
+--	NOTES:
+--	Creates and instantiates the server gui. Has functions for loading songs into the playlist
+--  and interactions with the UI
+---------------------------------------------------------------------------------------*/
 #include "voip.h"
 #include "ui_voip.h"
 #include "configure.h"
 #include "audioplayer.h"
 
+/*------------------------------------------------------------------------------
+--	FUNCTION:       Voip(QWidget *parent)
+--
+--	PURPOSE:        Constructor for a voice chat UI dialog
+--
+--	DESIGNERS:		Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMER:		Alex Lam & Sebastian Pelka
+/*-----------------------------------------------------------------------------*/
 Voip::Voip(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Voip)
@@ -10,11 +41,29 @@ Voip::Voip(QWidget *parent) :
     ui->setupUi(this);
 }
 
+/*------------------------------------------------------------------------------
+--	FUNCTION:       ~Voip()
+--
+--	PURPOSE:        Destructor for a voice chat UI dialog
+--
+--	DESIGNERS:		Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMER:		Alex Lam & Sebastian Pelka
+/*-----------------------------------------------------------------------------*/
 Voip::~Voip()
 {
     delete ui;
 }
 
+/*------------------------------------------------------------------------------
+--	FUNCTION:       on_makeCallBtn_clicked()
+--
+--	PURPOSE:        Creates a dialog to accept user input IP and port
+--
+--	DESIGNERS:		Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMER:		Alex Lam & Sebastian Pelka
+/*-----------------------------------------------------------------------------*/
 void Voip::on_makeCallBtn_clicked()
 {
     Configure conf;
@@ -44,6 +93,15 @@ void Voip::on_makeCallBtn_clicked()
     recordAudio(udpSocket);
 }
 
+/*------------------------------------------------------------------------------
+--	FUNCTION:       recordAudio(QUdpSocket *udpSocket)
+--
+--	PURPOSE:        Initializes an IO device to record audio given a socket
+--
+--	DESIGNERS:		Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMER:		Alex Lam & Sebastian Pelka
+/*-----------------------------------------------------------------------------*/
 void Voip::recordAudio(QUdpSocket *udpSocket)
 {
 
@@ -81,11 +139,15 @@ void Voip::recordAudio(QUdpSocket *udpSocket)
     //profit
 }
 
-void Voip::on_acceptCallBtn_clicked()
-{
-    qDebug() << "Call Received";
-}
-
+/*------------------------------------------------------------------------------
+--	FUNCTION:       processBuffer()
+--
+--	PURPOSE:        reads data from a buffer and writes it to a UDP socket
+--
+--	DESIGNERS:		Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMER:		Alex Lam & Sebastian Pelka
+/*-----------------------------------------------------------------------------*/
 void Voip::processBuffer()
 {
  //   voice_buffer->seek(0);

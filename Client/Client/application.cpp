@@ -1,9 +1,49 @@
+/*---------------------------------------------------------------------------------------
+--	SOURCE FILE:		application.cpp -   Source file for the client UI class
+--
+--	PROGRAM:			Client.exe
+--
+--	FUNCTIONS:			Application
+--						~Application
+--						on_actionAudio_Stream_triggered()
+--						on_actionRadio_triggered()
+--						on_actionVOIP_triggered()
+--						ConnectTCP(QString ip, QString port)
+--                      ReadTCP()
+--                      WriteTCP(QByteArray data)
+--                      UpdatePlaylist()
+--                      on_listMusic_doubleClicked(const QModelIndex &index)
+--                      on_listMusic_customContextMenuRequested(const QPoint &pos)
+--                      SaveNew(QObject * i)
+--
+--
+--	DATE:				March 19 2015
+--
+--	DESIGNERS:			Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMERS:		Alex Lam & Sebastian Pelka
+--
+--	NOTES:
+--	Creates and instantiates the server gui. Has functions for loading songs into the playlist
+--  and interactions with the UI
+---------------------------------------------------------------------------------------*/
+
 #include "application.h"
 #include "ui_application.h"
 #include "configure.h"
 #include "downloader.h"
 #include "voip.h"
 
+
+/*------------------------------------------------------------------------------
+--	FUNCTION:       Application()
+--
+--	PURPOSE:		Constructor, initializes the Ui object containing al ui elemnets
+--
+--	DESIGNERS:		Auto-generated
+--
+--	PROGRAMMER:		Auto-generated
+/*-----------------------------------------------------------------------------*/
 Application::Application(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Application)
@@ -20,11 +60,29 @@ Application::Application(QWidget *parent) :
 
 }
 
+/*------------------------------------------------------------------------------
+--	FUNCTION:       ~Application()
+--
+--	PURPOSE:		Destructor, cleans up the ui. Deletes the ui object
+--
+--	DESIGNERS:		Auto-generated
+--
+--	PROGRAMMER:		Auto-generated
+/*-----------------------------------------------------------------------------*/
 Application::~Application()
 {
     delete ui;
 }
 
+/*------------------------------------------------------------------------------
+--	FUNCTION:       on_actionAudio_Stream_triggered()
+--
+--	PURPOSE:        Creates a configure dialog to retrieve user IP and Port input
+--
+--	DESIGNERS:		Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMER:		Alex Lam & Sebastian Pelka
+/*-----------------------------------------------------------------------------*/
 void Application::on_actionAudio_Stream_triggered()
 {  
 //     Configure *conf = new Configure(this);
@@ -43,6 +101,15 @@ void Application::on_actionAudio_Stream_triggered()
 
 }
 
+/*------------------------------------------------------------------------------
+--	FUNCTION:       on_actionRadio_triggered()
+--
+--	PURPOSE:        Generates audio player dialog
+--
+--	DESIGNERS:		Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMER:		Alex Lam & Sebastian Pelka
+/*-----------------------------------------------------------------------------*/
 void Application::on_actionRadio_triggered()
 {
     AudioPlayer audPlayer;
@@ -52,6 +119,15 @@ void Application::on_actionRadio_triggered()
 
 }
 
+/*------------------------------------------------------------------------------
+--	FUNCTION:       on_actionVOIP_triggered()
+--
+--	PURPOSE:        Generates the voice chat dialog
+--
+--	DESIGNERS:		Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMER:		Alex Lam & Sebastian Pelka
+/*-----------------------------------------------------------------------------*/
 void Application::on_actionVOIP_triggered()
 {
     Voip call;
@@ -60,7 +136,15 @@ void Application::on_actionVOIP_triggered()
 }
 
 
-
+/*------------------------------------------------------------------------------
+--	FUNCTION:       ConnectTCP(QString ip, QString port)
+--
+--	PURPOSE:        creates a TCP socket with the specified ip and port
+--
+--	DESIGNERS:		Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMER:		Alex Lam & Sebastian Pelka
+/*-----------------------------------------------------------------------------*/
 void Application::ConnectTCP(QString ip, QString port)
 {
     msock = new QTcpSocket( this );
@@ -73,14 +157,15 @@ void Application::ConnectTCP(QString ip, QString port)
     WriteTCP(tcpbytes);
 }
 
-/***
- *
- * DESIGNER:
- *              Sanders Lee
- *
- * PROGRAMMER:  Sanders Lee
- *
- ***/
+/*------------------------------------------------------------------------------
+--	FUNCTION:       ReadTCP()
+--
+--	PURPOSE:        read data from the TCP Control Line
+--
+--	DESIGNERS:		Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMER:		Alex Lam & Sebastian Pelka
+/*-----------------------------------------------------------------------------*/
 void Application::ReadTCP()
 {
     QByteArray data = msock->readAll();
@@ -130,6 +215,15 @@ void Application::ReadTCP()
     }
 }
 
+/*------------------------------------------------------------------------------
+--	FUNCTION:       WriteTCP(QByteArray data)
+--
+--	PURPOSE:        Writes binary data to a TCP socket
+--
+--	DESIGNERS:		Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMER:		Alex Lam & Sebastian Pelka
+/*-----------------------------------------------------------------------------*/
 void Application::WriteTCP(QByteArray data)
 {
     if( msock->waitForConnected() ) {
@@ -137,6 +231,15 @@ void Application::WriteTCP(QByteArray data)
     }
 }
 
+/*------------------------------------------------------------------------------
+--	FUNCTION:       UpdatePlaylist()
+--
+--	PURPOSE:        Updates the client side playlist with the server song library
+--
+--	DESIGNERS:		Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMER:		Alex Lam & Sebastian Pelka
+/*-----------------------------------------------------------------------------*/
 void Application::UpdatePlaylist()
 {
     char* songlistRaw = playlist.data();
@@ -149,6 +252,16 @@ void Application::UpdatePlaylist()
     ui->listMusic->setModel(new QStringListModel(songlist));
 }
 
+/*------------------------------------------------------------------------------
+--	FUNCTION:       on_listMusic_doubleClicked(const QModelIndex &index)
+--
+--	PURPOSE:        handles a double click on a song in the song list; sends the
+--                  song index to the server.
+--
+--	DESIGNERS:		Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMER:		Alex Lam & Sebastian Pelka
+/*-----------------------------------------------------------------------------*/
 void Application::on_listMusic_doubleClicked(const QModelIndex &index)
 {
     QString qs;

@@ -8,7 +8,15 @@ int totalNBytes = 0;
 
 int HIGH_WATERMARK = BYTES_PER_SECOND * 5;
 
-
+/*------------------------------------------------------------------------------
+--	FUNCTION:       AudioThread(QObject *parent
+--
+--	PURPOSE:        Constructor for AudioThread
+--
+--	DESIGNERS:		Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMER:		Alex Lam & Sebastian Pelka
+/*-----------------------------------------------------------------------------*/
 AudioThread::AudioThread(QObject *parent) :
     QThread(parent)
 {
@@ -18,11 +26,30 @@ AudioThread::AudioThread(QObject *parent) :
     totalBytes = 0;
 }
 
+/*------------------------------------------------------------------------------
+--	FUNCTION:       ~AudioThread()
+--
+--	PURPOSE:        Destructor for AudioThread
+--
+--	DESIGNERS:		Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMER:		Alex Lam & Sebastian Pelka
+/*-----------------------------------------------------------------------------*/
 AudioThread::~AudioThread()
 {
     running = false;
 }
 
+/*------------------------------------------------------------------------------
+--	FUNCTION:       setType(int t)
+--
+--	PURPOSE:        Allows the programmer to set the amount of data that will be
+--                  buffered by the audio thread
+--
+--	DESIGNERS:		Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMER:		Alex Lam & Sebastian Pelka
+/*-----------------------------------------------------------------------------*/
 void AudioThread::setType(int t)
 {
     type = t;
@@ -33,15 +60,31 @@ void AudioThread::setType(int t)
         HIGH_WATERMARK = BYTES_PER_SECOND * 5;
     else
         HIGH_WATERMARK = BYTES_PER_SECOND * 5;
-
-    qDebug() << "Buffer set at: " << HIGH_WATERMARK;
 }
 
+/*------------------------------------------------------------------------------
+--	FUNCTION:       setRunning(bool r)
+--
+--	PURPOSE:        sets the running boolean
+--
+--	DESIGNERS:		Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMER:		Alex Lam & Sebastian Pelka
+/*-----------------------------------------------------------------------------*/
 void AudioThread::setRunning(bool r)
 {
     running = r;
 }
 
+/*------------------------------------------------------------------------------
+--	FUNCTION:       run()
+--
+--	PURPOSE:        writes to the buffer from the UDP socket
+--
+--	DESIGNERS:		Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMER:		Alex Lam & Sebastian Pelka
+/*-----------------------------------------------------------------------------*/
 void AudioThread::run()
 {
     bool enoughBuffering = false;
@@ -85,6 +128,18 @@ void AudioThread::run()
     }
 }
 
+/*------------------------------------------------------------------------------
+--	FUNCTION:       setMaxBytes(int x)
+--
+--	PURPOSE:        sets the Maximum number of bytes
+--
+--	DESIGNERS:		Alex Lam & Sebastian Pelka
+--
+--	PROGRAMMER:		Alex Lam & Sebastian Pelka
+--
+--  NOTES:          THIS FUNCTION HAS BEEN RETIRED; WE ARE KEEPING IT HERE FOR
+--                  REFERENCE IN CASE IT IS NEEDED LATER.
+/*-----------------------------------------------------------------------------*/
 void AudioThread::setMaxBytes(int x)
 {
     qDebug() << "oooooooh myyyy ghat";
